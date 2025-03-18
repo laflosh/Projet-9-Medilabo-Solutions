@@ -23,11 +23,39 @@ public class PatientService {
 	@Autowired
 	PatientRepository patientRepository;
 
+	/**
+	 * @return
+	 */
 	public List<Patient> getAllPatients() {
 		
 		Iterable<Patient> patients = patientRepository.findAll();
 		
 		return StreamSupport.stream(patients.spliterator(), false).collect(Collectors.toList());
+		
+	}
+
+	/**
+	 * @param id
+	 * @return
+	 */
+	public Patient getOnePatientById(int id) {
+
+		Patient patient = patientRepository.findById(id)
+							.orElseThrow(() -> new RuntimeException("Patient not found"));
+		
+		return patient;
+		
+	}
+
+	/**
+	 * @param patient
+	 * @return
+	 */
+	public Patient addNewPatient(Patient patient) {
+		
+		Patient newPatient = patientRepository.save(patient);
+		
+		return newPatient;
 		
 	}
 	
