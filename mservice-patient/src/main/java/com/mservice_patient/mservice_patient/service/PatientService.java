@@ -94,5 +94,23 @@ public class PatientService {
 		return patientRepository.save(existingPatient);
 		
 	}
+
+	/**
+	 * @param id
+	 * @return
+	 */
+	public boolean deleteExistingPatientById(int id) {
+	
+		if(patientRepository.existsById(id)) {
+			
+			patientRepository.deleteById(id);
+			
+			return true;
+			
+		}
+		
+		return false;
+		
+	}
 	
 }
