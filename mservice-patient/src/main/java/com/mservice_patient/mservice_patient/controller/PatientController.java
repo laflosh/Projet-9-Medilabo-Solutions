@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -85,7 +86,32 @@ public class PatientController {
 			
 		} catch (Exception e) {
 			
+			e.printStackTrace();
+			
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error during saving a new patient");
+			
+		}
+		
+	}
+	
+	/**
+	 * @param updatePatient
+	 * @return
+	 */
+	@PutMapping("/patients")
+	public ResponseEntity<?> updateExistingPatient(@RequestBody Patient updatePatient){
+		
+		try {
+			
+			Patient updatedPatient = patientService.updateExistingPatient(updatePatient);
+			
+			return ResponseEntity.status(HttpStatus.CREATED).body(updatedPatient);
+			
+		} catch(Exception e) {
+			
+			e.printStackTrace();
+			
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error during update of the patient");
 			
 		}
 		

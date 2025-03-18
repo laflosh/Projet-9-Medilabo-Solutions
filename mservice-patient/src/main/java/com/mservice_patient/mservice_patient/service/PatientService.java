@@ -58,5 +58,41 @@ public class PatientService {
 		return newPatient;
 		
 	}
+
+	/**
+	 * @param updatePatient
+	 * @return
+	 */
+	public Patient updateExistingPatient(Patient updatePatient) {
+
+		Patient existingPatient = getOnePatientById(updatePatient.getId());
+		
+		if(updatePatient.getName() != existingPatient.getName()) {
+			existingPatient.setName(updatePatient.getName());
+		}
+		
+		if(updatePatient.getFirstName() != existingPatient.getFirstName()) {
+			existingPatient.setFirstName(updatePatient.getFirstName());
+		}
+		
+		if(updatePatient.getBirthDate() != existingPatient.getBirthDate()) {
+			existingPatient.setBirthDate(updatePatient.getBirthDate());
+		}
+		
+		if(updatePatient.getGender() != existingPatient.getGender()) {
+			existingPatient.setGender(updatePatient.getGender());
+		}
+		
+		if(updatePatient.getAddress() != existingPatient.getAddress()) {
+			existingPatient.setAddress(updatePatient.getAddress());
+		}
+		
+		if(updatePatient.getPhoneNumber() != existingPatient.getPhoneNumber()) {
+			existingPatient.setPhoneNumber(updatePatient.getPhoneNumber());
+		}
+		
+		return patientRepository.save(existingPatient);
+		
+	}
 	
 }
