@@ -20,7 +20,7 @@ import com.mservice_patient.mservice_patient.model.Patient;
 import com.mservice_patient.mservice_patient.service.PatientService;
 
 /**
- * 
+ * Controller for managing the http requests about patient domain
  */
 @RestController
 @RequestMapping("/api")
@@ -32,10 +32,14 @@ public class PatientController {
 	PatientService patientService;
 	
 	/**
-	 * @return
+	 * Fetching all the patients in the database
+	 * 
+	 * @return A list of patients
 	 */
 	@GetMapping("/patients")
 	public ResponseEntity<?> getAllPatients(){
+		
+		log.info("Trying to fetch all the patient in the database");
 		
 		List<Patient> patients = patientService.getAllPatients();
 		
@@ -52,12 +56,16 @@ public class PatientController {
 	}
 	
 	/**
-	 * @param id
-	 * @return
+	 * Fetching One patient depending of the id in parameter
+	 * 
+	 * @param id of the patient
+	 * @return A patient
 	 */
 	@GetMapping("/patients/{id}")
 	public ResponseEntity<?> getOnePatientById(@PathVariable("id") int id){
 
+		log.info("Trying to fetch one patient depending of the id : {}", id);
+		
 		Patient patient = patientService.getOnePatientById(id);
 		
 		if(patient != null) {
@@ -73,13 +81,17 @@ public class PatientController {
 	}
 	
 	/**
-	 * @param patient
-	 * @return
+	 * Add a new patient in the database
+	 * 
+	 * @param A new patient
+	 * @return The created patient
 	 */
 	@PostMapping("/patients")
 	public ResponseEntity<?> addNewPatient(@RequestBody Patient patient){
 		
 		try {
+			
+			log.info("Trying to add a new patient in the database : {}", patient.toString());
 			
 			Patient newPatient = patientService.addNewPatient(patient);
 			
@@ -96,13 +108,17 @@ public class PatientController {
 	}
 	
 	/**
-	 * @param updatePatient
-	 * @return
+	 * Update an existing patient in the database with the new data modified
+	 * 
+	 * @param An updatePatient
+	 * @return The updatedPatient
 	 */
 	@PutMapping("/patients")
 	public ResponseEntity<?> updateExistingPatient(@RequestBody Patient updatePatient){
 		
 		try {
+			
+			log.info("Trying to update an existong patient in the database : {}", updatePatient.toString());
 			
 			Patient updatedPatient = patientService.updateExistingPatient(updatePatient);
 			
@@ -119,11 +135,15 @@ public class PatientController {
 	}
 	
 	/**
-	 * @param id
-	 * @return
+	 * Delete an existing patient in the database depending of the id in parameter
+	 * 
+	 * @param id of the patient
+	 * @return true if deleted
 	 */
 	@DeleteMapping("/patients/{id}")
 	public ResponseEntity<?> deleteExistingPatientById(@PathVariable int id){
+		
+		log.info("Trying to delete an existing patient in the database depending of the id : {}", id);
 		
 		boolean isDeleted = patientService.deleteExistingPatientById(id);
 		

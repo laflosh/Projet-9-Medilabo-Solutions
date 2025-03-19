@@ -179,7 +179,7 @@ class PatientControllerTest {
 	public void deleteNoneExistingPatientInDatabaseAndReturnNotFound() throws Exception {
 		
 		//Testing request
-		mockMvc.perform(MockMvcRequestBuilders.delete("/api/patients/"))
+		mockMvc.perform(MockMvcRequestBuilders.delete("/api/patients/" + -1))
 			.andDo(MockMvcResultHandlers.print())
 			.andExpect(MockMvcResultMatchers.status().isNotFound());
 		

@@ -13,7 +13,7 @@ import com.mservice_patient.mservice_patient.model.Patient;
 import com.mservice_patient.mservice_patient.repository.PatientRepository;
 
 /**
- * 
+ * Service for managing all the method about the logic on patient domain
  */
 @Service
 public class PatientService {
@@ -24,9 +24,11 @@ public class PatientService {
 	PatientRepository patientRepository;
 
 	/**
-	 * @return
+	 * @return A list of patients
 	 */
 	public List<Patient> getAllPatients() {
+		
+		log.info("Fetching all the patients in the database");
 		
 		Iterable<Patient> patients = patientRepository.findAll();
 		
@@ -35,11 +37,13 @@ public class PatientService {
 	}
 
 	/**
-	 * @param id
-	 * @return
+	 * @param id of the patient
+	 * @return A patient
 	 */
 	public Patient getOnePatientById(int id) {
 
+		log.info("Fetching one patient depending of the id : {}", id);
+		
 		Patient patient = patientRepository.findById(id)
 							.orElseThrow(() -> new RuntimeException("Patient not found"));
 		
@@ -48,10 +52,12 @@ public class PatientService {
 	}
 
 	/**
-	 * @param patient
-	 * @return
+	 * @param New patient
+	 * @return Created patient
 	 */
 	public Patient addNewPatient(Patient patient) {
+		
+		log.info("Adding a new patient in the database : {}", patient.toString());
 		
 		Patient newPatient = patientRepository.save(patient);
 		
@@ -61,10 +67,12 @@ public class PatientService {
 
 	/**
 	 * @param updatePatient
-	 * @return
+	 * @return updated Patient
 	 */
 	public Patient updateExistingPatient(Patient updatePatient) {
-
+			
+		log.info("Updating an existing patient in the database : {}", updatePatient.toString());
+		
 		Patient existingPatient = getOnePatientById(updatePatient.getId());
 		
 		if(updatePatient.getName() != existingPatient.getName()) {
@@ -96,11 +104,13 @@ public class PatientService {
 	}
 
 	/**
-	 * @param id
-	 * @return
+	 * @param id of the patient
+	 * @return true if deleted
 	 */
 	public boolean deleteExistingPatientById(int id) {
 	
+		log.info("Delete an existing patient in the database with the id : {}", id);
+		
 		if(patientRepository.existsById(id)) {
 			
 			patientRepository.deleteById(id);

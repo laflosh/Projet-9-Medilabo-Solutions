@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 /**
- * 
+ * Entity for the patient model with all the properties
  */
 @Entity
 @Table(name = "patients")
@@ -37,6 +37,21 @@ public class Patient {
 	@Column(name = "phone_number")
 	private String phoneNumber;
 
+	@Override
+	public String toString() {
+		
+		return "Patient {" +
+						" id : " + id +
+						", name : " + name +
+						", firstName : " + firstName +
+						", birthDate : " + birthDate +
+						", gender : " + gender +
+						", address : " + address +
+						", phoneNumber : " + phoneNumber +
+						"}";
+		
+	}
+	
 	public int getId() {
 		return id;
 	}
