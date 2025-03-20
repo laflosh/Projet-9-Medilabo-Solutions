@@ -8,9 +8,15 @@ import org.springframework.web.servlet.function.RequestPredicates;
 import org.springframework.web.servlet.function.RouterFunction;
 import org.springframework.web.servlet.function.ServerResponse;
 
+/**
+ * 
+ */
 @Configuration
 public class Routes {
 	
+	/**
+	 * @return
+	 */
 	@Bean
 	public RouterFunction<ServerResponse> clientuiServiceRoute(){
 		
@@ -20,6 +26,9 @@ public class Routes {
 		
 	}
 
+	/**
+	 * @return
+	 */
 	@Bean
 	public RouterFunction<ServerResponse> patientServiceRoute(){
 		
