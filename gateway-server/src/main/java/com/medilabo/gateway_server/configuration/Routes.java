@@ -10,6 +10,15 @@ import org.springframework.web.servlet.function.ServerResponse;
 
 @Configuration
 public class Routes {
+	
+	@Bean
+	public RouterFunction<ServerResponse> clientuiServiceRoute(){
+		
+		return GatewayRouterFunctions.route("mservice-clientui")
+				.route(RequestPredicates.path("/**"), HandlerFunctions.http("http://localhost:9001"))
+				.build();
+		
+	}
 
 	@Bean
 	public RouterFunction<ServerResponse> patientServiceRoute(){
