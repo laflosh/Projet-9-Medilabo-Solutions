@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+	    <title>Listes patients</title>
+	</head>
+	
+	<body>
+	
+	    <h1>Retrouver ici touts les dossiers des patients</h1>
+		
+		<div>
+		
+			<table>
+			
+				<thead>
+					
+					<tr>
+					
+						<th>Nom</th>
+						<th>Prénom</th>
+						<th>Date de naissance</th>
+						
+					</tr>
+				</thead>
+				
+				<tbody>
+				
+					<tr th:each="patient : ${patients}">
+					
+						<td th:text="${patient.name}"></td>
+						<td th:text="${patient.firstName}"></td>
+						<td th:text="${patient.birthDate}"></td>
+					
+					</tr>
+				
+				</tbody>
+			
+			</table>
+		
+		</div>
+		
+	</body>
+	
+</html>

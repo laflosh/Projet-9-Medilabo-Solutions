@@ -14,28 +14,18 @@ import org.springframework.web.servlet.function.ServerResponse;
 @Configuration
 public class Routes {
 	
+	
 	/**
 	 * @return
 	 */
-	@Bean
-	public RouterFunction<ServerResponse> clientuiServiceRoute(){
-		
-		return GatewayRouterFunctions.route("mservice-clientui")
-				.route(RequestPredicates.path("/**"), HandlerFunctions.http("http://localhost:9001"))
-				.build();
-		
-	}
-
-	/**
-	 * @return
-	 */
-	@Bean
-	public RouterFunction<ServerResponse> patientServiceRoute(){
-		
-		return GatewayRouterFunctions.route("mservice-patient")
-				.route(RequestPredicates.path("/api/patients/**"), HandlerFunctions.http("http://localhost:9002"))
-				.build();
-		
-	}
+    @Bean
+    public RouterFunction<ServerResponse> gatewayRoutes() {
+        return GatewayRouterFunctions.route()
+                .route(RequestPredicates.path("/api/patients/**"), 
+                        HandlerFunctions.http("http://localhost:9002")) //mservice-patient
+                .route(RequestPredicates.path("/**"), 
+                        HandlerFunctions.http("http://localhost:9001")) //mservice-clientui
+                .build();
+    }
 	
 }
