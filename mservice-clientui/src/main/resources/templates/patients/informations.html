@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+	    <title>Listes patients</title>
+	</head>
+	
+	<body>
+	
+	    <h1 th:text="'Dossier du patient : ' + ${patient.name} + ' ' + ${patient.firstName}"></h1>
+		
+		<div>
+		
+			<p th:text="'Nome : ' + ${patient.name}"></p>
+			<p th:text="'Prénom : ' + ${patient.firstName}"></p>
+			<p th:text="'Date de naissance : ' + ${patient.birthDate}"></p>
+			
+			<p th:if="${patient.gender == 'M'}">Genre : Homme</p>
+			<p th:unless="${patient.gender == 'M'}">Genre : Femme</p>
+			
+			<p th:text="'Adresse : ' + ${patient.address}"></p>
+			<p th:text="'Numéro de téléphone : ' + ${patient.phoneNumber}"></p>
+		
+		</div>
+		
+		<div>
+		
+			<a href="/patients">Retour à la liste des dossiers</a>
+		
+		</div>
+		
+	</body>
+	
+</html>

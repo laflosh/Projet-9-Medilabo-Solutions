@@ -7,7 +7,7 @@
 	
 	<body>
 	
-	    <h1>Retrouver ici touts les dossiers des patients</h1>
+	    <h1>Retrouver ici tous les dossiers des patients</h1>
 		
 		<div>
 		
@@ -31,6 +31,9 @@
 						<td th:text="${patient.name}"></td>
 						<td th:text="${patient.firstName}"></td>
 						<td th:text="${patient.birthDate}"></td>
+						<td>
+							<a th:href="@{/patients/{id}(id=${patient.id})}">Voir le dossier</a>
+						</td>
 					
 					</tr>
 				

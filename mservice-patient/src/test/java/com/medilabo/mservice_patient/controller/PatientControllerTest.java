@@ -105,8 +105,6 @@ class PatientControllerTest {
 		testPatient.setAddress("address address");
 		testPatient.setPhoneNumber("000-000-0000");
 
-		testPatients.add(testPatient);
-
 		String patientAsString = objectMapper.writeValueAsString(testPatient);
 
 		//Testing request
@@ -115,6 +113,8 @@ class PatientControllerTest {
 			.andDo(MockMvcResultHandlers.print())
 			.andExpect(MockMvcResultMatchers.status().isCreated())
 			.andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.not(Matchers.empty())));
+		
+		testPatients.add(testPatient);
 
 	}
 
