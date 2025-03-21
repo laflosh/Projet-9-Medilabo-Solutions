@@ -7,11 +7,15 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.medilabo.mservice_clientui.beans.PatientBean;
 import com.medilabo.mservice_clientui.proxys.MServicePatientProxy;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class PatientController {
@@ -49,6 +53,52 @@ public class PatientController {
 		model.addAttribute("patient", patient);
 		
 		return "patients/informations";
+		
+	}
+	
+	/**
+	 * @param model
+	 * @param patient
+	 * @return
+	 */
+	@GetMapping("/patients/add")
+	public String showAddFormNewPatient(Model model, PatientBean patient) {
+		
+		model.addAttribute("patient", new PatientBean());
+		
+		return "patients/add";
+		
+	}
+	
+	/**
+	 * @param patient
+	 * @param result
+	 * @param model
+	 * @return
+	 */
+	@PostMapping("/patients/validate")
+	public String addNewPatient(@Valid PatientBean patient, BindingResult result, Model model) {
+		
+		if(result.hasErrors()) {
+			
+			return"patients/add";
+			
+		}
+		
+		try {
+			
+			PatientBean newPatient = patientProxy.addNewPatient(patient);
+			
+			model.addAttribute("message", "Résumé du dossier ajouter à la base de données");
+			model.addAttribute("patient", newPatient);
+			
+			return "patients/resume";
+			
+		} catch (Exception e) {
+			
+			return"/patients/add";
+			
+		}
 		
 	}
 	

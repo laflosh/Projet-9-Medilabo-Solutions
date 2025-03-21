@@ -7,7 +7,9 @@
 	
 	<body>
 	
-	    <h1 th:text="'Dossier du patient : ' + ${patient.name} + ' ' + ${patient.firstName}"></h1>
+	    <h1>Résumer de l'action que vous venez d'effectuer</h1>
+	    
+	    <p th:text="${message}"></p>
 		
 		<div>
 		
@@ -26,6 +28,7 @@
 		<div>
 		
 			<a href="/patients">Retour à la liste des dossiers</a>
+			<a th:href="@{/patients/{id}(id=${patient.id})}">Voir le dossier</a>
 		
 		</div>
 		
