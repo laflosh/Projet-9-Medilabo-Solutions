@@ -11,7 +11,7 @@
 		
 		<div>
 		
-			<p th:text="'Nome : ' + ${patient.name}"></p>
+			<p th:text="'Nom : ' + ${patient.name}"></p>
 			<p th:text="'Prénom : ' + ${patient.firstName}"></p>
 			<p th:text="'Date de naissance : ' + ${patient.birthDate}"></p>
 			
@@ -24,7 +24,8 @@
 		</div>
 		
 		<div>
-		
+			
+			<a th:href="@{/patients/update/{id}(id=${patient.id})}">Mettre à jour le dossier</a>
 			<a href="/patients">Retour à la liste des dossiers</a>
 		
 		</div>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+	    <title>Mise à jour du dossier</title>
+	</head>
+	
+	<body>
+	
+	    <h1>
+	    	Veuillez modifier les informations du patient dans son dossier
+	    </h1>
+	    
+	    <div>
+	    
+	    	<form th:action="@{/patients/update/{id}(id=${patient.id})}" th:object="${patient}" method="post">
+	    		
+	    		<div>
+		    		<label for="name">Nom :</label>
+		    		<input type="text" id="name" th:field="*{name}" placeholder="Nom"/>
+	    		</div>
+	    		
+	    		<div>
+		    		<label for="firstName">Prénom :</label>
+		    		<input type="text" id="firstName" th:field="*{firstName}" placeholder="Prénom"/>
+	    		</div>
+	    		
+	    		<div>
+		    		<label for="birthDate">Date de naissance :</label>
+		    		<input type="text" id="birthDate" th:field="*{birthDate}" placeholder="jj-mm-aaaa"/>
+	    		</div>
+	    		
+	    		<div>
+		    		<label for="gender">Genre :</label>
+		    		<select id="gender" th:field="*{gender}">
+		    			<option value="" disabled selected placeholder>-- Selectionner une option --</option>
+		    			<option value="M">Homme</option>
+		    			<option value="F">Femme</option>
+		    			<option value="A">Autre</option>
+		    		</select>
+	    		</div>
+	    		
+	    		<div>
+		    		<label for="address">Adresse :</label>
+		    		<input type="text" id="address" th:field="*{address}" placeholder="Adresse"/>
+	    		</div>
+	    		
+	    		<div>
+		    		<label for="phoneNumber">Numéro de téléphone :</label>
+		    		<input type="text" id="phoneNumber" th:field="*{phoneNumber}" placeholder="Numéro"/>
+	    		</div>
+	    		
+	    		<button type="submit">Modifier le dossier</button>
+	    		
+	    	</form>
+	    
+	    </div>
+	    
+	    <div>
+		
+			<a th:href="@{/patients/{id}(id=${patient.id})}">Retour au dossier du patient</a>
+		
+		</div>
+		
+	</body>
+	
+</html>

@@ -96,7 +96,56 @@ public class PatientController {
 			
 		} catch (Exception e) {
 			
-			return"/patients/add";
+			return"patients/add";
+			
+		}
+		
+	}
+	
+	/**
+	 * @param id
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/patients/update/{id}")
+	public String showUpdatePatientForm(@PathVariable int id, Model model) {
+		
+		PatientBean patient = patientProxy.getOnePatientById(id);
+		
+		model.addAttribute("patient", patient);
+		
+		return "patients/update";
+		
+	}
+	
+	/**
+	 * @param id
+	 * @param patient
+	 * @param result
+	 * @param model
+	 * @return
+	 */
+	@PostMapping("/patients/update/{id}")
+	public String updatePatient(@PathVariable int id, @Valid PatientBean patient, BindingResult result, Model model) {
+		
+		if(result.hasErrors()) {
+			
+			return "patients/update";
+			
+		}
+		
+		try {
+			
+			PatientBean updatePatient = patientProxy.updateExistingPatient(patient);
+			
+			model.addAttribute("patient", updatePatient);
+			model.addAttribute("message", "Voici le résumé des modifications faites au dossier du patient " + updatePatient.getName());
+			
+			return "patients/resume";
+			
+		} catch(Exception e) {
+			
+			return "patients/update";
 			
 		}
 		
