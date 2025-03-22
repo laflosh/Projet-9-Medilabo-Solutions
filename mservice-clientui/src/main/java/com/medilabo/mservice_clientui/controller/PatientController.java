@@ -151,4 +151,34 @@ public class PatientController {
 		
 	}
 	
+	@GetMapping("/patients/confirmation/{id}")
+	public String showConfirmationPageBeforeDelete(@PathVariable int id, Model model) {
+		
+		PatientBean patient = patientProxy.getOnePatientById(id);
+		
+		model.addAttribute("patient", patient);
+		
+		return "patients/confirmation";
+		
+	}
+	
+	@GetMapping("/patients/delete/{id}")
+	public String deletePatientInDatabase(@PathVariable int id, Model model) {
+		
+		try {
+			
+			patientProxy.deleteExistingPatientById(id);
+			
+			model.addAttribute("patients", patientProxy.getAllPatients());
+			
+			return "patients/list";
+			
+		} catch(Exception e) {
+			
+			return "patients/confirmation";
+			
+		}
+		
+	}
+	
 }

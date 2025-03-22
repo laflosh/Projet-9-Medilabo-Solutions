@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+	    <title>Confirmation action</title>
+	</head>
+	
+	<body>
+	
+	    <h1>
+	    	Confirmer la suppression
+	    </h1>
+	    
+	    <div>
+
+			<p th:text="'Etes vous sur de vouloir supprimer le dossier de ' + ${patient.name} + ' ' + ${patient.firstName}"></p>
+		
+		</div>
+	    
+	    <div>
+			
+			<a th:href="@{/patients/delete/{id}(id=${patient.id})}">Oui</a>
+			<a th:href="@{/patients/{id}(id=${patient.id})}">Non</a>
+		
+		</div>
+		
+	</body>
+	
+</html>
