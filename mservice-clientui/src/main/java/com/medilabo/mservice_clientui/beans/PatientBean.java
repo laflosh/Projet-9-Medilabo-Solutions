@@ -1,5 +1,7 @@
 package com.medilabo.mservice_clientui.beans;
 
+import jakarta.validation.constraints.NotEmpty;
+
 /**
  * 
  */
@@ -7,12 +9,16 @@ public class PatientBean {
 
 	private int id;
 	
+	@NotEmpty(message = "{patient.name.notempty}")
 	private String name;
 	
+	@NotEmpty(message = "{patient.firstName.notempty}")
 	private String firstName;
 	
+	@NotEmpty(message = "{patient.birthDate.notempty}")
 	private String birthDate;
 	
+	@NotEmpty(message = "{patient.gender.notempty}")
 	private String gender;
 	
 	private String address;

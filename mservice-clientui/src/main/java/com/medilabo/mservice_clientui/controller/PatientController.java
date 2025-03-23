@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -64,7 +65,9 @@ public class PatientController {
 	@GetMapping("/patients/add")
 	public String showAddFormNewPatient(Model model, PatientBean patient) {
 		
-		model.addAttribute("patient", new PatientBean());
+		PatientBean newPatient = new PatientBean();
+		
+		model.addAttribute("patient", newPatient);
 		
 		return "patients/add";
 		
@@ -77,7 +80,7 @@ public class PatientController {
 	 * @return
 	 */
 	@PostMapping("/patients/validate")
-	public String addNewPatient(@Valid PatientBean patient, BindingResult result, Model model) {
+	public String addNewPatient(@Valid @ModelAttribute("patient") PatientBean patient, BindingResult result, Model model) {
 		
 		if(result.hasErrors()) {
 			
@@ -126,7 +129,7 @@ public class PatientController {
 	 * @return
 	 */
 	@PostMapping("/patients/update/{id}")
-	public String updatePatient(@PathVariable int id, @Valid PatientBean patient, BindingResult result, Model model) {
+	public String updatePatient(@PathVariable int id, @Valid @ModelAttribute("patient") PatientBean patient, BindingResult result, Model model) {
 		
 		if(result.hasErrors()) {
 			
@@ -151,6 +154,11 @@ public class PatientController {
 		
 	}
 	
+	/**
+	 * @param id
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/patients/confirmation/{id}")
 	public String showConfirmationPageBeforeDelete(@PathVariable int id, Model model) {
 		
@@ -162,6 +170,11 @@ public class PatientController {
 		
 	}
 	
+	/**
+	 * @param id
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/patients/delete/{id}")
 	public String deletePatientInDatabase(@PathVariable int id, Model model) {
 		
