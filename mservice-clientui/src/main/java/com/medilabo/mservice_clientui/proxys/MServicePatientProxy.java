@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.medilabo.mservice_clientui.beans.PatientBean;
+import com.medilabo.mservice_clientui.configuration.FeignClientInterceptor;
 
 /**
  * 
  */
-@FeignClient(name = "mservice-patient", url = "localhost:8080")
+@FeignClient(name = "mservice-patient", url = "localhost:8080", configuration = FeignClientInterceptor.class)
 public interface MServicePatientProxy {
 
 	@GetMapping("/api/patients")
