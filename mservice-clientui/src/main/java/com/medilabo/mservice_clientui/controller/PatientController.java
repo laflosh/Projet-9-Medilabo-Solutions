@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.medilabo.mservice_clientui.beans.PatientBean;
 import com.medilabo.mservice_clientui.proxys.MServicePatientProxy;
@@ -19,6 +20,7 @@ import com.medilabo.mservice_clientui.proxys.MServicePatientProxy;
 import jakarta.validation.Valid;
 
 @Controller
+@RequestMapping("/ui")
 public class PatientController {
 
 	private final static Logger log = LogManager.getLogger(PatientController.class);

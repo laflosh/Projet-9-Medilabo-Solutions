@@ -18,7 +18,7 @@ public class HomeController {
 	 * @param model
 	 * @return
 	 */
-	@GetMapping("/")
+	@GetMapping("/ui")
 	public String homePage(Model model) {
 		
 		return "home";

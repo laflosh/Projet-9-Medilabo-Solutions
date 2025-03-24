@@ -13,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -73,7 +72,6 @@ class PatientControllerTest {
 
 		//Testing request
 		mockMvc.perform(MockMvcRequestBuilders.get("/api/patients"))
-			.andDo(MockMvcResultHandlers.print())
 			.andExpect(MockMvcResultMatchers.status().isOk())
 			.andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.not(Matchers.empty())));
 
@@ -87,7 +85,6 @@ class PatientControllerTest {
 
 		//Testing request
 		mockMvc.perform(MockMvcRequestBuilders.get("/api/patients/" + patient.getId()))
-			.andDo(MockMvcResultHandlers.print())
 			.andExpect(MockMvcResultMatchers.status().isOk())
 			.andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.not(Matchers.empty())));
 
@@ -110,7 +107,6 @@ class PatientControllerTest {
 		//Testing request
 		mockMvc.perform(MockMvcRequestBuilders.post("/api/patients")
 					.contentType(MediaType.APPLICATION_JSON).content(patientAsString))
-			.andDo(MockMvcResultHandlers.print())
 			.andExpect(MockMvcResultMatchers.status().isCreated())
 			.andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.not(Matchers.empty())));
 		
@@ -123,7 +119,6 @@ class PatientControllerTest {
 
 		//Testing request
 		mockMvc.perform(MockMvcRequestBuilders.post("/api/patients"))
-			.andDo(MockMvcResultHandlers.print())
 			.andExpect(MockMvcResultMatchers.status().isBadRequest());
 
 	}
@@ -145,7 +140,6 @@ class PatientControllerTest {
 		//Testing request
 		mockMvc.perform(MockMvcRequestBuilders.put("/api/patients")
 					.contentType(MediaType.APPLICATION_JSON).content(updatePatientAsString))
-			.andDo(MockMvcResultHandlers.print())
 			.andExpect(MockMvcResultMatchers.status().isCreated())
 			.andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.not(Matchers.empty())));
 
@@ -156,7 +150,6 @@ class PatientControllerTest {
 
 		//Testing request
 		mockMvc.perform(MockMvcRequestBuilders.put("/api/patients"))
-			.andDo(MockMvcResultHandlers.print())
 			.andExpect(MockMvcResultMatchers.status().isBadRequest());
 
 	}
@@ -170,7 +163,6 @@ class PatientControllerTest {
 
 		//Testing request
 		mockMvc.perform(MockMvcRequestBuilders.delete("/api/patients/" + deletePatient.getId()))
-			.andDo(MockMvcResultHandlers.print())
 			.andExpect(MockMvcResultMatchers.status().isNoContent());
 
 	}
@@ -180,7 +172,6 @@ class PatientControllerTest {
 
 		//Testing request
 		mockMvc.perform(MockMvcRequestBuilders.delete("/api/patients/" + -1))
-			.andDo(MockMvcResultHandlers.print())
 			.andExpect(MockMvcResultMatchers.status().isNotFound());
 
 	}

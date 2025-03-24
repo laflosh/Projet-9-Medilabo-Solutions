@@ -27,9 +27,8 @@ public class ConfigSecurity {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		
 		http.authorizeHttpRequests(auth -> auth
-				.requestMatchers("/").permitAll()
-				.requestMatchers("/patients").authenticated()
-				.requestMatchers("/patients/**").authenticated()
+				.requestMatchers("/ui").permitAll()
+				.requestMatchers("/ui/patients/**").authenticated()
 				.requestMatchers("/api/patients/**").authenticated()
 				)
 			.httpBasic(httpBasic -> httpBasic

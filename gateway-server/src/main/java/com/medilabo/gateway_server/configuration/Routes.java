@@ -23,7 +23,7 @@ public class Routes {
         return GatewayRouterFunctions.route()
                 .route(RequestPredicates.path("/api/patients/**"), 
                         HandlerFunctions.http("http://localhost:9002")) //mservice-patient
-                .route(RequestPredicates.path("/**"), 
+                .route(RequestPredicates.path("/ui/**"), 
                         HandlerFunctions.http("http://localhost:9001")) //mservice-clientui
                 .build();
     }
