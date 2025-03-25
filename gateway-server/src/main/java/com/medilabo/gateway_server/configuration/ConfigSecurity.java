@@ -12,13 +12,15 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
- * 
+ * Configuration's class for managing the bean of the security for the application throught the gateway
  */
 @Configuration
 @EnableWebSecurity
 public class ConfigSecurity {
 
 	/**
+	 * Filterchain for managing the permition of url, managing the method of authentication of the application
+	 * 
 	 * @param http
 	 * @return
 	 * @throws Exception
@@ -47,7 +49,9 @@ public class ConfigSecurity {
 	}
 	
 	/**
-	 * @return
+	 * Create one User in memory for the basic auth for the application
+	 * 
+	 * @return An User
 	 */
 	@Bean
 	public UserDetailsService userDetailsInMemory() {
@@ -63,6 +67,8 @@ public class ConfigSecurity {
 	}
 	
 	/**
+	 * Bcrypt encoder bean for encoding the password of the in memory user
+	 * 
 	 * @return
 	 */
 	@Bean
