@@ -16,7 +16,7 @@ import com.medilabo.mservice_clientui.configuration.FeignClientInterceptor;
 /**
  * 
  */
-@FeignClient(name = "mservice-patient", url = "localhost:8080", configuration = FeignClientInterceptor.class)
+@FeignClient(name = "mservice-patient", url = "localhost:8080")
 public interface MServicePatientProxy {
 
 	@GetMapping("/api/patients")

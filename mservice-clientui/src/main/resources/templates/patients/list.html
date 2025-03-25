@@ -14,7 +14,7 @@
 	    </p>
 	    
 	    <p>
-	    	<a href="/patients/add">Créer un nouveau dossier pour un patient</a>
+	    	<a href="/ui/patients/add">Créer un nouveau dossier pour un patient</a>
 	    </p>
 		
 		<div>
@@ -40,7 +40,7 @@
 						<td th:text="${patient.firstName}"></td>
 						<td th:text="${patient.birthDate}"></td>
 						<td>
-							<a th:href="@{/patients/{id}(id=${patient.id})}">Voir le dossier</a>
+							<a th:href="@{/ui/patients/{id}(id=${patient.id})}">Voir le dossier</a>
 						</td>
 					
 					</tr>

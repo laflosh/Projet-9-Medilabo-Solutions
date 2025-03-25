@@ -13,7 +13,7 @@
 	    
 	    <div>
 	    
-	    	<form th:action="@{/patients/update/{id}(id=${patient.id})}" th:object="${patient}" method="post">
+	    	<form th:action="@{/ui/patients/update/{id}(id=${patient.id})}" th:object="${patient}" method="post">
 	    		
 	    		<div>
 		    		<label for="name">Nom :</label>
@@ -62,7 +62,7 @@
 	    
 	    <div>
 		
-			<a th:href="@{/patients/{id}(id=${patient.id})}">Retour au dossier du patient</a>
+			<a th:href="@{/ui/patients/{id}(id=${patient.id})}">Retour au dossier du patient</a>
 		
 		</div>
 		
