@@ -3,7 +3,7 @@ package com.medilabo.mservice_clientui.beans;
 import jakarta.validation.constraints.NotEmpty;
 
 /**
- * 
+ * Bean for managing the patient entity from mservice-patient
  */
 public class PatientBean {
 

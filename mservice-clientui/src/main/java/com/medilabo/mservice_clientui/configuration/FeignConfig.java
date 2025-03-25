@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import feign.auth.BasicAuthRequestInterceptor;
 
 /**
- * 
+ * Feign configuration for the ui interface request to backend services
  */
 @Configuration
 public class FeignConfig {

@@ -19,6 +19,10 @@ import com.medilabo.mservice_clientui.proxys.MServicePatientProxy;
 
 import jakarta.validation.Valid;
 
+/**
+ * Controller class to managing the http requests about html template and data 
+ * for patient domain
+ */
 @Controller
 @RequestMapping("/ui")
 public class PatientController {
@@ -29,11 +33,15 @@ public class PatientController {
 	MServicePatientProxy patientProxy;
 	
 	/**
+	 * Show the patient list page with all the patients in the database from mservice-patient
+	 * 
 	 * @param model
-	 * @return
+	 * @return patient list template
 	 */
 	@GetMapping("/patients")
 	public String listOfAllPatients(Model model) {
+		
+		log.info("Access to the patient list page");
 		
 		List<PatientBean> patients = patientProxy.getAllPatients();
 		
@@ -44,12 +52,16 @@ public class PatientController {
 	}
 	
 	/**
-	 * @param id
+	 * Show the page of one patient with all the informations concerning the patient
+	 * 
+	 * @param id of the patient
 	 * @param model
-	 * @return
+	 * @return patient information template
 	 */
 	@GetMapping("/patients/{id}")
 	public String showInformationsOfOnePatient(@PathVariable int id, Model model) {
+		
+		log.info("Access to the informations page of patient with id : {}", id);
 		
 		PatientBean patient = patientProxy.getOnePatientById(id);
 		
@@ -60,12 +72,16 @@ public class PatientController {
 	}
 	
 	/**
+	 * Show the page to add a new patient in the database of mservice-patient
+	 * 
 	 * @param model
 	 * @param patient
-	 * @return
+	 * @return patient add template
 	 */
 	@GetMapping("/patients/add")
 	public String showAddFormNewPatient(Model model, PatientBean patient) {
+		
+		log.info("Access to the adding page for new patient");
 		
 		PatientBean newPatient = new PatientBean();
 		
@@ -76,13 +92,18 @@ public class PatientController {
 	}
 	
 	/**
-	 * @param patient
+	 * When trying to add new patient from the formular in the add page, check the data in the patient's object
+	 * and add in the database, return to the resume action page
+	 * 
+	 * @param new patient
 	 * @param result
 	 * @param model
-	 * @return
+	 * @return resume template
 	 */
 	@PostMapping("/patients/validate")
 	public String addNewPatient(@Valid @ModelAttribute("patient") PatientBean patient, BindingResult result, Model model) {
+		
+		log.info("Add a new patient in the database : {}", patient);
 		
 		if(result.hasErrors()) {
 			
@@ -108,12 +129,16 @@ public class PatientController {
 	}
 	
 	/**
-	 * @param id
+	 * Show the formular to update the informations of a patient
+	 * 
+	 * @param id of the patient
 	 * @param model
-	 * @return
+	 * @return patient update template
 	 */
 	@GetMapping("/patients/update/{id}")
 	public String showUpdatePatientForm(@PathVariable int id, Model model) {
+		
+		log.info("Access to the update patient page with id : {}", id);
 		
 		PatientBean patient = patientProxy.getOnePatientById(id);
 		
@@ -124,14 +149,19 @@ public class PatientController {
 	}
 	
 	/**
-	 * @param id
+	 * When trying to update a existing patient in the database, check the data in the patient's object
+	 * and update the patient in the database, return to the resume action page
+	 * 
+	 * @param id of the patient
 	 * @param patient
 	 * @param result
 	 * @param model
-	 * @return
+	 * @return resume template
 	 */
 	@PostMapping("/patients/update/{id}")
 	public String updatePatient(@PathVariable int id, @Valid @ModelAttribute("patient") PatientBean patient, BindingResult result, Model model) {
+		
+		log.info("Update an existing patient in the database with id : {}", id);
 		
 		if(result.hasErrors()) {
 			
@@ -157,12 +187,16 @@ public class PatientController {
 	}
 	
 	/**
-	 * @param id
+	 * Call the confirmation page when a patient is about to be deleted
+	 * 
+	 * @param id of the patient
 	 * @param model
-	 * @return
+	 * @return confirmation template
 	 */
 	@GetMapping("/patients/confirmation/{id}")
 	public String showConfirmationPageBeforeDelete(@PathVariable int id, Model model) {
+		
+		log.info("Access to the confirmation page before delete for the patient with id : {}", id);
 		
 		PatientBean patient = patientProxy.getOnePatientById(id);
 		
@@ -173,12 +207,16 @@ public class PatientController {
 	}
 	
 	/**
-	 * @param id
+	 * After confirmation of suppression of patient, call the proxy mehtod to delete a patient
+	 * 
+	 * @param id of the patient
 	 * @param model
-	 * @return
+	 * @return patient list template
 	 */
 	@GetMapping("/patients/delete/{id}")
 	public String deletePatientInDatabase(@PathVariable int id, Model model) {
+		
+		log.info("Delete an existing patient in the database with the id : {} ", id);
 		
 		try {
 			
