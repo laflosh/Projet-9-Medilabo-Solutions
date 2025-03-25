@@ -26,7 +26,8 @@ public class ConfigSecurity {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		
-		http.authorizeHttpRequests(auth -> auth
+		http.csrf(csrf -> csrf.disable())
+			.authorizeHttpRequests(auth -> auth
 				.requestMatchers("/ui").permitAll()
 				.requestMatchers("/ui/patients/**").authenticated()
 				.requestMatchers("/api/patients/**").authenticated()
@@ -36,7 +37,7 @@ public class ConfigSecurity {
 					)
 			.logout(logout -> logout
 					.logoutUrl("/logout")
-        			.logoutSuccessUrl("/")
+        			.logoutSuccessUrl("/ui")
         			.invalidateHttpSession(true)
         			.deleteCookies("JSESSIONID")
 				);
