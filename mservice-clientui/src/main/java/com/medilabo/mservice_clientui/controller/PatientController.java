@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +25,6 @@ import jakarta.validation.Valid;
  */
 @Controller
 @RequestMapping("/ui")
-@Validated
 public class PatientController {
 
 	private final static Logger log = LogManager.getLogger(PatientController.class);
@@ -109,6 +107,8 @@ public class PatientController {
 		
 		if(result.hasErrors()) {
 			
+			log.info("Error during validate the data : {}", result.getAllErrors());
+			
 			model.addAttribute("patient", patient);
 			return"patients/add";
 			
@@ -124,6 +124,8 @@ public class PatientController {
 			return "patients/resume";
 			
 		} catch (Exception e) {
+			
+			log.info("Error during adding new patient : {}", e);
 			
 			model.addAttribute("patient", patient);
 			return"patients/add";
@@ -169,6 +171,8 @@ public class PatientController {
 		
 		if(result.hasErrors()) {
 			
+			log.info("Error during validate the data : {}", result.getAllErrors());
+			
 			model.addAttribute("patient", patient);
 			return "patients/update";
 			
@@ -184,6 +188,8 @@ public class PatientController {
 			return "patients/resume";
 			
 		} catch(Exception e) {
+			
+			log.info("Error during updating an existing patient : {}", e);
 			
 			model.addAttribute("patient", patient);
 			return "patients/update";
@@ -233,6 +239,8 @@ public class PatientController {
 			return "patients/list";
 			
 		} catch(Exception e) {
+			
+			log.info("Error during delete a patient : {}", e);
 			
 			return "patients/confirmation";
 			
