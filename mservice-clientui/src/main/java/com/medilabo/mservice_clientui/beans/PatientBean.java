@@ -25,6 +25,21 @@ public class PatientBean {
 	
 	private String phoneNumber;
 	
+	//Default constructor
+	public PatientBean() {
+		
+	}
+	
+	public PatientBean(int id, String name, String firstName, String birthDate, String gender, String address, String phoneNumber) {
+		this.id = id;
+		this.name = name;
+		this.firstName = firstName;
+		this.birthDate = birthDate;
+		this.gender = gender;
+		this.address = address;
+		this.phoneNumber = phoneNumber;
+	}
+
 	@Override
 	public String toString() {
 

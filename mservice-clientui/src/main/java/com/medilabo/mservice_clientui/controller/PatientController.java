@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +26,7 @@ import jakarta.validation.Valid;
  */
 @Controller
 @RequestMapping("/ui")
+@Validated
 public class PatientController {
 
 	private final static Logger log = LogManager.getLogger(PatientController.class);
@@ -107,6 +109,7 @@ public class PatientController {
 		
 		if(result.hasErrors()) {
 			
+			model.addAttribute("patient", patient);
 			return"patients/add";
 			
 		}
@@ -122,6 +125,7 @@ public class PatientController {
 			
 		} catch (Exception e) {
 			
+			model.addAttribute("patient", patient);
 			return"patients/add";
 			
 		}
@@ -165,6 +169,7 @@ public class PatientController {
 		
 		if(result.hasErrors()) {
 			
+			model.addAttribute("patient", patient);
 			return "patients/update";
 			
 		}
@@ -180,6 +185,7 @@ public class PatientController {
 			
 		} catch(Exception e) {
 			
+			model.addAttribute("patient", patient);
 			return "patients/update";
 			
 		}
@@ -207,7 +213,7 @@ public class PatientController {
 	}
 	
 	/**
-	 * After confirmation of suppression of patient, call the proxy mehtod to delete a patient
+	 * After confirmation of suppression of patient, call the proxy method to delete a patient
 	 * 
 	 * @param id of the patient
 	 * @param model
