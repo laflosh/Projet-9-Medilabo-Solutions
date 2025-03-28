@@ -3,21 +3,21 @@ package com.medilabo.gateway_server.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.server.SecurityWebFilterChain;
 
 /**
  * Configuration's class for managing the bean of the security for the application throught the gateway
  */
 @Configuration
-@EnableWebSecurity
+@EnableWebFluxSecurity
+@EnableReactiveMethodSecurity
 public class ConfigSecurity {
 
 	/**
@@ -28,27 +28,21 @@ public class ConfigSecurity {
 	 * @throws Exception
 	 */
 	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	public SecurityWebFilterChain filterChain(ServerHttpSecurity http) throws Exception {
 		
 		http.csrf(csrf -> csrf.disable())
 			.cors(cors -> cors.disable())
-			.authorizeHttpRequests(auth -> auth
-					.requestMatchers("/ui").permitAll()
-					.requestMatchers("/static/**").permitAll()
-					.requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
-					.requestMatchers("/favicon.ico").permitAll()
-					.requestMatchers("/ui/patients/**").authenticated()
-					.requestMatchers("/api/patients/**").authenticated()
-					)
-			.sessionManagement(session -> session
-					.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			.authorizeExchange(exchange -> exchange
+					.pathMatchers("/ui").permitAll()
+					.pathMatchers("/static/**").permitAll()
+					.pathMatchers("/css/**", "/js/**", "/images/**").permitAll()
+					.pathMatchers("/favicon.ico").permitAll()
+					.pathMatchers("/ui/patients/**").authenticated()
+					.pathMatchers("/api/patients/**").authenticated()
 					)
 			.httpBasic(Customizer.withDefaults())
 			.logout(logout -> logout
 					.logoutUrl("/logout")
-        			.logoutSuccessUrl("/ui")
-        			.invalidateHttpSession(true)
-        			.deleteCookies("JSESSIONID")
 				);
 			
 		return http.build();
@@ -61,7 +55,7 @@ public class ConfigSecurity {
 	 * @return An User
 	 */
 	@Bean
-	public UserDetailsService userDetailsInMemory() {
+	public MapReactiveUserDetailsService userDetailsInMemory() {
 		
 		UserDetails user = User.builder()
 				.username("user")
@@ -69,7 +63,7 @@ public class ConfigSecurity {
 				.roles("USER")
 				.build();
 		
-		return new InMemoryUserDetailsManager(user);
+		return new MapReactiveUserDetailsService(user);
 		
 	}
 	
