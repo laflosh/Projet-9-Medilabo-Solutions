@@ -2,8 +2,10 @@ package com.medilabo.gateway_server.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -29,14 +31,19 @@ public class ConfigSecurity {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		
 		http.csrf(csrf -> csrf.disable())
+			.cors(cors -> cors.disable())
 			.authorizeHttpRequests(auth -> auth
-				.requestMatchers("/ui").permitAll()
-				.requestMatchers("/ui/patients/**").authenticated()
-				.requestMatchers("/api/patients/**").authenticated()
-				)
-			.httpBasic(httpBasic -> httpBasic
-					.realmName("MediLabo")
+					.requestMatchers("/ui").permitAll()
+					.requestMatchers("/static/**").permitAll()
+					.requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+					.requestMatchers("/favicon.ico").permitAll()
+					.requestMatchers("/ui/patients/**").authenticated()
+					.requestMatchers("/api/patients/**").authenticated()
 					)
+			.sessionManagement(session -> session
+					.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+					)
+			.httpBasic(Customizer.withDefaults())
 			.logout(logout -> logout
 					.logoutUrl("/logout")
         			.logoutSuccessUrl("/ui")
