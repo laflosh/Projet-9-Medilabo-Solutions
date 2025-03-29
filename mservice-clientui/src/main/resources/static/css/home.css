@@ -20,6 +20,7 @@ body {
     justify-content: center;
     align-items: center;
     border-radius: 8px;
+    border: 4.5px solid black;
 }
 
 .container h1 {
@@ -28,4 +29,28 @@ body {
 
 .container p {
 	font-size: 32px;
+	cursor : pointer;
+	padding : 10px;
+	border-radius: 10px;
+	background-color: #b7b9bb;
+	border: 3.5px dashed black;
+}
+
+.container p a {
+	font-size: 32px;
+	text-decoration: none;
+	color: black;
+}
+
+.container p a:hover{
+	color : #ab6763;
+}
+
+.container img {
+	box-shadow: 7px 7px 20px 9px rgba(0,0,0,0.75);
+	-webkit-box-shadow: 7px 7px 20px 9px rgba(0,0,0,0.75);
+	-moz-box-shadow: 7px 7px 20px 9px rgba(0,0,0,0.75);
+	background-size: cover;
+    background-position: center;
+    border-radius: 4px;
 }
