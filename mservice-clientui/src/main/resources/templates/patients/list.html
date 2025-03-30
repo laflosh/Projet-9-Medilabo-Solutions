@@ -3,22 +3,20 @@
 
 	<head>
 	    <title>Listes patients</title>
+	     <link rel="stylesheet" type="text/css" media="all" href="/css/patients/list.css" th:href="@{/css/patients/list.css}" />
 	</head>
 	
 	<body>
 	
-	    <h1>Retrouver ici tous les dossiers des patients</h1>
-	    
-	   	<p>
-	    	<a href="/logout">Se déconnecter</a>
-	    </p>
-	    
-	    <p>
-	    	<a href="/ui/patients/add">Créer un nouveau dossier pour un patient</a>
-	    </p>
+		<div class="list-patients">
 		
-		<div>
-		
+		    <h1>Retrouver ici tous les dossiers des patients</h1>
+		    
+		   	<nav>
+		   		<a href="/ui/patients/add">Créer un nouveau dossier pour un patient</a>
+		    	<a href="/logout">Se déconnecter</a>
+		    </nav>
+				
 			<table>
 			
 				<thead>
@@ -48,7 +46,7 @@
 				</tbody>
 			
 			</table>
-		
+				
 		</div>
 		
 	</body>
