@@ -2,33 +2,43 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 	<head>
-    <title th:text="'Dossier de ' + ${patient.name}"></title>
+    	<title th:text="'Dossier de ' + ${patient.name}"></title>
+    	<link rel="stylesheet" type="text/css" media="all" href="/css/patients/informations.css" th:href="@{/css/patients/informations.css}" />
 	</head>
 	
 	<body>
 	
-	    <h1 th:text="'Dossier du patient : ' + ${patient.name} + ' ' + ${patient.firstName}"></h1>
+		<div class="container">
 		
-		<div>
-		
-			<p th:text="'Nom : ' + ${patient.name}"></p>
-			<p th:text="'Prénom : ' + ${patient.firstName}"></p>
-			<p th:text="'Date de naissance : ' + ${patient.birthDate}"></p>
+		    <h1 th:text="'Dossier du patient : ' + ${patient.name} + ' ' + ${patient.firstName}"></h1>
 			
-			<p th:if="${patient.gender == 'M'}">Genre : Homme</p>
-			<p th:unless="${patient.gender == 'M'}">Genre : Femme</p>
+			<div class="informations">
 			
-			<p th:text="'Adresse : ' + ${patient.address}"></p>
-			<p th:text="'Numéro de téléphone : ' + ${patient.phoneNumber}"></p>
-		
-		</div>
-		
-		<div>
+				<p th:text="'Nom : ' + ${patient.name}"></p>
+				<p th:text="'Prénom : ' + ${patient.firstName}"></p>
+				<p th:text="'Date de naissance : ' + ${patient.birthDate}"></p>
+				
+				<p th:if="${patient.gender == 'M'}">Genre : Homme</p>
+				<p th:unless="${patient.gender == 'M'}">Genre : Femme</p>
+				
+				<p th:text="'Adresse : ' + ${patient.address}"></p>
+				<p th:text="'Numéro de téléphone : ' + ${patient.phoneNumber}"></p>
 			
-			<a th:href="@{/ui/patients/update/{id}(id=${patient.id})}">Mettre à jour le dossier</a>
-			<a th:href="@{/ui/patients/confirmation/{id}(id=${patient.id})}">Supprimer le dossier du patient</a>
-			<a href="/ui/patients">Retour à la liste des dossiers</a>
-		
+			</div>
+			
+			<div class="action">
+				
+				<a th:href="@{/ui/patients/update/{id}(id=${patient.id})}">Mettre à jour le dossier</a>
+				<a th:href="@{/ui/patients/confirmation/{id}(id=${patient.id})}">Supprimer le dossier du patient</a>
+			
+			</div>
+			
+			<div class="back-list">
+			
+				<a href="/ui/patients">Retour à la liste des dossiers</a>
+			
+			</div>
+			
 		</div>
 		
 	</body>
