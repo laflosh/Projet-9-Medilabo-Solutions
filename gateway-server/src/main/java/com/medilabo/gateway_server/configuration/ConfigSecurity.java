@@ -33,6 +33,7 @@ public class ConfigSecurity {
 		http.csrf(csrf -> csrf.disable())
 			.cors(cors -> cors.disable())
 			.authorizeExchange(exchange -> exchange
+					.pathMatchers("/").permitAll()
 					.pathMatchers("/ui").permitAll()
 					.pathMatchers("/static/**").permitAll()
 					.pathMatchers("/css/**", "/js/**", "/images/**").permitAll()
