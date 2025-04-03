@@ -3,37 +3,38 @@
 
 	<head>
 	    <title>Mise à jour du dossier</title>
+	    <link rel="stylesheet" type="text/css" media="all" href="/css/patients/add-update.css" th:href="@{/css/patients/add-update.css}" />
 	</head>
 	
 	<body>
-	
-	    <h1>
-	    	Veuillez modifier les informations du patient dans son dossier
-	    </h1>
-	    
-	    <div>
+		
+		<div class="container">
+		
+		    <h1>
+		    	Veuillez modifier les informations du patient dans son dossier
+		    </h1>
 	    
 	    	<form th:action="@{/ui/patients/update/{id}(id=${patient.id})}" th:object="${patient}" method="post">
 	    		
-	    		<div>
+	    		<div class="input-container">
 		    		<label for="name">Nom :</label>
 		    		<input type="text" id="name" th:field="*{name}" placeholder="Nom"/>
 		    		<p style="color: red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
 	    		</div>
 	    		
-	    		<div>
+	    		<div class="input-container">
 		    		<label for="firstName">Prénom :</label>
 		    		<input type="text" id="firstName" th:field="*{firstName}" placeholder="Prénom"/>
 		    		<p style="color: red;" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
 	    		</div>
 	    		
-	    		<div>
+	    		<div class="input-container">
 		    		<label for="birthDate">Date de naissance :</label>
 		    		<input type="text" id="birthDate" th:field="*{birthDate}" placeholder="jj-mm-aaaa"/>
 		    		<p style="color: red;" th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}"></p>
 	    		</div>
 	    		
-	    		<div>
+	    		<div class="select-container">
 		    		<label for="gender">Genre :</label>
 		    		<select id="gender" th:field="*{gender}">
 		    			<option value="" disabled selected placeholder>-- Selectionner une option --</option>
@@ -44,12 +45,12 @@
 		    		<p style="color: red;" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></p>
 	    		</div>
 	    		
-	    		<div>
+	    		<div class="input-container">
 		    		<label for="address">Adresse :</label>
 		    		<input type="text" id="address" th:field="*{address}" placeholder="Adresse"/>
 	    		</div>
 	    		
-	    		<div>
+	    		<div class="input-container">
 		    		<label for="phoneNumber">Numéro de téléphone :</label>
 		    		<input type="text" id="phoneNumber" th:field="*{phoneNumber}" placeholder="Numéro"/>
 	    		</div>
@@ -58,13 +59,13 @@
 	    		
 	    	</form>
 	    
-	    </div>
+	    	<div class="back-action">
+			
+				<a th:href="@{/ui/patients/{id}(id=${patient.id})}">Retour au dossier du patient</a>
+			
+			</div>
 	    
-	    <div>
-		
-			<a th:href="@{/ui/patients/{id}(id=${patient.id})}">Retour au dossier du patient</a>
-		
-		</div>
+	    </div>
 		
 	</body>
 	

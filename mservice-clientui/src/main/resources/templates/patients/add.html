@@ -3,7 +3,7 @@
 
 	<head>
 	    <title>Nouveau dossier</title>
-	     <link rel="stylesheet" type="text/css" media="all" href="/css/patients/add.css" th:href="@{/css/patients/add.css}" />
+	    <link rel="stylesheet" type="text/css" media="all" href="/css/patients/add-update.css" th:href="@{/css/patients/add-update.css}" />
 	</head>
 	
 	<body>
@@ -55,11 +55,11 @@
 			    		<input type="text" id="phoneNumber" th:field="*{phoneNumber}" placeholder="Numéro"/>
 		    		</div>
 		    		
+		    				    	<p>Les champs avec un * sont obligatoires</p>
+		    		
 		    		<button type="submit">Ajouter le dossier</button>
 		    		
 		    	</form>
-		    	
-		    	<p>Les champs avec un * sont obligatoires</p>
 		    
 		    <div class="back-action">
 			
