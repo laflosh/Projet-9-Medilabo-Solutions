@@ -1,6 +1,7 @@
 package com.medilabo.mservice_clientui.beans;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 
 /**
  * Bean for managing the patient entity from mservice-patient
@@ -15,6 +16,7 @@ public class PatientBean {
 	@NotEmpty(message = "{patient.firstName.notempty}")
 	private String firstName;
 	
+	@Pattern(regexp = "^\\d{2}-\\d{2}-\\d{4}$", message = "{patient.birthDate.pattern}")
 	@NotEmpty(message = "{patient.birthDate.notempty}")
 	private String birthDate;
 	
