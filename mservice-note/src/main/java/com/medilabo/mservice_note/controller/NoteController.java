@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -75,7 +76,7 @@ public class NoteController {
 	 * @return
 	 */
 	@PostMapping("/notes")
-	public ResponseEntity<?> AddNewNote(@RequestBody Note newNote){
+	public ResponseEntity<?> addNewNote(@RequestBody Note newNote){
 		
 		try {
 			
@@ -86,6 +87,27 @@ public class NoteController {
 		} catch(Exception e) {
 			
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error during saving new note");
+			
+		}
+		
+	}
+	
+	/**
+	 * @param id
+	 * @return
+	 */
+	@PostMapping("/notes/update")
+	public ResponseEntity<?> updateExistingNote(@RequestBody Note updateNote){
+		
+		try {
+			
+			Note updatedNote = noteService.updateExistingNote(updateNote);
+			
+			return ResponseEntity.status(HttpStatus.CREATED).body(updatedNote);
+			
+		} catch(Exception e) {
+			
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error during updating an existing note");
 			
 		}
 		

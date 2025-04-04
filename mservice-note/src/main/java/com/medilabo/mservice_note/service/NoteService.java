@@ -56,5 +56,29 @@ public class NoteService {
 		return addedNote;
 		
 	}
+
+	/**
+	 * @param id
+	 * @return
+	 */
+	public Note updateExistingNote(Note updateNote) {
+		
+		Note existingNote = getOneNoteById(updateNote.getId());
+		
+		if(existingNote.getPatId() != updateNote.getPatId()) {
+			existingNote.setPatId(updateNote.getPatId());
+		}
+		
+		if(existingNote.getPatient() != updateNote.getPatient()) {
+			existingNote.setPatient(updateNote.getPatient());
+		}
+		
+		if(existingNote.getNote() != updateNote.getNote()){
+			existingNote.setNote(updateNote.getNote());
+		}
+		
+		return noteRepository.save(existingNote);
+		
+	}
 	
 }
