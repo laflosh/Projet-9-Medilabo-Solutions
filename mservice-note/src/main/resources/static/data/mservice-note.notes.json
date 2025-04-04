@@ -1,0 +1,81 @@
+[{
+  "_id": {
+    "$oid": "67efccc2bcbd8cb18fae7b16"
+  },
+  "id": 1,
+  "patId": 1,
+  "patient": "TestNone",
+  "note": "Le patient déclare qu'il 'se sent très bien' \nPoids égal ou inférieur au poids recommandé"
+},
+{
+  "_id": {
+    "$oid": "67efcdf8bcbd8cb18fae7b17"
+  },
+  "id": 2,
+  "patId": 2,
+  "patient": "TestBorderline",
+  "note": "Le patient déclare qu'il ressent beaucoup de stress au travail \nIl se plaint également que son audition est anormale dernièrement"
+},
+{
+  "_id": {
+    "$oid": "67efce5fbcbd8cb18fae7b18"
+  },
+  "id": 3,
+  "patId": 2,
+  "patient": "TestBorderline",
+  "note": "Le patient déclare avoir fait une réaction aux médicaments au cours des 3 derniers mois \nIl remarque également que son audition continue d'être anormale"
+},
+{
+  "_id": {
+    "$oid": "67efcf16bcbd8cb18fae7b19"
+  },
+  "id": 4,
+  "patId": 3,
+  "patient": "TestInDanger",
+  "note": "Le patient déclare qu'il fume depuis peu"
+},
+{
+  "_id": {
+    "$oid": "67efcf86bcbd8cb18fae7b1a"
+  },
+  "id": 5,
+  "patId": 3,
+  "patient": "TestInDanger",
+  "note": "Le patient déclare qu'il est fumeur et qu'il a cessé de fumer l'année dernière \nIl se plaint également de crises d’apnée respiratoire anormales \nTests de laboratoire indiquant un taux de cholestérol LDL élevé"
+},
+{
+  "_id": {
+    "$oid": "67efcfc3bcbd8cb18fae7b1b"
+  },
+  "id": 6,
+  "patId": 4,
+  "patient": "TestEarlyOnSet",
+  "note": "Le patient déclare qu'il lui est devenu difficile de monter les escaliers \nIl se plaint également d’être essoufflé \nTests de laboratoire indiquant que les anticorps sont élevés \nRéaction aux médicaments"
+},
+{
+  "_id": {
+    "$oid": "67efd030bcbd8cb18fae7b1c"
+  },
+  "id": 7,
+  "patId": 4,
+  "patient": "TestEarlyOnSet",
+  "note": "Le patient déclare qu'il a mal au dos lorsqu'il reste assis pendant longtemps"
+},
+{
+  "_id": {
+    "$oid": "67efd061bcbd8cb18fae7b1d"
+  },
+  "id": 8,
+  "patId": 4,
+  "patient": "TestEarlyOnSet",
+  "note": "Le patient déclare avoir commencé à fumer depuis peu \nHémoglobine A1C supérieure au niveau recommandé"
+},
+{
+  "_id": {
+    "$oid": "67efd090bcbd8cb18fae7b1e"
+  },
+  "id": 9,
+  "patId": 4,
+  "patient": "TestEarlyOnSet",
+  "note": "Taille, Poids, Cholestérol, Vertige et Réaction"
+}]
