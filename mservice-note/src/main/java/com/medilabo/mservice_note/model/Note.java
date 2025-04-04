@@ -12,27 +12,27 @@ public class Note {
 
 	@Id
 	@Indexed(unique = true)
-	private int id;
+	private String id;
 	
-	private String patId;
+	private int patId;
 	
 	private String patient;
 	
 	private String note;
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public String getPatId() {
+	public int getPatId() {
 		return patId;
 	}
 
-	public void setPatId(String patId) {
+	public void setPatId(int patId) {
 		this.patId = patId;
 	}
 
