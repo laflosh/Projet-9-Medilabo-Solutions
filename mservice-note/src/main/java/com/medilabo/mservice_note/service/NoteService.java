@@ -44,5 +44,17 @@ public class NoteService {
 		return note;
 		
 	}
+
+	/**
+	 * @param newNote
+	 * @return
+	 */
+	public Note addNewNote(Note newNote) {
+		
+		Note addedNote = noteRepository.insert(newNote);
+		
+		return addedNote;
+		
+	}
 	
 }
