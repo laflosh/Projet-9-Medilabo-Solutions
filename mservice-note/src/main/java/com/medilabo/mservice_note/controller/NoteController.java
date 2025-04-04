@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,7 +41,28 @@ public class NoteController {
 			
 		} else {
 			
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Notes not founds");
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Notes not found");
+			
+		}
+		
+	}
+	
+	/**
+	 * @param id
+	 * @return
+	 */
+	@GetMapping("/notes/{id}")
+	public ResponseEntity<?> getOneNoteById(@PathVariable("id") String id){
+		
+		Note note = noteService.getOneNoteById(id);
+		
+		if(note != null) {
+			
+			return ResponseEntity.ok().body(note);
+			
+		} else {
+			
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Note not found");
 			
 		}
 		

@@ -31,5 +31,18 @@ public class NoteService {
 		return notes;
 		
 	}
+
+	/**
+	 * @param id
+	 * @return
+	 */
+	public Note getOneNoteById(String id) {
+		
+		Note note = noteRepository.findById(id)
+					.orElseThrow(() -> new RuntimeException("Note not found"));
+		
+		return note;
+		
+	}
 	
 }
