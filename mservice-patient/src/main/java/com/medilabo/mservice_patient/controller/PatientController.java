@@ -145,16 +145,26 @@ public class PatientController {
 
 		log.info("Trying to delete an existing patient in the database depending of the id : {}", id);
 
-		boolean isDeleted = patientService.deleteExistingPatientById(id);
-
-		if(isDeleted) {
-
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-
-		} else {
-
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
+		try {
+		
+			boolean isDeleted = patientService.deleteExistingPatientById(id);
+	
+			if(isDeleted) {
+	
+				return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	
+			} else {
+	
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	
+			}
+			
+		} catch(Exception e) {
+			
+			e.printStackTrace();
+			
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+			
 		}
 
 	}

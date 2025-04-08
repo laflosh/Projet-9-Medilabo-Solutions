@@ -80,5 +80,35 @@ public class NoteService {
 		return noteRepository.save(existingNote);
 		
 	}
+
+	/**
+	 * @param id
+	 * @return
+	 */
+	public boolean deleteExistingNote(String id) {
+		
+		if(noteRepository.existsById(id)) {
+			
+			noteRepository.deleteById(id);
+			
+			return true;
+			
+		}
+		
+		return false;
+		
+	}
+
+	/**
+	 * @param patientName
+	 * @return
+	 */
+	public List<Note> getAllNotesDependingOfPatientName(String patientName) {
+		
+		List<Note> patientNotes = noteRepository.findByPatient(patientName);
+		
+		return patientNotes;
+		
+	}
 	
 }
