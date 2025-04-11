@@ -40,7 +40,7 @@ public class ConfigSecurity {
 					.pathMatchers("/favicon.ico").permitAll()
 					.pathMatchers("/ui/patients/**").authenticated()
 					.pathMatchers("/api/patients/**").authenticated()
-					)
+					.pathMatchers("/api/notes/**").authenticated()					)
 			.httpBasic(Customizer.withDefaults())
 			.logout(logout -> logout
 					.logoutUrl("/logout")

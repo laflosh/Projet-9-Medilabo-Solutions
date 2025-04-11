@@ -149,7 +149,7 @@ public class NoteController {
 	 * @param patientName
 	 * @return
 	 */
-	@GetMapping("/notes/patient/{patientName}")
+	@GetMapping("/notes/patient/ {patientName}")
 	public ResponseEntity<?> getAllNotesDependingOfPatientName(@PathVariable("patientName") String patientName) {
 		
 		List<Note> patientNotes = noteService.getAllNotesDependingOfPatientName(patientName);
