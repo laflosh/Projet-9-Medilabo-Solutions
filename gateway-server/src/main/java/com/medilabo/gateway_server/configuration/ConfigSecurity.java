@@ -39,6 +39,7 @@ public class ConfigSecurity {
 					.pathMatchers("/css/**", "/js/**", "/images/**").permitAll()
 					.pathMatchers("/favicon.ico").permitAll()
 					.pathMatchers("/ui/patients/**").authenticated()
+					.pathMatchers("/ui/notes/**").authenticated()
 					.pathMatchers("/api/patients/**").authenticated()
 					.pathMatchers("/api/notes/**").authenticated()					)
 			.httpBasic(Customizer.withDefaults())

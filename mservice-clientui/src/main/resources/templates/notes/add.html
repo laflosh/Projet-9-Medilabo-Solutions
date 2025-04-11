@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+	    <title>Nouvelle note</title>
+	</head>
+	
+	<body>
+		
+		<div class="container">
+	
+			<h1>
+				Veuillez renseigner vos commentaires sur le patient
+			</h1>
+	
+			<form th:action="@{/ui/notes/validate}" th:object="${note}" method="post">
+	    		
+	    		<input type="hidden" id="patId" th:field="*{patId}"/>
+	    		
+	    		<div class="input-container">
+		    		<label for="name">Nom  du patient</label>
+		    		<input type="text" id="name" th:field="*{patient}" placeholder="Nom"/>
+	    		</div>
+	    		
+	    		<div class="textarea-container">
+		    		<label for="note">Note sur le patient * </label>
+		    		<textarea id="note" th:field="*{note}" placeholder="Note sur le patient"></textarea>
+		    		<p style="color: red;" th:if="${#fields.hasErrors('note')}" th:errors="*{note}"></p>
+	    		</div>
+	    		
+	    		<p>Les champs avec un * sont obligatoires</p>
+	    		
+	    		<button type="submit">Ajouter la note au dossier du patient</button>
+	    		
+	    	</form>
+	    	
+	    	<div>
+	    	
+	    		<a th:href="@{/ui/patients/{id}(id=${note.patId})}">Retour au dossier du patient</a>
+	    	
+	    	</div>
+		
+		</div>
+		
+	</body>
+	

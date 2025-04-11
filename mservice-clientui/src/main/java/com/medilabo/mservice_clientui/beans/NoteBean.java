@@ -1,5 +1,7 @@
 package com.medilabo.mservice_clientui.beans;
 
+import jakarta.validation.constraints.NotEmpty;
+
 /**
  * 
  */
@@ -11,6 +13,7 @@ public class NoteBean {
 	
 	private String patient;
 	
+	@NotEmpty(message = "{note.note.notempty}")
 	private String note;
 
 	public String getId() {
