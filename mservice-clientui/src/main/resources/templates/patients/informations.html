@@ -33,6 +33,20 @@
 			
 			</div>
 			
+			<div class="notes">
+				
+				<a th:href="@{/ui/notes/add/{patId}(patId=${patient.id})}">Ajouter une nouvelle note</a>
+				
+				<div th:each="note : ${notes}">
+				
+					<p th:text="${note.note}"></p>
+					
+					<a th:href="@{/ui/notes/update/{id}(id=${note.id})}">Voir la note</a>
+					
+				</div>
+			
+			</div>
+			
 			<div class="back-list">
 			
 				<a href="/ui/patients">Retour à la liste des dossiers</a>

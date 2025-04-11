@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.medilabo.mservice_clientui.beans.NoteBean;
 import com.medilabo.mservice_clientui.beans.PatientBean;
+import com.medilabo.mservice_clientui.proxys.MServiceNoteProxy;
 import com.medilabo.mservice_clientui.proxys.MServicePatientProxy;
 
 import jakarta.validation.Valid;
@@ -31,6 +33,9 @@ public class PatientController {
 	
 	@Autowired
 	MServicePatientProxy patientProxy;
+	
+	@Autowired
+	MServiceNoteProxy noteProxy;
 	
 	/**
 	 * Show the patient list page with all the patients in the database from mservice-patient
@@ -52,7 +57,7 @@ public class PatientController {
 	}
 	
 	/**
-	 * Show the page of one patient with all the informations concerning the patient
+	 * Show the page of one patient with all the informations concerning the patient and all the notes
 	 * 
 	 * @param id of the patient
 	 * @param model
@@ -64,8 +69,10 @@ public class PatientController {
 		log.info("Access to the informations page of patient with id : {}", id);
 		
 		PatientBean patient = patientProxy.getOnePatientById(id);
+		List<NoteBean> notesPatient = noteProxy.getAllNotesDependingOfPatientName(patient.getName());
 		
 		model.addAttribute("patient", patient);
+		model.addAttribute("notes", notesPatient);
 		
 		return "patients/informations";
 		
