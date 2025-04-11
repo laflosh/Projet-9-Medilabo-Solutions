@@ -1,5 +1,8 @@
 package com.medilabo.mservice_clientui.beans;
 
+/**
+ * 
+ */
 public class NoteBean {
 
 	private String id;
