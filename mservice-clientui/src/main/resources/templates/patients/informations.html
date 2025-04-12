@@ -42,6 +42,7 @@
 					<p th:text="${note.note}"></p>
 					
 					<a th:href="@{/ui/notes/update/{id}(id=${note.id})}">Modifier la note</a>
+					<a th:href="@{/ui/notes/delete/{id}(id=${note.id})}">Supprimer la note</a>
 					
 				</div>
 			

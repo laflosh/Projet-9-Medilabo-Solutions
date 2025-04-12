@@ -137,6 +137,28 @@ public class NoteController {
 		
 	}
 	
-	
+	/**
+	 * @param id
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/notes/delete/{id}")
+	public String deleteExistingNote(@PathVariable("id") String id, Model model) {
+		
+		NoteBean note = noteProxy.getOneNoteById(id);
+		
+		try {
+			
+			noteProxy.deleteExistingNote(id);
+			
+			return "redirect:/ui/patients/" + note.getPatId();
+			
+		} catch (Exception e) {
+			
+			return "redirect:/ui/patients/" + note.getPatId();
+			
+		}
+		
+	}
 	
 }
