@@ -172,7 +172,7 @@ public class PatientController {
 	 * @return resume template
 	 */
 	@PostMapping("/patients/update/{id}")
-	public String updatePatient(@PathVariable int id, @Valid @ModelAttribute("patient") PatientBean patient, BindingResult result, Model model) {
+	public String updatePatient(@PathVariable("id") int id, @Valid @ModelAttribute("patient") PatientBean patient, BindingResult result, Model model) {
 		
 		log.info("Update an existing patient in the database with id : {}", id);
 		

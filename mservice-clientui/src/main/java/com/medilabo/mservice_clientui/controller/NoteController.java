@@ -64,15 +64,15 @@ public class NoteController {
 	@PostMapping("/notes/validate")
 	public String addNewNote(@Valid  @ModelAttribute("note") NoteBean note, BindingResult result, Model model) {
 		
-		try {
+		if(result.hasErrors()) {
 			
-			if(result.hasErrors()) {
-				
-				model.addAttribute("note", note);
-				
-				return "notes/add";
-				
-			}
+			model.addAttribute("note", note);
+			
+			return "notes/add";
+			
+		}
+		
+		try {
 			
 			NoteBean addedNote = noteProxy.addNewNote(note);
 			
@@ -87,5 +87,56 @@ public class NoteController {
 		}
 		
 	}
+	
+	/**
+	 * @param id
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/notes/update/{id}")
+	public String showUpdateForm(@PathVariable("id") String id, Model model) {
+		
+		NoteBean note = noteProxy.getOneNoteById(id);
+		
+		model.addAttribute("note", note);
+		
+		return "notes/update";
+		
+	}
+	
+	/**
+	 * @param note
+	 * @param result
+	 * @param model
+	 * @return
+	 */
+	@PostMapping("/notes/update/{id}")
+	public String updateExistingNote(@PathVariable("id") String id, @Valid @ModelAttribute("note") NoteBean note, BindingResult result, Model model) {
+		
+		if(result.hasErrors()) {
+			
+			model.addAttribute("note", note);
+			
+			return "notes/update";
+			
+		}
+		
+		try {
+			
+			NoteBean updateNote = noteProxy.updateExistingNote(note);
+			
+			return "redirect:/ui/patients/" + note.getPatId();
+			
+		} catch (Exception e) {
+			
+			model.addAttribute("note", note);
+			
+			return "notes/update";
+			
+		}
+		
+	}
+	
+	
 	
 }
