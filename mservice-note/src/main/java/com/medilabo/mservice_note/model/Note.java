@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
- * 
+ * Entity for the note model with all the properties
  */
 @Document(collection = "notes")
 public class Note {

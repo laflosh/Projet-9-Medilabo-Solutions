@@ -20,7 +20,7 @@ import com.medilabo.mservice_note.model.Note;
 import com.medilabo.mservice_note.service.NoteService;
 
 /**
- * 
+ * Controller class for managing all the http request for the note domain 
  */
 @RestController
 @RequestMapping("/api")
@@ -32,10 +32,14 @@ public class NoteController {
 	NoteService noteService;
 	
 	/**
-	 * @return
+	 * Fetching all the notes in the database and return a list
+	 * 
+	 * @return list of notes
 	 */
 	@GetMapping("/notes")
 	public ResponseEntity<?> getAllNotes(){
+		
+		log.info("Trying to fetch all the notes in the database");
 		
 		List<Note> notes = noteService.getAllNotes();
 		
@@ -52,11 +56,15 @@ public class NoteController {
 	}
 	
 	/**
-	 * @param id
-	 * @return
+	 * Fetching one note in the database depending of the id
+	 * 
+	 * @param id of the note
+	 * @return One note
 	 */
 	@GetMapping("/notes/{id}")
 	public ResponseEntity<?> getOneNoteById(@PathVariable("id") String id){
+		
+		log.info("Trying to fetch one note in the database with id : {}", id);
 		
 		Note note = noteService.getOneNoteById(id);
 		
@@ -73,11 +81,15 @@ public class NoteController {
 	}
 	
 	/**
+	 * Add a new note in the database
+	 * 
 	 * @param newNote
-	 * @return
+	 * @return Added note
 	 */
 	@PostMapping("/notes")
 	public ResponseEntity<?> addNewNote(@RequestBody Note newNote){
+		
+		log.info("Trying to add a new note in the database : {}", newNote);
 		
 		try {
 			
@@ -94,11 +106,15 @@ public class NoteController {
 	}
 	
 	/**
-	 * @param id
-	 * @return
+	 * Update an existing note in the database
+	 * 
+	 * @param update note
+	 * @return updated note
 	 */
 	@PutMapping("/notes")
 	public ResponseEntity<?> updateExistingNote(@RequestBody Note updateNote){
+		
+		log.info("Trying to update an existing note in the database : {}", updateNote);
 		
 		try {
 			
@@ -115,11 +131,15 @@ public class NoteController {
 	}
 	
 	/**
-	 * @param id
-	 * @return
+	 * Delete an existing note in the database 
+	 * 
+	 * @param id of the note
+	 * @return true if delete
 	 */
 	@DeleteMapping("/notes/{id}")
 	public ResponseEntity<?> deleteExistingNote(@PathVariable("id") String id){
+		
+		log.info("Trying to delete an existing note in the database with id : {}", id);
 		
 		try {
 			
@@ -146,11 +166,15 @@ public class NoteController {
 	}
 	
 	/**
+	 * Fetching all the notes of one patient with the name of the patient 
+	 * 
 	 * @param patientName
-	 * @return
+	 * @return patientName's notes
 	 */
 	@GetMapping("/notes/patient/{patientName}")
 	public ResponseEntity<?> getAllNotesDependingOfPatientName(@PathVariable("patientName") String patientName) {
+		
+		log.info("Trying to fetch all the notes for the patient {} in database", patientName);
 		
 		List<Note> patientNotes = noteService.getAllNotesDependingOfPatientName(patientName);
 		

@@ -11,7 +11,7 @@ import com.medilabo.mservice_note.model.Note;
 import com.medilabo.mservice_note.repository.NoteRepository;
 
 /**
- * 
+ * Service's class to managing all the method about logic on note domain
  */
 @Service
 public class NoteService {
@@ -26,6 +26,8 @@ public class NoteService {
 	 */
 	public List<Note> getAllNotes() {
 		
+		log.info("Fetching all notes in the database");
+		
 		List<Note> notes = noteRepository.findAll();
 		
 		return notes;
@@ -37,6 +39,8 @@ public class NoteService {
 	 * @return
 	 */
 	public Note getOneNoteById(String id) {
+		
+		log.info("Fetching one note with id : {}", id);
 		
 		Note note = noteRepository.findById(id)
 					.orElseThrow(() -> new RuntimeException("Note not found"));
@@ -51,6 +55,8 @@ public class NoteService {
 	 */
 	public Note addNewNote(Note newNote) {
 		
+		log.info("Adding a new note in the database : {}", newNote);
+		
 		Note addedNote = noteRepository.insert(newNote);
 		
 		return addedNote;
@@ -62,6 +68,8 @@ public class NoteService {
 	 * @return
 	 */
 	public Note updateExistingNote(Note updateNote) {
+		
+		log.info("Updating an existing note in the database : {}", updateNote);
 		
 		Note existingNote = getOneNoteById(updateNote.getId());
 		
@@ -87,6 +95,8 @@ public class NoteService {
 	 */
 	public boolean deleteExistingNote(String id) {
 		
+		log.info("Delete an existing note in the database with id : {}", id);
+		
 		if(noteRepository.existsById(id)) {
 			
 			noteRepository.deleteById(id);
@@ -104,6 +114,8 @@ public class NoteService {
 	 * @return
 	 */
 	public List<Note> getAllNotesDependingOfPatientName(String patientName) {
+		
+		log.info("Fetching all the notes for a patient with the name : {}", patientName);
 		
 		List<Note> patientNotes = noteRepository.findByPatient(patientName);
 		
