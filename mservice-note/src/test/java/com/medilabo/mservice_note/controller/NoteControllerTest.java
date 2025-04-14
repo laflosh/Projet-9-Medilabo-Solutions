@@ -7,16 +7,21 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.medilabo.mservice_note.model.Note;
 import com.medilabo.mservice_note.repository.NoteRepository;
+import com.medilabo.mservice_note.service.NoteService;
 
 import jakarta.ws.rs.core.MediaType;
 
@@ -29,6 +34,12 @@ class NoteControllerTest {
 	
 	@Autowired
 	NoteRepository noteRepository;
+	
+	@Mock
+	NoteService noteService;
+	
+	@InjectMocks
+	NoteController noteController;
 	
 	@Autowired
 	MockMvc mockMvc;
@@ -113,8 +124,22 @@ class NoteControllerTest {
 	@Test
 	public void addNoteWithWrongArgumentAndReturnBadRequest() throws Exception {
 		
+		mockMvc = MockMvcBuilders.standaloneSetup(noteController).build();
+		
+		//Create new note
+		Note testNote = new Note();
+		testNote.setPatId(1);
+		testNote.setPatient("TestPatient");
+		testNote.setNote(TEST_NOTE_PREFIX + "2");
+		
+		String testNoteAsString = objectMapper.writeValueAsString(testNote);
+		
+		//Mock return
+		Mockito.when(noteService.addNewNote(Mockito.any())).thenThrow(new RuntimeException());
+		
 		//Testing request
-		mockMvc.perform(MockMvcRequestBuilders.post("/api/notes"))
+		mockMvc.perform(MockMvcRequestBuilders.post("/api/notes")
+			.contentType(MediaType.APPLICATION_JSON).content(testNoteAsString))
 			.andExpect(MockMvcResultMatchers.status().isBadRequest());
 		
 	}
@@ -141,8 +166,22 @@ class NoteControllerTest {
 	@Test
 	public void updateNoteWithWrongArgumentAndReturnBadRequest() throws Exception {
 		
-		//Testing request
-		mockMvc.perform(MockMvcRequestBuilders.put("/api/notes"))
+		mockMvc = MockMvcBuilders.standaloneSetup(noteController).build();
+		
+		//Get the test note to update
+		Note testNoteUpdate = testNotes.get(0);
+		testNoteUpdate.setPatId(2);
+		testNoteUpdate.setPatient("Autre patient");
+		testNoteUpdate.setNote("Nouvelle note");
+		
+		String testNoteUpdateAsString = objectMapper.writeValueAsString(testNoteUpdate);
+		
+		//Mock return
+		Mockito.when(noteService.updateExistingNote(Mockito.any())).thenThrow(new RuntimeException());
+		
+		//testing request
+		mockMvc.perform(MockMvcRequestBuilders.put("/api/notes")
+			.contentType(MediaType.APPLICATION_JSON).content(testNoteUpdateAsString))
 			.andExpect(MockMvcResultMatchers.status().isBadRequest());
 		
 	}

@@ -7,6 +7,9 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,10 +17,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.medilabo.mservice_patient.model.Patient;
 import com.medilabo.mservice_patient.repository.PatientRepository;
+import com.medilabo.mservice_patient.service.PatientService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -28,6 +33,12 @@ class PatientControllerTest {
 
 	@Autowired
 	PatientRepository patientRepository;
+	
+	@Mock
+	PatientService patientService;
+	
+	@InjectMocks
+	PatientController patientController;
 
 	@Autowired
 	MockMvc mockMvc;
@@ -37,7 +48,7 @@ class PatientControllerTest {
 
 	@BeforeEach
 	public void setUp(){
-
+		
 		//Creating a patient test
 		Patient testPatient = new Patient();
 		testPatient.setName(TEST_PATIENT_PREFIX + "1");
@@ -67,7 +78,6 @@ class PatientControllerTest {
 	}
 
 	@Test
-	//@WithMockUser
 	public void getAllPatientInTheDatabaseAndReturnOk() throws Exception {
 
 		//Testing request
@@ -117,8 +127,25 @@ class PatientControllerTest {
 	@Test
 	public void addPatientWithWrongArgumentAndReturnBadRequest() throws Exception {
 
+		mockMvc = MockMvcBuilders.standaloneSetup(patientController).build();
+		
+		//Create a new patient
+		Patient testPatient = new Patient();
+		testPatient.setName(TEST_PATIENT_PREFIX + "2");
+		testPatient.setFirstName("test test");
+		testPatient.setBirthDate("00-00-0000");
+		testPatient.setGender("F");
+		testPatient.setAddress("address address");
+		testPatient.setPhoneNumber("000-000-0000");
+
+		String patientAsString = objectMapper.writeValueAsString(testPatient);
+		
+		//Mock return
+		Mockito.when(patientService.addNewPatient(Mockito.any())).thenThrow(new RuntimeException());
+		
 		//Testing request
-		mockMvc.perform(MockMvcRequestBuilders.post("/api/patients"))
+		mockMvc.perform(MockMvcRequestBuilders.post("/api/patients")
+				.contentType(MediaType.APPLICATION_JSON).content(patientAsString))
 			.andExpect(MockMvcResultMatchers.status().isBadRequest());
 
 	}
@@ -148,8 +175,25 @@ class PatientControllerTest {
 	@Test
 	public void updateExistingPatientWithWrongArgumentAndReturnBadRequest() throws Exception{
 
+		mockMvc = MockMvcBuilders.standaloneSetup(patientController).build();
+		
+		//Fetching patient to update
+		Patient updatePatient = testPatients.get(0);
+		updatePatient.setName(TEST_PATIENT_PREFIX + "update");
+		updatePatient.setFirstName("try");
+		updatePatient.setBirthDate("11-11-1111");
+		updatePatient.setGender("F");
+		updatePatient.setAddress("localisation");
+		updatePatient.setPhoneNumber("111-111-1111");
+
+		String updatePatientAsString = objectMapper.writeValueAsString(updatePatient);
+		
+		//Mock return
+		Mockito.when(patientService.updateExistingPatient(Mockito.any())).thenThrow(new RuntimeException());
+		
 		//Testing request
-		mockMvc.perform(MockMvcRequestBuilders.put("/api/patients"))
+		mockMvc.perform(MockMvcRequestBuilders.put("/api/patients")
+					.contentType(MediaType.APPLICATION_JSON).content(updatePatientAsString))
 			.andExpect(MockMvcResultMatchers.status().isBadRequest());
 
 	}
