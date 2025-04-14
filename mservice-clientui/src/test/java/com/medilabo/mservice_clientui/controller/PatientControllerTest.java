@@ -2,6 +2,7 @@ package com.medilabo.mservice_clientui.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,7 +19,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.medilabo.mservice_clientui.beans.NoteBean;
 import com.medilabo.mservice_clientui.beans.PatientBean;
+import com.medilabo.mservice_clientui.proxys.MServiceNoteProxy;
 import com.medilabo.mservice_clientui.proxys.MServicePatientProxy;
 
 @SpringBootTest
@@ -30,6 +33,9 @@ class PatientControllerTest {
 	
 	@Mock
 	MServicePatientProxy patientProxy;
+	
+	@Mock
+	MServiceNoteProxy noteProxy;
 	
 	@InjectMocks
 	PatientController patientController;
@@ -66,14 +72,22 @@ class PatientControllerTest {
 		
 		//Testing patients for mock request
 		PatientBean mockPatient =  new PatientBean(1, "Doe", "John", "1990-01-01", "M", "123 Main St", "123456789");
+
+		List<NoteBean> mockNotes = new ArrayList<NoteBean>();
+		NoteBean mockNoteBean1 = new NoteBean("1", 1, "John Doe", "Patient has a cold.");
+		NoteBean mockNoteBean2 = new NoteBean("2", 1, "John Doe", "Prescribed medication.");
+		mockNotes.add(mockNoteBean1);
+		mockNotes.add(mockNoteBean2);
 		
 		//Mock return
         Mockito.when(patientProxy.getOnePatientById(mockPatient.getId())).thenReturn(mockPatient);
+        Mockito.when(noteProxy.getAllNotesDependingOfPatientName(mockPatient.getName())).thenReturn(mockNotes);
         
         //Testing request
         mockMvc.perform(MockMvcRequestBuilders.get("/ui/patients/" + mockPatient.getId()))
         	.andExpect(MockMvcResultMatchers.status().isOk())
         	.andExpect(MockMvcResultMatchers.model().attributeExists("patient"))
+        	.andExpect(MockMvcResultMatchers.model().attributeExists("notes"))
         	.andExpect(MockMvcResultMatchers.view().name("patients/informations"));
 		
 	}
@@ -93,7 +107,7 @@ class PatientControllerTest {
 	public void postValidateNewPatientAndReturnResumePage() throws Exception {
 		
 		//Testing patients for mock request
-		PatientBean mockPatient =  new PatientBean(1, "Doe", "John", "1990-01-01", "M", "123 Main St", "123456789");
+		PatientBean mockPatient =  new PatientBean(1, "Doe", "John", "01-01-1990", "M", "123 Main St", "123456789");
 		
 		//Mock return
         Mockito.when(patientProxy.addNewPatient(any(PatientBean.class))).thenReturn(mockPatient);
@@ -102,7 +116,7 @@ class PatientControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/ui/patients/validate")
                 .param("name", "Doe")
                 .param("firstName", "John")
-                .param("birthDate", "1990-01-01")
+                .param("birthDate", "01-01-1990")
                 .param("gender", "M")
                 .param("address", "123 Main St")
                 .param("phoneNumber", "123456789"))
@@ -145,7 +159,7 @@ class PatientControllerTest {
 	public void postUpdateValidateExistingPatient() throws Exception {
 		
 		//Testing patients for mock request
-		PatientBean mockPatient =  new PatientBean(1, "Doe", "John", "1990-01-01", "M", "123 Main St", "123456789");
+		PatientBean mockPatient =  new PatientBean(1, "Doe", "John", "01-01-1990", "M", "123 Main St", "123456789");
 		
 		//Mock return
         Mockito.when(patientProxy.addNewPatient(any(PatientBean.class))).thenReturn(mockPatient);
@@ -156,7 +170,7 @@ class PatientControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/ui/patients/update/" + mockPatient.getId())
                 .param("name", "Mock")
                 .param("firstName", "Patient")
-                .param("birthDate", "1990-01-01")
+                .param("birthDate", "01-01-1990")
                 .param("gender", "F")
                 .param("address", "123 Main St")
                 .param("phoneNumber", "123456789"))
