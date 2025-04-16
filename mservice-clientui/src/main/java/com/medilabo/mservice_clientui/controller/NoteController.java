@@ -160,6 +160,24 @@ public class NoteController {
 	}
 	
 	/**
+	 * @param id
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/notes/confirmation/{id}")
+	public String showConfirmationPageBeforeDelete(@PathVariable("id") String id, Model model) {
+		
+		log.info("Access to the confirmation page before delete for the note with id : {}", id);
+		
+		NoteBean note = noteProxy.getOneNoteById(id);
+		
+		model.addAttribute("note", note);
+		
+		return "confirmation";
+		
+	}
+	
+	/**
 	 * Delete an existing note in the database and redirect to the patient folder
 	 * 
 	 * @param id of the note

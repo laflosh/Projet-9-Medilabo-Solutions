@@ -148,6 +148,23 @@ class NoteControllerTest {
     	
     }
     
+	@Test
+	public void getConfirmationPageBeforeDeletePatient() throws Exception {
+		
+    	//Testing note for mock request
+		NoteBean mockNoteBean = new NoteBean("1", 1, "John Doe", "Patient has a cold.");
+		
+		//Mock return
+		Mockito.when(noteProxy.addNewNote(any(NoteBean.class))).thenReturn(mockNoteBean);
+		Mockito.when(noteProxy.getOneNoteById(mockNoteBean.getId())).thenReturn(mockNoteBean);
+        
+        mockMvc.perform(MockMvcRequestBuilders.get("/ui/notes/confirmation/" + mockNoteBean.getId()))
+	    	.andExpect(MockMvcResultMatchers.status().isOk())
+	    	.andExpect(MockMvcResultMatchers.model().attributeExists("note"))
+	    	.andExpect(MockMvcResultMatchers.view().name("confirmation"));
+		
+	}
+    
     @Test
     public void deleteExistingNoteInDatabase() throws Exception {
     	

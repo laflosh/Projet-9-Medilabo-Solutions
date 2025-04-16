@@ -212,7 +212,7 @@ class PatientControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/ui/patients/confirmation/" + mockPatient.getId()))
 	    	.andExpect(MockMvcResultMatchers.status().isOk())
 	    	.andExpect(MockMvcResultMatchers.model().attributeExists("patient"))
-	    	.andExpect(MockMvcResultMatchers.view().name("patients/confirmation"));
+	    	.andExpect(MockMvcResultMatchers.view().name("confirmation"));
 		
 	}
 	

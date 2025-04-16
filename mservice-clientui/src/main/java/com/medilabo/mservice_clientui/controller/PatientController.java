@@ -221,7 +221,7 @@ public class PatientController {
 		
 		model.addAttribute("patient", patient);
 		
-		return "patients/confirmation";
+		return "confirmation";
 		
 	}
 	
@@ -249,7 +249,9 @@ public class PatientController {
 			
 			log.info("Error during delete a patient : {}", e);
 			
-			return "patients/confirmation";
+			model.addAttribute("patient",patientProxy.getOnePatientById(id));
+			
+			return "confirmation";
 			
 		}
 		
