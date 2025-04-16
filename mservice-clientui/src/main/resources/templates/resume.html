@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+	    <title>Résumer de l'action</title>
+	    <link rel="stylesheet" type="text/css" media="all" href="/css/resume.css" th:href="@{/css/resume.css}" />
+	</head>
+	
+	<body>
+
+		<div class="container">
+	
+		    <h1>Résumé de l'action que vous venez d'effectuer</h1>
+		    
+		    <h2 th:text="${message}"></h2>
+			
+			<div th:if="${patient != null}" class="informations">
+				
+					<p th:text="'Nom : ' + ${patient.name}"></p>
+					<p th:text="'Prénom : ' + ${patient.firstName}"></p>
+					<p th:text="'Date de naissance : ' + ${patient.birthDate}"></p>
+					
+					<p th:if="${patient.gender == 'M'}">Genre : Homme</p>
+					<p th:unless="${patient.gender == 'M'}">Genre : Femme</p>
+					
+					<p th:text="'Adresse : ' + ${patient.address}"></p>
+					<p th:text="'Numéro de téléphone : ' + ${patient.phoneNumber}"></p>
+				
+				
+				<div class="btn-action">
+				
+					<a href="/ui/patients">Retour à la liste des dossiers</a>
+					<a th:href="@{/ui/patients/{id}(id=${patient.id})}">Voir le dossier</a>
+				
+				</div>
+			</div>
+			
+			<div th:if="${note != null}"  class="informations">
+				
+				<p th:text="${note.note}"></p>
+				
+				<div class="btn-action">
+				
+					<a th:href="@{/ui/patients/{id}(id=${note.patId})}">Retour au dossier du patient</a>
+				
+				</div>
+			</div>
+		
+		</div>
+		
+	</body>
+	
+</html>

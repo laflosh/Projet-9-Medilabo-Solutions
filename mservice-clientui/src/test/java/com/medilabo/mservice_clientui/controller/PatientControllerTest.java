@@ -122,7 +122,7 @@ class PatientControllerTest {
                 .param("phoneNumber", "123456789"))
         	.andExpect(MockMvcResultMatchers.status().isOk())
         	.andExpect(MockMvcResultMatchers.model().attributeExists("patient"))
-        	.andExpect(MockMvcResultMatchers.view().name("patients/resume"));
+        	.andExpect(MockMvcResultMatchers.view().name("resume"));
 		
 	}
 	
@@ -176,7 +176,7 @@ class PatientControllerTest {
                 .param("phoneNumber", "123456789"))
         	.andExpect(MockMvcResultMatchers.status().isOk())
         	.andExpect(MockMvcResultMatchers.model().attributeExists("patient"))
-        	.andExpect(MockMvcResultMatchers.view().name("patients/resume"));
+        	.andExpect(MockMvcResultMatchers.view().name("resume"));
 		
 	}
 	

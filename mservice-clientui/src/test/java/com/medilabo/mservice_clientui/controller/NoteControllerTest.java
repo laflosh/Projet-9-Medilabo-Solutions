@@ -74,8 +74,9 @@ class NoteControllerTest {
 				.param("patId", "1")
 				.param("patient", "John Doe")
 				.param("note", "Patient has a cold."))
-			.andExpect(MockMvcResultMatchers.status().isFound())
-			.andExpect(MockMvcResultMatchers.view().name("redirect:/ui/patients/" + mockNoteBean.getId()));
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.model().attributeExists("note"))
+			.andExpect(MockMvcResultMatchers.view().name("resume"));
     	
     }
     
@@ -120,11 +121,12 @@ class NoteControllerTest {
 		
 		//Testing request
 		mockMvc.perform(MockMvcRequestBuilders.post("/ui/notes/update/" + mockNoteBean.getId())
-			.param("patId", "1")
-			.param("patient", "John Doe")
-			.param("note", "Différente note"))
-				.andExpect(MockMvcResultMatchers.status().isFound())
-				.andExpect(MockMvcResultMatchers.view().name("redirect:/ui/patients/" + mockNoteBean.getPatId()));
+				.param("patId", "1")
+				.param("patient", "John Doe")
+				.param("note", "Différente note"))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.model().attributeExists("note"))
+			.andExpect(MockMvcResultMatchers.view().name("resume"));
     	
     }
     

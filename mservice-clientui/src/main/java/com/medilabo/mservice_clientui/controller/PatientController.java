@@ -128,7 +128,7 @@ public class PatientController {
 			model.addAttribute("message", "Résumé du dossier ajouter à la base de données");
 			model.addAttribute("patient", newPatient);
 			
-			return "patients/resume";
+			return "resume";
 			
 		} catch (Exception e) {
 			
@@ -192,7 +192,7 @@ public class PatientController {
 			model.addAttribute("patient", updatePatient);
 			model.addAttribute("message", "Voici le résumé des modifications faites au dossier du patient " + updatePatient.getName());
 			
-			return "patients/resume";
+			return "resume";
 			
 		} catch(Exception e) {
 			

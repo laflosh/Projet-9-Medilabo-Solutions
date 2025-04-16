@@ -84,7 +84,10 @@ public class NoteController {
 			
 			NoteBean addedNote = noteProxy.addNewNote(note);
 			
-			return "redirect:/ui/patients/" + note.getPatId();
+			model.addAttribute("message", "Resumer de la note qui vient d'etre ajouter au dossier du patient " + note.getPatient());
+			model.addAttribute("note", addedNote);
+			
+			return "resume";
 			
 		} catch(Exception e) {
 			
@@ -141,7 +144,10 @@ public class NoteController {
 			
 			NoteBean updateNote = noteProxy.updateExistingNote(note);
 			
-			return "redirect:/ui/patients/" + note.getPatId();
+			model.addAttribute("message", "Resumer de la note qui vient d'etre modifier dans le dossier du patient " + note.getPatient());
+			model.addAttribute("note", updateNote);
+			
+			return "resume";
 			
 		} catch (Exception e) {
 			
