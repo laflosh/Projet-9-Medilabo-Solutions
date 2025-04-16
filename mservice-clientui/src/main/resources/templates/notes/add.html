@@ -3,6 +3,7 @@
 
 	<head>
 	    <title>Nouvelle note</title>
+	    <link rel="stylesheet" type="text/css" media="all" href="/css/notes/add-update.css" th:href="@{/css/notes/add-update.css}" />
 	</head>
 	
 	<body>
@@ -19,7 +20,7 @@
 	    		
 	    		<div class="input-container">
 		    		<label for="name">Nom  du patient</label>
-		    		<input type="text" id="name" th:field="*{patient}" placeholder="Nom"/>
+		    		<input type="text" id="name" th:field="*{patient}" placeholder="Nom" readonly/>
 	    		</div>
 	    		
 	    		<div class="textarea-container">
@@ -34,7 +35,7 @@
 	    		
 	    	</form>
 	    	
-	    	<div>
+	    	<div class="back-action">
 	    	
 	    		<a th:href="@{/ui/patients/{id}(id=${note.patId})}">Retour au dossier du patient</a>
 	    	
