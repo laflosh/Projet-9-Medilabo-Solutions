@@ -3,7 +3,7 @@ package com.medilabo.mservice_clientui.beans;
 import jakarta.validation.constraints.NotEmpty;
 
 /**
- * 
+ * Bean for the entity note from mservice-note
  */
 public class NoteBean {
 
