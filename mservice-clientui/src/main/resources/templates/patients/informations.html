@@ -8,9 +8,13 @@
 	
 	<body>
 	
-		<div class="container">
 		
-		    <h1 th:text="'Dossier du patient : ' + ${patient.name} + ' ' + ${patient.firstName}"></h1>
+	
+		<div class="container">
+			
+			<h1 th:text="'Dossier du patient : ' + ${patient.name} + ' ' + ${patient.firstName}"></h1>
+			
+			<h2>Dossier</h2>
 			
 			<div class="informations">
 			
@@ -33,16 +37,20 @@
 			
 			</div>
 			
-			<div class="notes">
+			<h2>Note sur le patient</h2>
+			
+			<div class="note-container">
 				
 				<a th:href="@{/ui/notes/add/{patId}(patId=${patient.id})}">Ajouter une nouvelle note</a>
 				
-				<div th:each="note : ${notes}">
+				<div class="note" th:each="note : ${notes}">
 				
 					<p th:text="${note.note}"></p>
 					
-					<a th:href="@{/ui/notes/update/{id}(id=${note.id})}">Modifier la note</a>
-					<a th:href="@{/ui/notes/delete/{id}(id=${note.id})}">Supprimer la note</a>
+					<div class="note-action">
+						<a th:href="@{/ui/notes/update/{id}(id=${note.id})}">Modifier la note</a>
+						<a th:href="@{/ui/notes/delete/{id}(id=${note.id})}">Supprimer la note</a>
+					</div>
 					
 				</div>
 			
