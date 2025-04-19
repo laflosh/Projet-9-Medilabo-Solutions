@@ -67,5 +67,48 @@ public class UserService {
 		return newUser;
 		
 	}
+
+	/**
+	 * @param user
+	 * @return
+	 */
+	public User updateExistingUser(User user) {
+
+		User existingUser = getOneUserById(user.getId());
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		
+		if(existingUser.getUsername() != user.getUsername()) {
+			existingUser.setUsername(user.getUsername());
+		}
+		
+		if(existingUser.getName() != user.getName()) {
+			existingUser.setName(user.getName());
+		}
+		
+		if(existingUser.getFirstName() != user.getFirstName()) {
+			existingUser.setFirstName(user.getFirstName());
+		}
+		
+		if(existingUser.getMail() != user.getMail()) {
+			existingUser.setMail(user.getMail());
+		}
+		
+		if(existingUser.getPassword() != encoder.encode(user.getPassword())) {
+			existingUser.setPassword(encoder.encode(user.getPassword()));
+		}
+		
+		if(existingUser.getBirthDate() != user.getBirthDate()) {
+			existingUser.setBirthDate(user.getBirthDate());
+		}
+		
+		if(existingUser.getRole() != user.getRole()) {
+			existingUser.setRole(user.getRole());
+		}
+		
+		User updateUser = userRepository.save(existingUser);
+		
+		return updateUser;
+		
+	}
 	
 }
