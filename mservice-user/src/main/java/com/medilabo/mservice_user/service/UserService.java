@@ -1,6 +1,9 @@
 package com.medilabo.mservice_user.service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,7 +24,18 @@ public class UserService {
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	/**
+	 * @return
+	 */
+	public List<User> getAllUsers() {
 
+		Iterable<User> users = userRepository.findAll();
+		
+		return StreamSupport.stream(users.spliterator(), false).collect(Collectors.toList());
+		
+	}
+	
 	/**
 	 * @param user
 	 * @return
