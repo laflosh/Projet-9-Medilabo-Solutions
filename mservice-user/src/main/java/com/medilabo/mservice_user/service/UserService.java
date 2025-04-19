@@ -128,5 +128,29 @@ public class UserService {
 		return false;
 		
 	}
+
+	/**
+	 * @param username
+	 * @return
+	 */
+	public User getOneUserByUsername(String username) {
+		
+		User user = userRepository.findUserByUsername(username);
+		
+		return user;
+		
+	}
+
+	/**
+	 * @param mail
+	 * @return
+	 */
+	public User getOneUserByMail(String mail) {
+		
+		User user = userRepository.findUserByMail(mail);
+		
+		return user;
+		
+	}
 	
 }

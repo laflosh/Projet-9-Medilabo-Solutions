@@ -145,4 +145,46 @@ public class UserController {
 		
 	}
 	
+	/**
+	 * @param username
+	 * @return
+	 */
+	@GetMapping("/users/username/{username}")
+	public ResponseEntity<?> getOneUserByUsername(@PathVariable("username") String username){
+		
+		User user = userService.getOneUserByUsername(username);
+		
+		if(user != null) {
+			
+			return ResponseEntity.status(HttpStatus.OK).body(user);
+			
+		} else {
+			
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found with the username : " + username);
+			
+		}
+		
+	}
+	
+	/**
+	 * @param mail
+	 * @return
+	 */
+	@GetMapping("/users/mail/{mail}")
+	public ResponseEntity<?> getOneUserByMail(@PathVariable("mail") String mail){
+		
+		User user = userService.getOneUserByMail(mail);
+		
+		if(user != null) {
+			
+			return ResponseEntity.status(HttpStatus.OK).body(user);
+			
+		} else {
+			
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found with the mail : " + mail);
+			
+		}
+		
+	}
+	
 }
