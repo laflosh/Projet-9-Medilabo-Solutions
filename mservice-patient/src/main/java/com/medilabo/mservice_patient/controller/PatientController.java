@@ -1,4 +1,4 @@
-package com.medilabo.mservice_patient.controller;
+ package com.medilabo.mservice_patient.controller;
 
 import java.util.List;
 

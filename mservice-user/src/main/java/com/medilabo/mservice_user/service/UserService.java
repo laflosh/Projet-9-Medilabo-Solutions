@@ -37,6 +37,19 @@ public class UserService {
 	}
 	
 	/**
+	 * @param id
+	 * @return
+	 */
+	public User getOneUserById(int id) {
+
+		User user = userRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("User not found"));
+		
+		return user;
+		
+	}
+	
+	/**
 	 * @param user
 	 * @return
 	 */
