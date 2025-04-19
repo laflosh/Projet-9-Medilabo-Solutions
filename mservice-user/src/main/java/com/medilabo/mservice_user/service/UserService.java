@@ -110,5 +110,23 @@ public class UserService {
 		return updateUser;
 		
 	}
+
+	/**
+	 * @param id
+	 * @return
+	 */
+	public boolean deleteExistingUserById(int id) {
+
+		if(userRepository.existsById(id)) {
+			
+			userRepository.deleteById(id);
+			
+			return true;
+			
+		}
+		
+		return false;
+		
+	}
 	
 }

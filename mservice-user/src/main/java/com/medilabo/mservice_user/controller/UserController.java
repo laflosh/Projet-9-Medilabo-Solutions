@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -110,6 +111,35 @@ public class UserController {
 			e.printStackTrace();
 			
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error during update the user in database");
+			
+		}
+		
+	}
+	
+	/**
+	 * @param id
+	 * @return
+	 */
+	@DeleteMapping("/users/{id}")
+	public ResponseEntity<?> deleteExistingUserById(@PathVariable("id") int id){
+		
+		try {
+			
+			boolean isDeleted = userService.deleteExistingUserById(id);
+			
+			if(isDeleted) {
+				
+				return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+				
+			} else {
+				
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+				
+			}
+			
+		} catch (Exception e) {
+			
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error during delete th user with id : " + id);
 			
 		}
 		
