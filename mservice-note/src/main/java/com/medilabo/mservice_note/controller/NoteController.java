@@ -43,15 +43,13 @@ public class NoteController {
 		
 		List<Note> notes = noteService.getAllNotes();
 		
-		if(notes != null) {
-			
-			return ResponseEntity.ok().body(notes);
-			
-		} else {
-			
+		if(notes.isEmpty()) {
+
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Notes not found");
 			
 		}
+		
+		return ResponseEntity.status(HttpStatus.OK).body(notes);
 		
 	}
 	
@@ -70,7 +68,7 @@ public class NoteController {
 		
 		if(note != null) {
 			
-			return ResponseEntity.ok().body(note);
+			return ResponseEntity.status(HttpStatus.OK).body(note);
 			
 		} else {
 			
@@ -178,15 +176,13 @@ public class NoteController {
 		
 		List<Note> patientNotes = noteService.getAllNotesDependingOfPatientName(patientName);
 		
-		if(patientNotes != null) {
-			
-			return ResponseEntity.ok().body(patientNotes);
-			
-		} else {
+		if(patientNotes.isEmpty()) {
 			
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Notes of the patient not found");
 			
 		}
+		
+		return ResponseEntity.status(HttpStatus.OK).body(patientNotes);
 		
 	}
 	

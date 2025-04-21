@@ -201,7 +201,7 @@ class PatientControllerTest {
 	@Test
 	public void deleteExistingPatientInDatabaseAndReturnNoContent() throws Exception {
 
-		//Fetching patient to update
+		//Fetching patient to delete
 		Patient deletePatient = patientRepository.findById(testPatients.get(0).getId())
 								.orElseThrow(() -> new RuntimeException("Patient not found"));
 

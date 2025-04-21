@@ -43,15 +43,13 @@ public class PatientController {
 
 		List<Patient> patients = patientService.getAllPatients();
 
-		if(patients != null) {
+		if(patients.isEmpty()) {
 
-			return ResponseEntity.ok(patients);
-
-		}else {
-
-			return ResponseEntity.status(404).body("Patients not found");
-
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Patients not found");
+			
 		}
+		
+		return ResponseEntity.status(HttpStatus.OK).body(patients);
 
 	}
 
@@ -70,7 +68,7 @@ public class PatientController {
 
 		if(patient != null) {
 
-			return ResponseEntity.ok(patient);
+			return ResponseEntity.status(HttpStatus.OK).body(patient);
 
 		}else {
 
