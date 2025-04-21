@@ -46,10 +46,10 @@
 						<td th:text="${user.creationDate}"></td>
 						<td th:text="${user.role}"></td>
 						<td>
-							<a th:href="@{/ui/users/update/{id}(id=${patient.id})}">Modifier l'utilisateur</a>
+							<a th:href="@{/ui/users/update/{id}(id=${user.id})}">Modifier l'utilisateur</a>
 						</td>
 						<td>
-							<a th:href="@{/ui/users/confirmation/{id}(id=${patient.id})}">Supprimer l'utilisateur</a>
+							<a th:href="@{/ui/users/confirmation/{id}(id=${user.id})}">Supprimer l'utilisateur</a>
 						</td>
 					
 					</tr>
