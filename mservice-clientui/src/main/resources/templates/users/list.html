@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+	    <title>Liste medecins</title>
+	</head>
+	
+	<body>
+	
+		<div class="list-medecins">
+		
+			<h1>Liste des medecins utilisant l'application</h1>
+			
+			<div>
+			
+				<a href="/ui/users/add">Ajouter un nouvel utilisateur</a>
+			
+			</div>
+			
+			<table>
+			
+				<thead>
+					
+					<tr>
+					
+						<th>Nom</th>
+						<th>Prénom</th>
+						<th>Username</th>
+						<th>Mail</th>
+						<th>Date de naissance</th>
+						<th>Création du compte</th>
+						<th>Rôle</th>
+						
+					</tr>
+				</thead>
+				
+				<tbody>
+				
+					<tr th:each="user : ${users}">
+					
+						<td th:text="${user.name}"></td>
+						<td th:text="${user.firstName}"></td>
+						<td th:text="${user.username}"></td>
+						<td th:text="${user.mail}"></td>
+						<td th:text="${user.birthDate}"></td>
+						<td th:text="${user.creationDate}"></td>
+						<td th:text="${user.role}"></td>
+						<td>
+							<a th:href="@{/ui/users/update/{id}(id=${patient.id})}">Modifier l'utilisateur</a>
+						</td>
+						<td>
+							<a th:href="@{/ui/users/confirmation/{id}(id=${patient.id})}">Supprimer l'utilisateur</a>
+						</td>
+					
+					</tr>
+				
+				</tbody>
+			
+			</table>
+			
+			<div>
+			
+				<a href="/ui/patients">Retour à la liste des patients</a>
+			
+			</div>
+		
+		</div>
+		
+	</body>
+	
+</html>

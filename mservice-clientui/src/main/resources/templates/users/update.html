@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+	    <title>Mise à jour utilisateur</title>
+	</head>
+	
+	<body>
+	
+		<div class="container">
+			    
+		    <h1>
+		    	Veuillez modifier les informations de l'utilisateur dans le formulaire
+		    </h1>
+		    
+		    	<form th:action="@{/ui/users/update/{id}(id=${user.id})}" th:object="user" method="post">
+		    		
+		    		<div class="input-container">
+			    		<label for="name">Nom * </label>
+			    		<input type="text" id="name" th:field="*{name}" placeholder="Nom"/>
+			    		<p style="color: red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+		    		</div>
+		    		
+		    		<div class="input-container">
+			    		<label for="firstName">Prénom * </label>
+			    		<input type="text" id="firstName" th:field="*{firstName}" placeholder="Prénom"/>
+			    		<p style="color: red;" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
+		    		</div>
+		    		
+		    		<div class="input-container">
+			    		<label for="username">Username * </label>
+			    		<input type="text" id="username" th:field="*{username}" placeholder="Nom d'utilisateur"/>
+			    		<p style="color: red;" th:if="${#fields.hasErrors('username')}" th:errors="username"></p>
+		    		</div>
+		    		
+		    		<div class="input-container">
+			    		<label for="mail">Mail * </label>
+			    		<input type="text" id="mail" th:field="mail" placeholder="Adresse mail"/>
+			    		<p style="color: red;" th:if="${#fields.hasErrors('mail')}" th:errors="mail"></p>
+		    		</div>
+		    		
+		    		<div class="input-container">
+			    		<label for="password">Mot de passe * </label>
+			    		<input type="text" id="password" th:field="password" placeholder="Mot de passe"/>
+			    		<p style="color: red;" th:if="${#fields.hasErrors('password')}" th:errors="password"></p>
+		    		</div>
+		    		
+		    		<div class="input-container">
+			    		<label for="birthDate">Date de naissance</label>
+			    		<input type="text" id="birthDate" th:field="*{birthDate}" placeholder="jj-mm-aaaa"/>
+			    		<p style="color: red;" th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}"></p>
+		    		</div>
+		    		
+		    		<div class="select-container">
+			    		<label for="role">Rôle * </label>
+			    		<select id="role" th:field="role">
+			    			<option value="" disabled selected placeholder>-- Selectionner un role pour l'utilisateur --</option>
+			    			<option value="USER">Utilisateur</option>
+			    			<option value="ADMIN">Administrateur</option>
+			    		</select>
+			    		<p style="color: red;" th:if="${#fields.hasErrors('role')}" th:errors="role"></p>
+		    		</div>
+		    		
+		    		<p>Les champs avec un * sont obligatoires</p>
+		    		
+		    		<button type="submit">Mettre à jour l'utilisateur</button>
+		    		
+		    	</form>
+		    
+		    <div class="back-action">
+			
+				<a href="/ui/users">Retour à la liste des utilisateurs</a>
+			
+			</div>
+			
+		</div>
+		
+	</body>
+	
+</html>

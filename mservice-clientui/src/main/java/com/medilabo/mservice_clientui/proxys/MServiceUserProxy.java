@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import com.medilabo.mservice_clientui.beans.UserBean;
 import com.medilabo.mservice_clientui.configuration.FeignConfig;
 
+/**
+ * 
+ */
 @FeignClient(name = "mservice-user", url = "localhost:8080", configuration = FeignConfig.class)
 public interface MServiceUserProxy { 
 	
