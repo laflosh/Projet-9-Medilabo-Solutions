@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 /**
- * 
+ * Entity for user model with all the properties
  */
 @Entity
 @Table(name = "users")

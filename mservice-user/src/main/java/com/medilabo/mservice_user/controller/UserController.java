@@ -20,7 +20,7 @@ import com.medilabo.mservice_user.model.User;
 import com.medilabo.mservice_user.service.UserService;
 
 /**
- * 
+ * Controller class for managing all http request for the user domain
  */
 @RestController
 @RequestMapping("/api")
@@ -32,10 +32,14 @@ public class UserController {
 	UserService userService;
 	
 	/**
-	 * @return
+	 * Fetching all users in the database
+	 * 
+	 * @return List of users
 	 */
 	@GetMapping("/users")
 	public ResponseEntity<?> getAllUsers(){
+		
+		log.info("Trying to fetch all users in the database");
 		
 		List<User> users  = userService.getAllUsers();
 		
@@ -50,11 +54,15 @@ public class UserController {
 	}
 	
 	/**
-	 * @param id
-	 * @return
+	 * Fetching one user in the database depending of the id
+	 * 
+	 * @param id of the user
+	 * @return  User
 	 */
 	@GetMapping("/users/{id}")
 	public ResponseEntity<?> getOneUserById(@PathVariable("id") int id){
+		
+		log.info("Trying to fetch one user with id : {}", id);
 		
 		User user = userService.getOneUserById(id);
 		
@@ -71,11 +79,15 @@ public class UserController {
 	}
 	
 	/**
-	 * @param user
-	 * @return
+	 * Saving a new user in the database
+	 * 
+	 * @param New user
+	 * @return Added User
 	 */
 	@PostMapping("/users")
 	public ResponseEntity<?> addNewUser(@RequestBody User user){
+		
+		log.info("Trying to add a new user in the database : {}", user);
 		
 		try {
 			
@@ -94,11 +106,15 @@ public class UserController {
 	}
 	
 	/**
-	 * @param user
-	 * @return
+	 * Updating an existing user in the database 
+	 * 
+	 * @param Update user
+	 * @return Updated user
 	 */
 	@PutMapping("/users")
 	public ResponseEntity<?> updateExistingUser(@RequestBody User user){
+		
+		log.info("Trying to update an existing user in the database : {} ", user);
 		
 		try {
 			
@@ -117,11 +133,15 @@ public class UserController {
 	}
 	
 	/**
-	 * @param id
-	 * @return
+	 * Delete an existing user in the database depending of the id
+	 * 
+	 * @param id of the user
+	 * @return true id deleted
 	 */
 	@DeleteMapping("/users/{id}")
 	public ResponseEntity<?> deleteExistingUserById(@PathVariable("id") int id){
+		
+		log.info("Trying to delete an existing user with the id : {} ", id);
 		
 		try {
 			
@@ -146,11 +166,15 @@ public class UserController {
 	}
 	
 	/**
-	 * @param username
-	 * @return
+	 * Fetching one user in the database depending of his username
+	 * 
+	 * @param username of the user
+	 * @return User
 	 */
 	@GetMapping("/users/username/{username}")
 	public ResponseEntity<?> getOneUserByUsername(@PathVariable("username") String username){
+		
+		log.info("Trying to fetch one user in the database with the username : {}", username);
 		
 		User user = userService.getOneUserByUsername(username);
 		
@@ -167,11 +191,15 @@ public class UserController {
 	}
 	
 	/**
-	 * @param mail
-	 * @return
+	 * Fetching one user in the database depending of his mail
+	 * 
+	 * @param mail of the user
+	 * @return User
 	 */
 	@GetMapping("/users/mail/{mail}")
 	public ResponseEntity<?> getOneUserByMail(@PathVariable("mail") String mail){
+		
+		log.info("Trying to fetch one user in the database with the mail : {}", mail);
 		
 		User user = userService.getOneUserByMail(mail);
 		

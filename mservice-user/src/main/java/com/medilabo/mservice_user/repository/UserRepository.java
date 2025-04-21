@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.medilabo.mservice_user.model.User;
 
 /**
- * 
+ * Interface for managing all the requests to the database for user model
  */
 @Repository
 public interface UserRepository extends CrudRepository<User, Integer> {
