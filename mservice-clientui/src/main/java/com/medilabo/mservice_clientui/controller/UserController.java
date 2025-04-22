@@ -149,4 +149,36 @@ public class UserController {
 		
 	}
 	
+	@GetMapping("/users/confirmation/{id}")
+	public String showConfirmationPageBeforeDelete(@PathVariable("id") int id, Model model) {
+		
+		UserBean user = userProxy.getOneUserById(id);
+		
+		model.addAttribute("user", user);
+		
+		return "confirmation";
+		
+	}
+	
+	@GetMapping("/users/delete/{id}")
+	public String deleteExistingUserInDatabase(@PathVariable("id") int id, Model model) {
+		
+		try {
+			
+			userProxy.deleteExistingUserById(id);
+			
+			model.addAttribute("users", userProxy.getAllUsers());
+			
+			return"users/list";
+			
+		} catch (Exception e) {
+			
+			model.addAttribute("user", userProxy.getOneUserById(id));
+			
+			return "confirmation";
+			
+		}
+		
+	}
+	
 }

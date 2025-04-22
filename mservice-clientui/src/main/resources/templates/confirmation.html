@@ -39,6 +39,19 @@
 				</div>
 			
 			</div>
+			
+			<div th:if="${user != null}" class="message">
+	
+				<p th:text="'Êtes-vous sûr de vouloir supprimer l utilsateur ' + ${user.name} + ' ' + ${user.firstName} + ' de l application ?'"></p>
+			
+				<div class="action">
+				
+					<a th:href="@{/ui/users/delete/{id}(id=${user.id})}">Oui</a>
+					<a href="/ui/users">Non</a>
+				
+				</div>
+			
+			</div>
 		
 		</div>
 		
