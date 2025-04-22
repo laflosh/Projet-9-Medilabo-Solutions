@@ -13,7 +13,7 @@
 		    	Veuillez modifier les informations de l'utilisateur dans le formulaire
 		    </h1>
 		    
-		    	<form th:action="@{/ui/users/update/{id}(id=${user.id})}" th:object="user" method="post">
+		    	<form th:action="@{/ui/users/update/{id}(id=${user.id})}" th:object="${user}" method="post">
 		    		
 		    		<div class="input-container">
 			    		<label for="name">Nom * </label>
@@ -30,19 +30,19 @@
 		    		<div class="input-container">
 			    		<label for="username">Username * </label>
 			    		<input type="text" id="username" th:field="*{username}" placeholder="Nom d'utilisateur"/>
-			    		<p style="color: red;" th:if="${#fields.hasErrors('username')}" th:errors="username"></p>
+			    		<p style="color: red;" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
 		    		</div>
 		    		
 		    		<div class="input-container">
 			    		<label for="mail">Mail * </label>
-			    		<input type="text" id="mail" th:field="mail" placeholder="Adresse mail"/>
-			    		<p style="color: red;" th:if="${#fields.hasErrors('mail')}" th:errors="mail"></p>
+			    		<input type="text" id="mail" th:field="*{mail}" placeholder="Adresse mail"/>
+			    		<p style="color: red;" th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"></p>
 		    		</div>
 		    		
 		    		<div class="input-container">
 			    		<label for="password">Mot de passe * </label>
-			    		<input type="text" id="password" th:field="password" placeholder="Mot de passe"/>
-			    		<p style="color: red;" th:if="${#fields.hasErrors('password')}" th:errors="password"></p>
+			    		<input type="password" id="password" th:field="*{password}" placeholder="Mot de passe"/>
+			    		<p style="color: red;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
 		    		</div>
 		    		
 		    		<div class="input-container">
@@ -53,12 +53,12 @@
 		    		
 		    		<div class="select-container">
 			    		<label for="role">Rôle * </label>
-			    		<select id="role" th:field="role">
+			    		<select id="role" th:field="*{role}">
 			    			<option value="" disabled selected placeholder>-- Selectionner un role pour l'utilisateur --</option>
 			    			<option value="USER">Utilisateur</option>
 			    			<option value="ADMIN">Administrateur</option>
 			    		</select>
-			    		<p style="color: red;" th:if="${#fields.hasErrors('role')}" th:errors="role"></p>
+			    		<p style="color: red;" th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></p>
 		    		</div>
 		    		
 		    		<p>Les champs avec un * sont obligatoires</p>

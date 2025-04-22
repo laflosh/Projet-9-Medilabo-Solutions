@@ -55,7 +55,7 @@
 					<p th:text="'Date de naissance : ' + ${user.birthDate}"></p>
 					
 					<p th:if="${user.role == 'ADMIN'}">Rôle : Administrateur</p>
-					<p th:unless="${user.role == 'USER'}">Rôle : Utilisateur</p>
+					<p th:if="${user.role == 'USER'}">Rôle : Utilisateur</p>
 				
 				<div class="btn-action">
 				

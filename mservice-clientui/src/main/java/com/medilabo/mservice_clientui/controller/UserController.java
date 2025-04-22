@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -90,6 +91,59 @@ public class UserController {
 			
 			model.addAttribute("user", user);
 			return "users/add";
+			
+		}
+		
+	}
+	
+	/**
+	 * @param id
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/users/update/{id}")
+	public String showFormForUpdateUser(@PathVariable("id") int id, Model model) {
+		
+		UserBean user = userProxy.getOneUserById(id);
+		
+		model.addAttribute("user", user);
+		
+		return "users/update";
+		
+	}
+	
+	/**
+	 * @param id
+	 * @param user
+	 * @param result
+	 * @param model
+	 * @return
+	 */
+	@PostMapping("/users/update/{id}")
+	public String updateExistingUserInDatabase(@PathVariable("id") int id, @Valid @ModelAttribute("user") UserBean user, BindingResult result, Model model) {
+		
+		if(result.hasErrors()) {
+			
+			model.addAttribute("user", user);
+			return "users/update";
+			
+		}
+		
+		try {
+			
+			UserBean updatedUser = userProxy.updateExistingUser(user);
+			
+			model.addAttribute("message", "Résumé de l'utilisateur mis à jour");
+			model.addAttribute("user", updatedUser);
+			
+			return "resume";
+			
+		} catch(Exception e) {
+			
+			e.printStackTrace();
+			
+			model.addAttribute("user", user);
+			return "users/update";
 			
 		}
 		
