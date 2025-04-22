@@ -2,6 +2,9 @@ package com.medilabo.mservice_clientui.beans;
 
 import java.util.Date;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
+
 /**
  * 
  */
@@ -9,20 +12,27 @@ public class UserBean {
 
 	private int id;
 	
+	@NotEmpty(message = "{user.username.notempty}")
 	private String username;
 	
+	@NotEmpty(message = "{user.name.notempty}")
 	private String name;
 	
+	@NotEmpty(message = "{user.firstName.notempty}")
 	private String firstName;
 	
+	@NotEmpty(message = "{user.mail.notempty}")
 	private String mail;
 	
+	@NotEmpty(message = "{user.password.notempty}")
 	private String password;
 	
+	@Pattern(regexp = "^\\d{2}-\\d{2}-\\d{4}$", message = "{user.birthDate.pattern}")
 	private String birthDate;
 	
 	private Date creationDate;
 	
+	@NotEmpty(message = "{user.role.notempty}")
 	private String role;
 
 	public int getId() {
