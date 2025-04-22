@@ -45,6 +45,24 @@
 				
 				</div>
 			</div>
+			
+			<div th:if="${user != null}" class="informations">
+				
+					<p th:text="'Nom : ' + ${user.name}"></p>
+					<p th:text="'Prénom : ' + ${user.firstName}"></p>
+					<p th:text="'Username : ' + ${user.username}"></p>
+					<p th:text="'Adresse mail : ' + ${user.mail}"></p>
+					<p th:text="'Date de naissance : ' + ${user.birthDate}"></p>
+					
+					<p th:if="${user.role == 'ADMIN'}">Rôle : Administrateur</p>
+					<p th:unless="${user.role == 'USER'}">Rôle : Utilisateur</p>
+				
+				<div class="btn-action">
+				
+					<a href="/ui/users">Retour à la liste des utilisateurs</a>
+				
+				</div>
+			</div>
 		
 		</div>
 		
