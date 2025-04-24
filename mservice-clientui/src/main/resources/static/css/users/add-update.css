@@ -1,0 +1,114 @@
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+   	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.container{
+	width : 65%;
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+	background-color: #e1e4e2;
+	margin : 55px 0px;
+	padding : 30px;
+	border-radius : 10px;
+	border : 5px solid black;
+}
+
+.container h1{
+	font-size: 38px;
+	text-align: center;
+}
+
+.container form {
+	width: 40%;
+	display: flex;
+	flex-direction: column;
+	margin: 20px 0px;
+	margin-left: 115px;
+}
+
+.input-container{
+	width: 100%;
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 7px;
+    margin: 5px 0px;
+    padding: 5px 0px;
+}
+
+.input-container label {
+	font-size: 24px;
+	font-weight: 500;
+}
+
+.input-container input {
+	width: 350px;
+	height: 35px;
+	font-size: 22px;
+	padding: 5px;
+	border: 2px solid black;
+}
+
+.select-container{
+	width: 100%;
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 5px 0px;
+}
+
+.select-container label {
+	font-size: 24px;
+	font-weight: 500;
+}
+
+.select-container select {
+	width: 365px;
+	height: 50px;
+	background-color: white;
+	font-size: 22px;
+	padding: 5px;
+	border: 2px solid black;
+}
+
+.container form button {
+	width: 115px;
+	height: 50px;
+	color: black;
+	border: 2px solid black;
+    border-radius: 6px;
+    margin-left: 26%;
+    padding: 6px;
+    background-color: #e0dfdf;
+    cursor: pointer;
+}
+
+.container form p {
+	font-size: 12px;
+	font-weight: 200;
+	margin-right: 25%;
+}
+
+.back-action{
+	margin: 20px 0px;
+}
+
+.back-action a{
+	text-decoration: none;
+	color: black;
+	border: 2px solid black;
+    border-radius: 6px;
+    padding: 12px;
+    background-color: #e0dfdf;
+}
