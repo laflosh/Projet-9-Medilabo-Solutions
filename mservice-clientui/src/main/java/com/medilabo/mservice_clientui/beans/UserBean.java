@@ -35,6 +35,25 @@ public class UserBean {
 	@NotEmpty(message = "{user.role.notempty}")
 	private String role;
 
+	//Default constructor
+	public UserBean() {
+		
+	}
+	
+	public UserBean(int id, String username, String name, String firstName, String mail, String password, String birthDate, Date creationDate, String role) {
+		this.id = id;
+		this.username = username;
+		this.name = name;
+		this.firstName = firstName;
+		this.mail = mail;
+		this.password = password;
+		this.birthDate = birthDate;
+		this.creationDate = creationDate;
+		this.role = role;
+	}
+
+
+
 	public int getId() {
 		return id;
 	}
