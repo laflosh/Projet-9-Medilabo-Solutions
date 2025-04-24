@@ -1,0 +1,114 @@
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+   	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.list-medecins {
+	width : 75%;
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+	background-color: #e1e4e2;
+	margin : 55px 0px;
+	padding : 30px;
+	border-radius : 10px;
+	border : 5px solid black;
+}
+
+.list-medecins h1 {
+	font-size : 56px;
+}
+
+.list-medecins table{
+	width : 95%;
+	height: 100%;
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.list-medecins table thead {
+	width : 100%;
+	display: flex;
+    flex-direction: raw;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.list-medecins table thead tr {
+	width : 100%;
+	display: flex;
+    flex-direction: raw;
+	justify-content: flex-start;
+    align-items: center;
+}
+
+.list-medecins table thead tr th {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	width: 115px;
+	margin-right: 35px;
+	font-size : 28px;
+    font-weight: 600;
+}
+
+.list-medecins table tbody {
+	width : 100%;
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 0px;
+}
+
+.list-medecins table tbody tr {
+	width : 100%;
+	display: flex;
+    flex-direction: raw;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f3f2f2;
+    margin : 5px 0px;
+    padding: 10px;
+    border: 3px solid black;
+    border-radius: 4px;
+}
+
+.list-medecins table tbody tr td {
+	width : 200px;
+	height: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-items: center;
+	font-size: 18px;
+	font-weight: 300;
+	padding: 0px 10px;
+	margin: 5px  0px;
+}
+
+.list-medecins a {
+	font-size: 18px;
+	text-decoration: none;
+	text-align: center;
+	color: black;
+	cursor : pointer;
+	padding : 8px;
+	border-radius: 10px;
+	background-color: #e0dfdf;
+	border: 3.5px solid black;
+	margin: 10px;
+}
+
+.list-medecins a:hover{
+	color : #ab6763;
+}
