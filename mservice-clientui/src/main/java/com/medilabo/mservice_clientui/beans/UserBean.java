@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 
 /**
- * 
+ * Bean entity for the user model from mservice-user
  */
 public class UserBean {
 

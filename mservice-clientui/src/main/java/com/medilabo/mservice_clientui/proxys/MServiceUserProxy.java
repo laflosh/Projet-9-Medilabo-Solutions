@@ -14,7 +14,7 @@ import com.medilabo.mservice_clientui.beans.UserBean;
 import com.medilabo.mservice_clientui.configuration.FeignConfig;
 
 /**
- * 
+ * Proxy interface for http request to mservice-user
  */
 @FeignClient(name = "mservice-user", url = "localhost:8080", configuration = FeignConfig.class)
 public interface MServiceUserProxy { 

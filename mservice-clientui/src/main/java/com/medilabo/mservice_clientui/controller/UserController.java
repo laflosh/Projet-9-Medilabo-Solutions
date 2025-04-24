@@ -20,7 +20,7 @@ import com.medilabo.mservice_clientui.proxys.MServiceUserProxy;
 import jakarta.validation.Valid;
 
 /**
- * 
+ * Controller class for managing http request for htmltemplates and crud operations for user domain
  */
 @Controller
 @RequestMapping("/ui")
@@ -32,11 +32,15 @@ public class UserController {
 	MServiceUserProxy userProxy;
 	
 	/**
+	 * Show the list page with all users in the database
+	 * 
 	 * @param model
-	 * @return
+	 * @return users list template
 	 */
 	@GetMapping("/users")
 	public String showListOfAllUsers(Model model) {
+		
+		log.info("Access to the users list page");
 		
 		List<UserBean> users = userProxy.getAllUsers();
 		
@@ -47,12 +51,16 @@ public class UserController {
 	}
 	
 	/**
+	 * Show the formular page for saving a new user in the database
+	 * 
 	 * @param model
-	 * @param user
-	 * @return
+	 * @param New user
+	 * @return user add template
 	 */
 	@GetMapping("/users/add")
 	public String showAddForm(Model model, UserBean user) {
+		
+		log.info("Access to the user add page for saving a new user in the database");
 		
 		UserBean newUser = new UserBean();
 		
@@ -63,15 +71,20 @@ public class UserController {
 	}
 	
 	/**
-	 * @param user
+	 * Checking the model the data of the model and if theire is no error
+	 * saving the user in the database and return the resume page
+	 * 
+	 * @param New user
 	 * @param result
 	 * @param model
-	 * @return
+	 * @return resume action page
 	 */
 	@PostMapping("/users/validate")
 	public String postNewUserInDatabase(@Valid @ModelAttribute("user") UserBean user, BindingResult result, Model model) {
 		
 		if(result.hasErrors()) {
+			
+			log.info("Error in the user model : {} ", result.getAllErrors());
 			
 			model.addAttribute("user", user);
 			return "users/add";
@@ -79,6 +92,8 @@ public class UserController {
 		}
 		
 		try {
+			
+			log.info("Saving a new user in the database : {} ", user);
 			
 			UserBean addedUser = userProxy.addNewUser(user);
 			
@@ -89,6 +104,8 @@ public class UserController {
 			
 		} catch (Exception e) {
 			
+			log.info("Error during save the user : {} ", e);
+			
 			model.addAttribute("user", user);
 			return "users/add";
 			
@@ -97,12 +114,16 @@ public class UserController {
 	}
 	
 	/**
-	 * @param id
+	 * Show the user update page with all the informations of the user
+	 * 
+	 * @param id of the user
 	 * @param model
-	 * @return
+	 * @return user update template
 	 */
 	@GetMapping("/users/update/{id}")
 	public String showFormForUpdateUser(@PathVariable("id") int id, Model model) {
+		
+		log.info("Access to the user update page with the id : {} ", id);
 		
 		UserBean user = userProxy.getOneUserById(id);
 		
@@ -113,16 +134,21 @@ public class UserController {
 	}
 	
 	/**
-	 * @param id
-	 * @param user
+	 * Checking the model the data of the model and if theire is no error
+	 * updating the user in the database and return the resume page
+	 * 
+	 * @param id of the user
+	 * @param update user
 	 * @param result
 	 * @param model
-	 * @return
+	 * @return resume page
 	 */
 	@PostMapping("/users/update/{id}")
 	public String updateExistingUserInDatabase(@PathVariable("id") int id, @Valid @ModelAttribute("user") UserBean user, BindingResult result, Model model) {
 		
 		if(result.hasErrors()) {
+			
+			log.info("Error in the model user : {} ", result.getAllErrors());
 			
 			model.addAttribute("user", user);
 			return "users/update";
@@ -130,6 +156,8 @@ public class UserController {
 		}
 		
 		try {
+			
+			log.info("Updating an existing user in the database with the id : {} ", id);
 			
 			UserBean updatedUser = userProxy.updateExistingUser(user);
 			
@@ -140,7 +168,7 @@ public class UserController {
 			
 		} catch(Exception e) {
 			
-			e.printStackTrace();
+			log.info("Error during update the user : {} ", e);
 			
 			model.addAttribute("user", user);
 			return "users/update";
@@ -149,8 +177,17 @@ public class UserController {
 		
 	}
 	
+	/**
+	 * Show the confirmation pager before delete an existing user in the database
+	 * 
+	 * @param id of the user
+	 * @param model
+	 * @return confirmation page
+	 */
 	@GetMapping("/users/confirmation/{id}")
 	public String showConfirmationPageBeforeDelete(@PathVariable("id") int id, Model model) {
+		
+		log.info("Access to the confirmation page for the user with id : {} ", id);
 		
 		UserBean user = userProxy.getOneUserById(id);
 		
@@ -160,10 +197,20 @@ public class UserController {
 		
 	}
 	
+	/**
+	 * After confirmation, delete an existing user in the database 
+	 * and return to the user list page
+	 * 
+	 * @param id of the user
+	 * @param model
+	 * @return user list template
+	 */
 	@GetMapping("/users/delete/{id}")
 	public String deleteExistingUserInDatabase(@PathVariable("id") int id, Model model) {
 		
 		try {
+			
+			log.info("Delete an existing user in the database with id : {} ", id);
 			
 			userProxy.deleteExistingUserById(id);
 			
@@ -172,6 +219,8 @@ public class UserController {
 			return"users/list";
 			
 		} catch (Exception e) {
+			
+			log.info("Error during delete user : {} ", e);
 			
 			model.addAttribute("user", userProxy.getOneUserById(id));
 			
