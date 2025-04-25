@@ -16,12 +16,18 @@ import org.springframework.stereotype.Service;
 import com.medilabo.mservice_auth.dto.UserDTO;
 import com.medilabo.mservice_auth.proxy.MServiceUserProxy;
 
+/**
+ * 
+ */
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
 	@Autowired
 	MServiceUserProxy userProxy;
 
+	/**
+	 *
+	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
@@ -43,6 +49,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 		
 	}
 	
+	/**
+	 * @param roles
+	 * @return
+	 */
 	private List<GrantedAuthority> getGrantedAuthority(List<String> roles){
 		
 		List<GrantedAuthority> authorities = new ArrayList<>();
