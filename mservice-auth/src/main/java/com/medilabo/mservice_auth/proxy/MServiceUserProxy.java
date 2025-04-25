@@ -10,7 +10,7 @@ import com.medilabo.mservice_auth.dto.UserDTO;
  * 
  */
 @FeignClient(name = "mservice-user", url = "localhost:8080")
-public interface MServiceUserproxy {
+public interface MServiceUserProxy {
 
 	@GetMapping("/api/users/username/{username}")
 	UserDTO getOneUserByUsername(@PathVariable("username") String username);
