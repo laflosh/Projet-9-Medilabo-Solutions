@@ -22,6 +22,11 @@ public class SecurityConfig {
 	@Autowired
 	CustomUserDetailsService customUserDetailsService;
 	
+	/**
+	 * @param http
+	 * @return
+	 * @throws Exception
+	 */
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		
