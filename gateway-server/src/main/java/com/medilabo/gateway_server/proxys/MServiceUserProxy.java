@@ -1,21 +1,44 @@
 package com.medilabo.gateway_server.proxys;
 
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.medilabo.gateway_server.dtos.UserDTO;
+
+import reactor.core.publisher.Mono;
 
 /**
  * 
  */
-@FeignClient(name = "mservice-user", url = "localhost:8080")
-public interface MServiceUserProxy {
+@Service
+public class MServiceUserProxy {
 
-	@GetMapping("/api/users/username/{username}")
-	UserDTO getOneUserByUsername(@PathVariable("username") String username);
+    private final WebClient webClient;
+
+    @Autowired
+    public MServiceUserProxy(WebClient webClient) {
+    	
+        this.webClient = webClient;
+        
+    }
 	
-	@GetMapping("/api/users/mail/{mail}")
-	UserDTO getOneUserByMail(@PathVariable("mail") String mail);
+    public Mono<UserDTO> getOneUserByUsername(String username) {
+    	
+        return webClient.get()
+                .uri("/api/users/username/{username}", username)
+                .retrieve()
+                .bodyToMono(UserDTO.class);
+        
+    }
+
+    public Mono<UserDTO> getOneUserByMail(String mail) {
+    	
+        return webClient.get()
+                .uri("/api/users/mail/{mail}", mail)
+                .retrieve()
+                .bodyToMono(UserDTO.class);
+        
+    }
 	
 }

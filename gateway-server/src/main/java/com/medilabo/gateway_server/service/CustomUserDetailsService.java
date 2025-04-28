@@ -31,31 +31,30 @@ public class CustomUserDetailsService implements ReactiveUserDetailsService  {
 	@Override
 	public Mono<UserDetails> findByUsername(String username) {
 
-		try {
+		return userProxy.getOneUserByUsername(username)
+				.flatMap(user -> {
 			
-			UserDTO user = userProxy.getOneUserByUsername(username);
-			
-			if(user == null) {
-				
-				throw new UsernameNotFoundException("User not found with username : " + username);
-				
-			}
-			
-			List<String> roles = Arrays.asList(user.getRole());
-			
-			UserDetails userDetails = new User(
-					user.getUsername(),
-					user.getPassword(),
-					getGrantedAuthority(roles)
-					);
-			
-			return Mono.just(userDetails);
-			
-		} catch(Exception e) {
+					if(user == null) {
+						
+						throw new UsernameNotFoundException("User not found with username : " + username);
+						
+					}
+					
+					List<String> roles = Arrays.asList(user.getRole());
+					
+					UserDetails userDetails = new User(
+							user.getUsername(),
+							user.getPassword(),
+							getGrantedAuthority(roles)
+							);
+					
+					return Mono.just(userDetails);
+					
+		}).onErrorResume(e -> {
 			
 			return Mono.error(new UsernameNotFoundException("Error retrieving user: " + username, e));
 			
-		}
+		});
 		
 	}
 	
