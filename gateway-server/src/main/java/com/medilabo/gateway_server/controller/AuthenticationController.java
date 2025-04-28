@@ -14,8 +14,10 @@ import com.medilabo.gateway_server.dtos.AuthenticationRequest;
 import com.medilabo.gateway_server.dtos.AuthenticationResponse;
 import com.medilabo.gateway_server.service.AuthenticationService;
 
+import reactor.core.publisher.Mono;
+
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/auth")
 public class AuthenticationController {
 
 	private final static Logger log = LogManager.getLogger(AuthenticationController.class);
@@ -27,12 +29,12 @@ public class AuthenticationController {
 	 * @param request
 	 * @return
 	 */
-	@PostMapping("/auth/login")
+	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody AuthenticationRequest request){
 		
 		try {
 			
-			AuthenticationResponse response = authService.authentication(request);
+			Mono<AuthenticationResponse> response = authService.authentication(request);
 			
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 			

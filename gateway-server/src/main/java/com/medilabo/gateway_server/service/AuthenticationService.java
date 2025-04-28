@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.medilabo.gateway_server.dtos.AuthenticationRequest;
@@ -12,6 +13,8 @@ import com.medilabo.gateway_server.dtos.AuthenticationResponse;
 import com.medilabo.gateway_server.dtos.UserDTO;
 import com.medilabo.gateway_server.proxys.MServiceUserProxy;
 import com.medilabo.gateway_server.utils.JwtUtils;
+
+import reactor.core.publisher.Mono;
 
 /**
  * 
@@ -34,41 +37,43 @@ public class AuthenticationService {
 	 * @param request
 	 * @return
 	 */
-	public AuthenticationResponse authentication(AuthenticationRequest request) {
+	public Mono<AuthenticationResponse> authentication(AuthenticationRequest request) {
 
-		try {
+		return reactiveAuthenticationManager.authenticate(
+				
+			new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())	
+				
+		).flatMap(authentication -> {
 			
-			reactiveAuthenticationManager.authenticate(
-					
-				new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())	
-					
-			);
+			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+			String username = userDetails.getUsername();
+			String role = userDetails.getAuthorities()
+                    .stream()
+                    .findFirst()
+                    .map(grantedAuthority -> grantedAuthority.getAuthority().replace("ROLE_", ""))
+                    .orElse("USER");
 			
-			UserDTO user = userProxy.getOneUserByUsername(request.getUsername());
-			
-			String token = jwtUtils.generateToken(user.getUsername(), user.getRole());
+			String token = jwtUtils.generateToken(username, role);
 			
 			if(token == null) {
 				
-				throw new RuntimeException("Error during the creation of the token");
+				return Mono.error(new RuntimeException("Error during the creation of the token"));
 				
 			}
 			
 			AuthenticationResponse authResponse = new AuthenticationResponse();
 			authResponse.setToken(token);
-			authResponse.setUsername(user.getUsername());
-			authResponse.setMail(user.getMail());
-			authResponse.setRole(user.getRole());
+			authResponse.setUsername(username);
+			authResponse.setAuthorities(role);
 			
-			return authResponse;
+			return Mono.just(authResponse);
 			
-		} catch(Exception e) {
+		}).onErrorResume(e -> {
 			
-			e.printStackTrace();
+            log.error("Authentication error", e);
+            return Mono.error(new RuntimeException("Error during authentication"));
 			
-			throw new RuntimeException("Error during authentication");
-			
-		}
+		});
 		
 	}
 

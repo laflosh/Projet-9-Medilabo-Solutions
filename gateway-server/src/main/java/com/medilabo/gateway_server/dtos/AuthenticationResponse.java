@@ -7,11 +7,9 @@ public class AuthenticationResponse {
 
 	private String token;
 	
-	private String mail;
-	
 	private String username;
 	
-	private String role;
+	private String authorities;
 
 	public String getToken() {
 		return token;
@@ -19,14 +17,6 @@ public class AuthenticationResponse {
 
 	public void setToken(String token) {
 		this.token = token;
-	}
-
-	public String getMail() {
-		return mail;
-	}
-
-	public void setMail(String mail) {
-		this.mail = mail;
 	}
 
 	public String getUsername() {
@@ -37,12 +27,12 @@ public class AuthenticationResponse {
 		this.username = username;
 	}
 
-	public String getRole() {
-		return role;
+	public String getAuthorities() {
+		return authorities;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setAuthorities(String authorities) {
+		this.authorities = authorities;
 	}
 	
 }
