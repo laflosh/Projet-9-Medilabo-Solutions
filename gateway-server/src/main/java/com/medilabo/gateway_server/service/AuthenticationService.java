@@ -1,17 +1,17 @@
-package com.medilabo.mservice_auth.service;
+package com.medilabo.gateway_server.service;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
-import com.medilabo.mservice_auth.dto.AuthenticationRequest;
-import com.medilabo.mservice_auth.dto.AuthenticationResponse;
-import com.medilabo.mservice_auth.dto.UserDTO;
-import com.medilabo.mservice_auth.proxy.MServiceUserProxy;
-import com.medilabo.mservice_auth.util.JwtUtils;
+import com.medilabo.gateway_server.dtos.AuthenticationRequest;
+import com.medilabo.gateway_server.dtos.AuthenticationResponse;
+import com.medilabo.gateway_server.dtos.UserDTO;
+import com.medilabo.gateway_server.proxys.MServiceUserProxy;
+import com.medilabo.gateway_server.utils.JwtUtils;
 
 /**
  * 
@@ -28,7 +28,7 @@ public class AuthenticationService {
 	MServiceUserProxy userProxy;
 	
 	@Autowired
-	AuthenticationManager authenticationManager;
+	ReactiveAuthenticationManager reactiveAuthenticationManager;
 	
 	/**
 	 * @param request
@@ -38,7 +38,7 @@ public class AuthenticationService {
 
 		try {
 			
-			authenticationManager.authenticate(
+			reactiveAuthenticationManager.authenticate(
 					
 				new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())	
 					

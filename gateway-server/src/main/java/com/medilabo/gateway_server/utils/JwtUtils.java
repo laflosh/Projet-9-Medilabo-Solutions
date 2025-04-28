@@ -1,4 +1,4 @@
-package com.medilabo.mservice_auth.util;
+package com.medilabo.gateway_server.utils;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;

@@ -1,9 +1,15 @@
 package com.medilabo.gateway_server.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ReactiveAuthenticationManager;
+import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
@@ -11,6 +17,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+
+import com.medilabo.gateway_server.service.CustomUserDetailsService;
 
 /**
  * Configuration's class for managing the bean of the security for the application throught the gateway
@@ -20,6 +28,9 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 @EnableReactiveMethodSecurity
 public class ConfigSecurity {
 
+	@Autowired
+	CustomUserDetailsService customUserDetailsService;
+	
 	/**
 	 * Filterchain for managing the permition of url, managing the method of authentication of the application
 	 * 
@@ -57,22 +68,21 @@ public class ConfigSecurity {
 	}
 	
 	/**
-	 * Create one User in memory for the basic auth for the application
-	 * 
-	 * @return An User
+	 * @param http
+	 * @param bCryptPasswordEncoder
+	 * @return
+	 * @throws Exception
 	 */
 	@Bean
-	public MapReactiveUserDetailsService userDetailsInMemory() {
-		
-		UserDetails user = User.builder()
-				.username("user")
-				.password(passwordEncoder().encode("password"))
-				.roles("USER")
-				.build();
-		
-		return new MapReactiveUserDetailsService(user);
-		
-	}
+    public ReactiveAuthenticationManager reactiveAuthenticationManager(CustomUserDetailsService customUserDetailsService, BCryptPasswordEncoder passwordEncoder) {
+    	
+        UserDetailsRepositoryReactiveAuthenticationManager authenticationManager =
+                new UserDetailsRepositoryReactiveAuthenticationManager(customUserDetailsService);
+        
+        authenticationManager.setPasswordEncoder(passwordEncoder);
+        
+        return authenticationManager;
+    }
 	
 	/**
 	 * Bcrypt encoder bean for encoding the password of the in memory user

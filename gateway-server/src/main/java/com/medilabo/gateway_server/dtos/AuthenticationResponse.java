@@ -1,4 +1,4 @@
-package com.medilabo.mservice_auth.dto;
+package com.medilabo.gateway_server.dtos;
 
 /**
  * 

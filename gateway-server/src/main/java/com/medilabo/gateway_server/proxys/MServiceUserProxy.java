@@ -1,10 +1,10 @@
-package com.medilabo.mservice_auth.proxy;
+package com.medilabo.gateway_server.proxys;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.medilabo.mservice_auth.dto.UserDTO;
+import com.medilabo.gateway_server.dtos.UserDTO;
 
 /**
  * 

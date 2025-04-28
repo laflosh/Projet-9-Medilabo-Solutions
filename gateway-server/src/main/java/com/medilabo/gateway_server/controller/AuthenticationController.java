@@ -1,4 +1,4 @@
-package com.medilabo.mservice_auth.controller;
+package com.medilabo.gateway_server.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.medilabo.mservice_auth.dto.AuthenticationRequest;
-import com.medilabo.mservice_auth.dto.AuthenticationResponse;
-import com.medilabo.mservice_auth.service.AuthenticationService;
+import com.medilabo.gateway_server.dtos.AuthenticationRequest;
+import com.medilabo.gateway_server.dtos.AuthenticationResponse;
+import com.medilabo.gateway_server.service.AuthenticationService;
 
 @RestController
 @RequestMapping("/api")
