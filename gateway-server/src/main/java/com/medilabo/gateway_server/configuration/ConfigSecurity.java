@@ -15,7 +15,7 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 import com.medilabo.gateway_server.service.CustomUserDetailsService;
 
 /**
- * Configuration's class for managing the bean of the security for the application throught the gateway
+ * Configuration's class for managing the beans of the security for the application throught the gateway
  */
 @Configuration
 @EnableWebFluxSecurity
@@ -62,6 +62,8 @@ public class ConfigSecurity {
 	}
 	
 	/**
+	 * Configuration of the authentication manager for handling user authentication
+	 * 
 	 * @param http
 	 * @param bCryptPasswordEncoder
 	 * @return

@@ -16,6 +16,9 @@ import com.medilabo.gateway_server.service.AuthenticationService;
 
 import reactor.core.publisher.Mono;
 
+/**
+ * Controller class for managing all the http requests about the authentication
+ */
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
@@ -26,13 +29,17 @@ public class AuthenticationController {
 	AuthenticationService authService;
 	
 	/**
-	 * @param request
-	 * @return
+	 * Login an user and return a token
+	 * 
+	 * @param request object
+	 * @return response object
 	 */
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody AuthenticationRequest request){
 		
 		try {
+			
+			log.info("Trying to login the user with the username {}", request.getUsername());	
 			
 			Mono<AuthenticationResponse> response = authService.authentication(request);
 			
@@ -40,7 +47,7 @@ public class AuthenticationController {
 			
 		} catch (Exception e) {
 			
-			e.printStackTrace();
+			log.info("Error during the authentication : {}", e);
 			
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Wrong username/password in request");
 			

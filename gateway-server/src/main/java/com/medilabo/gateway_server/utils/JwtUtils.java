@@ -15,7 +15,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 /**
- * 
+ * Class for all the methods about Jwt token, methods to generate a token and methods for manipulate and parse a token
  */
 @Component
 public class JwtUtils {
@@ -27,9 +27,11 @@ public class JwtUtils {
 	private Long expirationTime;
 	
 	/**
-	 * @param username
-	 * @param role
-	 * @return
+	 * Configuration of the claims and call the method to create a token
+	 * 
+	 * @param username of an user
+	 * @param role of an user
+	 * @return token
 	 */
 	public String generateToken(String username, String role){
 		
@@ -41,9 +43,11 @@ public class JwtUtils {
 	}
 
 	/**
+	 * Create a token with all the user informations like username, claims and expiration duration
+	 * 
 	 * @param claims
 	 * @param subject
-	 * @return
+	 * @return token
 	 */
 	private String createToken(Map<String, Object> claims, String subject) {
 		
@@ -58,7 +62,9 @@ public class JwtUtils {
 	}
 
 	/**
-	 * @return
+	 * Sign the secret key with a signature algorithm
+	 * 
+	 * @return secret key
 	 */
 	private Key getSignKey() {
 

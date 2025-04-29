@@ -9,7 +9,7 @@ import com.medilabo.gateway_server.dtos.UserDTO;
 import reactor.core.publisher.Mono;
 
 /**
- * 
+ * Proxy class to define methods for calling mservice-user to get one user depending od the username or the mail address
  */
 @Service
 public class MServiceUserProxy {
@@ -23,6 +23,12 @@ public class MServiceUserProxy {
         
     }
 	
+    /**
+     * Fetching one user in mservice-user depending of the username
+     * 
+     * @param username of the user
+     * @return One User
+     */
     public Mono<UserDTO> getOneUserByUsername(String username) {
     	
         return webClient.get()
@@ -32,6 +38,12 @@ public class MServiceUserProxy {
         
     }
 
+    /**
+     * Fetching one user in mservice-user depending of the mail address
+     * 
+     * @param mail of the user
+     * @return One User
+     */
     public Mono<UserDTO> getOneUserByMail(String mail) {
     	
         return webClient.get()
