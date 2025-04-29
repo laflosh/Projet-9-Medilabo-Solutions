@@ -5,13 +5,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
 
+import com.medilabo.gateway_server.filters.JwtFilter;
 import com.medilabo.gateway_server.service.CustomUserDetailsService;
 
 /**
@@ -22,6 +24,9 @@ import com.medilabo.gateway_server.service.CustomUserDetailsService;
 @EnableReactiveMethodSecurity
 public class ConfigSecurity {
 
+	@Autowired
+	JwtFilter jwtFilter;
+	
 	@Autowired
 	CustomUserDetailsService customUserDetailsService;
 	
@@ -37,6 +42,9 @@ public class ConfigSecurity {
 		
 		http.csrf(csrf -> csrf.disable())
 			.cors(cors -> cors.disable())
+			.httpBasic(httpBasic -> httpBasic.disable())
+			.formLogin(formLogin -> formLogin.disable())
+			.securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
 			.authorizeExchange(exchange -> exchange
 					.pathMatchers("/").permitAll()
 					.pathMatchers("/ui").permitAll()
@@ -52,7 +60,7 @@ public class ConfigSecurity {
 					.pathMatchers("/api/notes/**").authenticated()
 					.pathMatchers("/api/users/**").authenticated()
 					)
-			.httpBasic(Customizer.withDefaults())
+			.addFilterAfter(jwtFilter, SecurityWebFiltersOrder.AUTHENTICATION)
 			.logout(logout -> logout
 					.logoutUrl("/logout")
 				);
