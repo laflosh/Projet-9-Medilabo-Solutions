@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -77,6 +78,11 @@ public class JwtUtils {
 		
 	}
 	
+	/**
+	 * @param token
+	 * @param userDetails
+	 * @return
+	 */
 	public boolean validateToken(String token, UserDetails userDetails) {
 		
 		String username = extractUsername(token);
@@ -91,18 +97,42 @@ public class JwtUtils {
 		
 	}
 	
-	private String extractUsername(String token) {
+	/**
+	 * @param token
+	 * @return
+	 */
+	public String extractUsername(String token) {
 		
 		return extractClaims(token, Claims::getSubject);
 		
 	}
 	
-	private Date extractExpirationDate(String token) {
+	/**
+	 * @param token
+	 * @return
+	 */
+	public Date extractExpirationDate(String token) {
 		
 		return extractClaims(token, Claims::getExpiration);
 		
 	}
 	
+	/**
+	 * @param token
+	 * @return
+	 */
+	public String extractRole(String token) {
+		
+	    return extractAllClaims(token).get("role", String.class);
+	    
+	}
+	
+	/**
+	 * @param <T>
+	 * @param token
+	 * @param claimsResolver
+	 * @return
+	 */
 	private <T> T extractClaims(String token, Function<Claims, T> claimsResolver) {
 		
 		final Claims claims = extractAllClaims(token);
@@ -111,15 +141,27 @@ public class JwtUtils {
 		
 	}
 	
+	/**
+	 * @param token
+	 * @return
+	 */
 	private Claims extractAllClaims(String token) {
 
-		return Jwts.parser()
+		JwtParser parser = Jwts
+				.parserBuilder()
 				.setSigningKey(getSignKey())
+				.build();
+		
+		return   parser
 				.parseClaimsJws(token)
 				.getBody();
 		
 	}
 
+	/**
+	 * @param token
+	 * @return
+	 */
 	private boolean isTokenExpired(String token) {
 		
 		return extractExpirationDate(token).before(new Date());
