@@ -50,39 +50,53 @@ public class JwtFilter implements WebFilter {
 		
 		String authHeaders = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
 	    
-		String username;
-		String jwt = authHeaders.substring(7);
+		String username = null;
+		String jwt = null;
 		
 		if(authHeaders != null && authHeaders.startsWith("Bearer ")) {
 
+			jwt = authHeaders.substring(7);
 			username = jwtUtils.extractUsername(jwt);
 			
-			if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-				
-	            return userDetailsService.findByUsername(username)
-	                    .flatMap(userDetails -> {
-	                    	
-	                        if (jwtUtils.validateToken(jwt, userDetails)) {
-	                        	
-	                            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
-	                                    userDetails, null, userDetails.getAuthorities());
-	                            
-	                            SecurityContextHolder.getContext().setAuthentication(auth);
-	                            
-	                        }
-	                        
-	                        return chain.filter(exchange);
-	                        
-	                    })
-	                    .onErrorResume(e -> {
-	                    	
-	                        exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-	                        return exchange.getResponse().setComplete();
-	                        
-	                    });
+		} else {
 			
+			var jwtCookie = exchange.getRequest().getCookies().getFirst("jwt");
+			
+			if(jwtCookie != null) {
+				
+				jwt = jwtCookie.getValue();
+				username = jwtUtils.extractUsername(jwt);
+				
 			}
 			
+		}
+		
+		if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+			
+			final String JWT = jwt;
+			
+            return userDetailsService.findByUsername(username)
+                    .flatMap(userDetails -> {
+                    	
+                        if (jwtUtils.validateToken(JWT, userDetails)) {
+                        	
+                            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+                                    userDetails, null, userDetails.getAuthorities());
+                            
+                            SecurityContextHolder.getContext().setAuthentication(auth);
+                            
+                        }
+                        
+                        return chain.filter(exchange);
+                        
+                    })
+                    .onErrorResume(e -> {
+                    	
+                        exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+                        return exchange.getResponse().setComplete();
+                        
+                    });
+		
 		}
 		
 		return chain.filter(exchange);
