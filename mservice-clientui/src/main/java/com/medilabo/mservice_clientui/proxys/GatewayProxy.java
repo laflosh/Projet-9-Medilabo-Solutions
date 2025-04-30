@@ -4,6 +4,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.medilabo.mservice_clientui.beans.AuthenticationResponseBean;
 import com.medilabo.mservice_clientui.configuration.FeignConfig;
 import com.medilabo.mservice_clientui.model.LoginRequest;
 
@@ -14,6 +15,6 @@ import com.medilabo.mservice_clientui.model.LoginRequest;
 public interface GatewayProxy {
 
 	@PostMapping("/auth/login")
-	Object login(@RequestBody LoginRequest request);
+	AuthenticationResponseBean login(@RequestBody LoginRequest request);
 	
 }

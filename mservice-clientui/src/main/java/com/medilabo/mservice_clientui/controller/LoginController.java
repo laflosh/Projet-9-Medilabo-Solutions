@@ -8,11 +8,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.medilabo.mservice_clientui.beans.AuthenticationResponseBean;
 import com.medilabo.mservice_clientui.model.LoginRequest;
 import com.medilabo.mservice_clientui.proxys.GatewayProxy;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * 
@@ -46,11 +49,33 @@ public class LoginController {
 	 * @param request
 	 */
 	@PostMapping("/login/auth")
-	public void postLogin(@ModelAttribute LoginRequest request) {
+	public String postLogin(@ModelAttribute LoginRequest request, HttpServletResponse response, Model model) {
 		
-		Object response = gatewayProxy.login(request);
+		log.info("Attempting login for {}", request.getUsername());
 		
-		log.info("{}", response);
+		try {
+			
+			AuthenticationResponseBean authResponse = gatewayProxy.login(request);
+			
+			Cookie jwtCookie = new Cookie("jwt", authResponse.getToken());
+			jwtCookie.setHttpOnly(true);
+			jwtCookie.setPath("/");
+			jwtCookie.setMaxAge(3600);
+			response.addCookie(jwtCookie);
+					
+			log.info("Login successful for {}", request.getUsername());
+
+	        return "redirect:/ui/patients";
+					
+			
+		} catch (Exception e) {
+			
+	        log.error("Login failed for {}: {}", request.getUsername(), e.getMessage());
+
+	        return "login";
+			
+		}
+
 		
 	}
 	
