@@ -69,6 +69,8 @@ public class AuthenticationService {
 				
 			}
 			
+			log.info("Token made : {} , for user with username : {} ", token, username);
+			
 			AuthenticationResponse authResponse = new AuthenticationResponse();
 			authResponse.setToken(token);
 			authResponse.setUsername(username);
