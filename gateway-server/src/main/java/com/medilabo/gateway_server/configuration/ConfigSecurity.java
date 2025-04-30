@@ -53,6 +53,7 @@ public class ConfigSecurity {
 					.pathMatchers("/favicon.ico").permitAll()
 					.pathMatchers("/api/users/username/**","/api/users/mail/**").permitAll()
 					.pathMatchers("/auth/login").permitAll()
+					.pathMatchers("/ui/login/**").permitAll()
 					.pathMatchers("/ui/patients/**").authenticated()
 					.pathMatchers("/ui/notes/**").authenticated()
 					.pathMatchers("/ui/users/**").authenticated()

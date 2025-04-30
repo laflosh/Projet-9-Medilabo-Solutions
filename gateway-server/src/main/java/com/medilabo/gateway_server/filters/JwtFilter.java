@@ -33,8 +33,23 @@ public class JwtFilter implements WebFilter {
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
 		
-		String authHeaders = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+		String path = exchange.getRequest().getPath().value();
 		
+	    // public routes
+	    if (path.startsWith("/auth/login") || 
+	        path.startsWith("/ui") || 
+	        path.startsWith("/ui/login/") || 
+	        path.startsWith("/css/") || 
+	        path.startsWith("/js/") || 
+	        path.startsWith("/images/") || 
+	        path.equals("/") || 
+	        path.startsWith("/api/users/username/") || 
+	        path.startsWith("/api/users/mail/")) {
+	        return chain.filter(exchange);
+	    }
+		
+		String authHeaders = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+	    
 		String username;
 		String jwt = authHeaders.substring(7);
 		
