@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+	    <title>Login page</title>
+	    <link rel="stylesheet" type="text/css" media="all" href="/css/home.css" th:href="@{/css/home.css}" /> 
+	</head>
+	
+	<body>
+	
+		<div class="container">
+		
+		    <h1>Veuillez vous connecter</h1>
+		    
+			<form th:action="@{/ui/login/auth}" th:object="${request}" method="post">
+				
+				<div>
+					<label for="username">Username</label>
+					<input type="text" id="username" th:field="*{username}" placeholder="Nom d'utilisateur" required />
+				</div>
+			    
+			    <div>
+			    	<label for="password">Mot de passe</label>
+			    	<input type="password" id="password" th:field="*{password}" placeholder="Mot de passe" required />
+			    </div>
+			    
+			    <button type="submit">Se connecter</button>
+			    
+			</form>
+			
+	    </div>
+	    
+	</body>
+	
+</html>
