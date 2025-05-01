@@ -1,8 +1,11 @@
 package com.medilabo.gateway_server.filters;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
@@ -21,6 +24,8 @@ import reactor.core.publisher.Mono;
 @Component
 public class JwtFilter implements WebFilter {
 
+	private final static Logger log = LogManager.getLogger(JwtFilter.class);
+	
 	@Autowired
 	CustomUserDetailsService userDetailsService;
 	
@@ -32,6 +37,8 @@ public class JwtFilter implements WebFilter {
 	 */
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+		
+		System.out.println("JwtFilter executed for request: " + exchange.getRequest().getURI());
 		
 		String path = exchange.getRequest().getPath().value();
 		
@@ -49,6 +56,7 @@ public class JwtFilter implements WebFilter {
 	    }
 		
 		String authHeaders = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+		log.info("Authorization header: {}", authHeaders);
 	    
 		String username = null;
 		String jwt = null;
@@ -80,17 +88,21 @@ public class JwtFilter implements WebFilter {
                     	
                         if (jwtUtils.validateToken(JWT, userDetails)) {
                         	
+                    		System.out.println("LA");
+                        	
                             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                                     userDetails, null, userDetails.getAuthorities());
                             
-                            SecurityContextHolder.getContext().setAuthentication(auth);
+                            return chain.filter(exchange)
+                                    .contextWrite(ReactiveSecurityContextHolder.withAuthentication(auth));
                             
                         }
-                        
-                        return chain.filter(exchange);
+						return chain.filter(exchange);
                         
                     })
                     .onErrorResume(e -> {
+                    	
+                    	log.info("pas autorisé veant du filtre jwt");
                     	
                         exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                         return exchange.getResponse().setComplete();
