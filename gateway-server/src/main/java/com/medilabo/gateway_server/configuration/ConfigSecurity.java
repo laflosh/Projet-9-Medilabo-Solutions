@@ -60,6 +60,7 @@ public class ConfigSecurity {
 					.pathMatchers("/api/patients/**").authenticated()
 					.pathMatchers("/api/notes/**").authenticated()
 					.pathMatchers("/api/users/**").authenticated()
+					.pathMatchers("/api/risk/**").authenticated()
 					)
 			.addFilterAfter(jwtFilter, SecurityWebFiltersOrder.AUTHENTICATION)
 			.logout(logout -> logout
