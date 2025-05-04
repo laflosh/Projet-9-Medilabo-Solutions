@@ -88,8 +88,6 @@ public class JwtFilter implements WebFilter {
                     	
                         if (jwtUtils.validateToken(JWT, userDetails)) {
                         	
-                    		System.out.println("LA");
-                        	
                             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                                     userDetails, null, userDetails.getAuthorities());
                             
