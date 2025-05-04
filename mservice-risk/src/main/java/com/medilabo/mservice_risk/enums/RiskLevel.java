@@ -1,7 +1,7 @@
-package com.medialbo.mservice_risk.enums;
+package com.medilabo.mservice_risk.enums;
 
 /**
- * 
+ *
  */
 public enum RiskLevel {
 
@@ -9,5 +9,5 @@ public enum RiskLevel {
 	BORDERLINE,
 	IN_DANGER,
 	EARLY_ONSET,
-	
+
 }

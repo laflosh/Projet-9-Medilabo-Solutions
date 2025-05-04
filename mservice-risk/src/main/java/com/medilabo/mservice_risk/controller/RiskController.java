@@ -1,4 +1,4 @@
-package com.medialbo.mservice_risk.controller;
+package com.medilabo.mservice_risk.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,37 +10,38 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.medialbo.mservice_risk.service.RiskService;
+import com.medilabo.mservice_risk.enums.RiskLevel;
+import com.medilabo.mservice_risk.service.RiskService;
 
 /**
- * 
+ *
  */
 @RestController
 @RequestMapping("/api")
 public class RiskController {
 
 	private final static Logger log = LogManager.getLogger(RiskController.class);
-	
+
 	@Autowired
 	RiskService riskService;
-	
+
 	/**
 	 * @param id
 	 * @return
 	 */
 	@GetMapping("/risk/{id}")
 	public ResponseEntity<?> getRiskLevelOfOnePatient(@PathVariable("id") int id){
-		
-		String riskLevel = riskService.calculateRiskLevel(id);
-		
+
+		RiskLevel riskLevel = riskService.calculateRiskLevel(id);
+
 		if(riskLevel == null) {
-			
+
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error during calculate risk level");
-			
+
 		}
-		
+
 		return ResponseEntity.status(HttpStatus.OK).body(riskLevel);
-		
+
 	}
-	
+
 }

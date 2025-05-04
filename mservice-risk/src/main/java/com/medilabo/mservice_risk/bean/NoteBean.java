@@ -1,16 +1,16 @@
-package com.medialbo.mservice_risk.bean;
+package com.medilabo.mservice_risk.bean;
 
 /**
- * 
+ *
  */
 public class NoteBean {
 
 	private String id;
-	
+
 	private int patId;
-	
+
 	private String patient;
-	
+
 	private String note;
 
 	public String getId() {
@@ -44,5 +44,5 @@ public class NoteBean {
 	public void setNote(String note) {
 		this.note = note;
 	}
-	
+
 }

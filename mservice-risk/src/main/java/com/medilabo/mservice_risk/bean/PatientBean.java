@@ -1,7 +1,7 @@
-package com.medialbo.mservice_risk.bean;
+package com.medilabo.mservice_risk.bean;
 
 /**
- * 
+ *
  */
 public class PatientBean {
 
@@ -14,9 +14,9 @@ public class PatientBean {
 	private String birthDate;
 
 	private String gender;
-	
+
 	private String address;
-	
+
 	private String phoneNumber;
 
 	public int getId() {
@@ -74,5 +74,5 @@ public class PatientBean {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-	
+
 }

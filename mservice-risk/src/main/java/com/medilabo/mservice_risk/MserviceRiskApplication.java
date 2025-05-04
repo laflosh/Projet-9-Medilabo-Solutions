@@ -1,4 +1,4 @@
-package com.medialbo.mservice_risk;
+package com.medilabo.mservice_risk;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,13 +12,13 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableDiscoveryClient
 @EnableFeignClients("com.medilabo.mservice_risk")
 @ComponentScan(basePackages = {
-	    "com.medilabo.mservice_clientui", 
-	    "com.medilabo.mservice_clientui.configuration"
+	    "com.medilabo.mservice_risk",
+	    "com.medilabo.mservice_risk.configuration"
 	})
 public class MserviceRiskApplication {
 
 	private final static Logger log = LogManager.getLogger("MserviceRiskApplication");
-	
+
 	public static void main(String[] args) {
 		log.info("Initialize mservice-risk");
 		SpringApplication.run(MserviceRiskApplication.class, args);
