@@ -14,6 +14,6 @@ import com.medialbo.mservice_risk.configuration.FeignConfig;
 public interface MServicePatientProxy {
 
 	@GetMapping("/api/patients/{id}")
-	PatientBean getOnePatientById(@PathVariable int id);
+	PatientBean getOnePatientById(@PathVariable("id") int id);
 	
 }
