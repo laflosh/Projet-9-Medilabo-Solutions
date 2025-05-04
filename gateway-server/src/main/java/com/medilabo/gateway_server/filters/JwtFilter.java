@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -91,7 +92,13 @@ public class JwtFilter implements WebFilter {
                             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                                     userDetails, null, userDetails.getAuthorities());
                             
-                            return chain.filter(exchange)
+                            ServerHttpRequest mutatedRequest = exchange.getRequest().mutate()
+                            	    .header("Authorization", "Bearer " + JWT)
+                            	    .build();
+
+                            ServerWebExchange mutatedExchange = exchange.mutate().request(mutatedRequest).build();
+                            
+                            return chain.filter(mutatedExchange)
                                     .contextWrite(ReactiveSecurityContextHolder.withAuthentication(auth));
                             
                         }
