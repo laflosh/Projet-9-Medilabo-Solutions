@@ -1,5 +1,8 @@
 package com.medialbo.mservice_risk.enums;
 
+/**
+ * 
+ */
 public enum KeyWords {
 
 	HÉMOGLOBINE_A1C,

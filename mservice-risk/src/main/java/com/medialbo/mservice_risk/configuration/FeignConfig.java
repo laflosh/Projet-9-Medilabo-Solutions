@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import feign.RequestInterceptor;
 import jakarta.servlet.http.HttpServletRequest;
 
+/**
+ * 
+ */
 @Configuration
 public class FeignConfig {
 

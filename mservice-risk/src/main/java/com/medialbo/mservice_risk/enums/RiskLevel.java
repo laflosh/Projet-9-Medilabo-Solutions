@@ -1,5 +1,8 @@
 package com.medialbo.mservice_risk.enums;
 
+/**
+ * 
+ */
 public enum RiskLevel {
 
 	NONE,
