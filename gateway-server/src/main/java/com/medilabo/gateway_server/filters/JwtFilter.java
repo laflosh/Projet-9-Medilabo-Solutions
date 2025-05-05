@@ -3,6 +3,7 @@ package com.medilabo.gateway_server.filters;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,6 +28,9 @@ public class JwtFilter implements WebFilter {
 
 	private final static Logger log = LogManager.getLogger(JwtFilter.class);
 	
+	private String username = null;
+	private String jwt = null;
+	
 	@Autowired
 	CustomUserDetailsService userDetailsService;
 	
@@ -42,43 +46,17 @@ public class JwtFilter implements WebFilter {
 		System.out.println("JwtFilter executed for request: " + exchange.getRequest().getURI());
 		
 		String path = exchange.getRequest().getPath().value();
-		
-	    // public routes
-	    if (path.startsWith("/auth/login") || 
-	        path.startsWith("/ui") || 
-	        path.startsWith("/ui/login/") || 
-	        path.startsWith("/css/") || 
-	        path.startsWith("/js/") || 
-	        path.startsWith("/images/") || 
-	        path.equals("/") || 
-	        path.startsWith("/api/users/username/") || 
-	        path.startsWith("/api/users/mail/")) {
-	        return chain.filter(exchange);
-	    }
-		
 		String authHeaders = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-		log.info("Authorization header: {}", authHeaders);
-	    
-		String username = null;
-		String jwt = null;
 		
-		if(authHeaders != null && authHeaders.startsWith("Bearer ")) {
+		log.info("Authorization header: {}", authHeaders);
+		
+	    if (checkPublicRoute(path)) {
+	    	
+	        return chain.filter(exchange);
+	        
+	    }
 
-			jwt = authHeaders.substring(7);
-			username = jwtUtils.extractUsername(jwt);
-			
-		} else {
-			
-			var jwtCookie = exchange.getRequest().getCookies().getFirst("jwt");
-			
-			if(jwtCookie != null) {
-				
-				jwt = jwtCookie.getValue();
-				username = jwtUtils.extractUsername(jwt);
-				
-			}
-			
-		}
+		extractTokenAndUsernameFromRequest(authHeaders, exchange);
 		
 		if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 			
@@ -117,6 +95,48 @@ public class JwtFilter implements WebFilter {
 		}
 		
 		return chain.filter(exchange);
+		
+	}
+	
+	private boolean checkPublicRoute(String path) {
+		
+		if(path.startsWith("/auth/login") || 
+	        path.startsWith("/ui") || 
+	        path.startsWith("/ui/login/") || 
+	        path.startsWith("/css/") || 
+	        path.startsWith("/js/") || 
+	        path.startsWith("/images/") || 
+	        path.equals("/") || 
+	        path.startsWith("/api/users/username/") || 
+	        path.startsWith("/api/users/mail/")) {
+			
+			return true;
+			
+		}
+		
+		return false;
+		
+	}
+	
+	private void extractTokenAndUsernameFromRequest(String authHeaders, ServerWebExchange exchange) {
+		
+		if(authHeaders != null && authHeaders.startsWith("Bearer ")) {
+
+			jwt = authHeaders.substring(7);
+			username = jwtUtils.extractUsername(jwt);
+			
+		} else {
+			
+			HttpCookie jwtCookie = exchange.getRequest().getCookies().getFirst("jwt");
+			
+			if(jwtCookie != null) {
+				
+				jwt = jwtCookie.getValue();
+				username = jwtUtils.extractUsername(jwt);
+				
+			}
+			
+		}
 		
 	}
 
