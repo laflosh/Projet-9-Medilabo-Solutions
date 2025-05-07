@@ -52,7 +52,7 @@ public class ConfigSecurity {
 					.pathMatchers("/css/**", "/js/**", "/images/**").permitAll()
 					.pathMatchers("/favicon.ico").permitAll()
 					.pathMatchers("/api/users/username/**","/api/users/mail/**").permitAll()
-					.pathMatchers("/auth/login").permitAll()
+					.pathMatchers("/auth/**").permitAll()
 					.pathMatchers("/ui/login/**").permitAll()
 					.pathMatchers("/ui/patients/**").authenticated()
 					.pathMatchers("/ui/notes/**").authenticated()
@@ -64,7 +64,7 @@ public class ConfigSecurity {
 					)
 			.addFilterAfter(jwtFilter, SecurityWebFiltersOrder.AUTHENTICATION)
 			.logout(logout -> logout
-					.logoutUrl("/logout")
+					.logoutUrl("/auth/logout")
 				);
 			
 		return http.build();
