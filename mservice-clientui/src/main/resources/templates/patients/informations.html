@@ -16,6 +16,12 @@
 			
 			<h2>Dossier</h2>
 			
+			<div class="risk-level">
+			
+				<p th:text="'Niveau de risque du patient : ' + ${riskLevel}"></p>
+			
+			</div>
+			
 			<div class="informations">
 			
 				<p th:text="'Nom : ' + ${patient.name}"></p>

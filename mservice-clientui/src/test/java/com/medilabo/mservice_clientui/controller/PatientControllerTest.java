@@ -23,6 +23,7 @@ import com.medilabo.mservice_clientui.beans.NoteBean;
 import com.medilabo.mservice_clientui.beans.PatientBean;
 import com.medilabo.mservice_clientui.proxys.MServiceNoteProxy;
 import com.medilabo.mservice_clientui.proxys.MServicePatientProxy;
+import com.medilabo.mservice_clientui.proxys.MServiceRiskProxy;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -36,6 +37,9 @@ class PatientControllerTest {
 	
 	@Mock
 	MServiceNoteProxy noteProxy;
+	
+	@Mock
+	MServiceRiskProxy riskProxy;
 	
 	@InjectMocks
 	PatientController patientController;
@@ -82,12 +86,14 @@ class PatientControllerTest {
 		//Mock return
         Mockito.when(patientProxy.getOnePatientById(mockPatient.getId())).thenReturn(mockPatient);
         Mockito.when(noteProxy.getAllNotesDependingOfPatientName(mockPatient.getName())).thenReturn(mockNotes);
+        Mockito.when(riskProxy.getRiskLevelOfOnePatient(mockPatient.getId())).thenReturn("risk level");
         
         //Testing request
         mockMvc.perform(MockMvcRequestBuilders.get("/ui/patients/" + mockPatient.getId()))
         	.andExpect(MockMvcResultMatchers.status().isOk())
         	.andExpect(MockMvcResultMatchers.model().attributeExists("patient"))
         	.andExpect(MockMvcResultMatchers.model().attributeExists("notes"))
+        	.andExpect(MockMvcResultMatchers.model().attributeExists("riskLevel"))
         	.andExpect(MockMvcResultMatchers.view().name("patients/informations"));
 		
 	}

@@ -18,6 +18,7 @@ import com.medilabo.mservice_clientui.beans.NoteBean;
 import com.medilabo.mservice_clientui.beans.PatientBean;
 import com.medilabo.mservice_clientui.proxys.MServiceNoteProxy;
 import com.medilabo.mservice_clientui.proxys.MServicePatientProxy;
+import com.medilabo.mservice_clientui.proxys.MServiceRiskProxy;
 
 import jakarta.validation.Valid;
 
@@ -36,6 +37,9 @@ public class PatientController {
 	
 	@Autowired
 	MServiceNoteProxy noteProxy;
+	
+	@Autowired
+	MServiceRiskProxy riskProxy;
 	
 	/**
 	 * Show the patient list page with all the patients in the database from mservice-patient
@@ -57,7 +61,8 @@ public class PatientController {
 	}
 	
 	/**
-	 * Show the page of one patient with all the informations concerning the patient and all the notes
+	 * Show the page of one patient with all the informations concerning the patient, all the notes
+	 * and the risk depending of the patient's folder
 	 * 
 	 * @param id of the patient
 	 * @param model
@@ -70,9 +75,11 @@ public class PatientController {
 		
 		PatientBean patient = patientProxy.getOnePatientById(id);
 		List<NoteBean> notesPatient = noteProxy.getAllNotesDependingOfPatientName(patient.getName());
+		String riskLevel = riskProxy.getRiskLevelOfOnePatient(id);
 		
 		model.addAttribute("patient", patient);
 		model.addAttribute("notes", notesPatient);
+		model.addAttribute("riskLevel", riskLevel);
 		
 		return "patients/informations";
 		
