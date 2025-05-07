@@ -18,6 +18,9 @@ import com.medilabo.mservice_risk.enums.RiskLevel;
 import com.medilabo.mservice_risk.proxy.MServiceNoteProxy;
 import com.medilabo.mservice_risk.proxy.MServicePatientProxy;
 
+/**
+ * 
+ */
 @Service
 public class RiskService {
 
@@ -31,13 +34,33 @@ public class RiskService {
 	@Autowired
 	MServiceNoteProxy noteProxy;
 
+	/**
+	 * @param id
+	 * @return
+	 */
 	public RiskLevel calculateRiskLevel(int id) {
 
 		PatientBean patient = patientProxy.getOnePatientById(id);
 		List<NoteBean> patientNotes = noteProxy.getAllNotesDependingOfPatientName(patient.getName());
 
-		List<String> notes = new ArrayList<>();
+		List<String> notes = getAllNotesForPatient(patientNotes);
 
+		int countKeyWords = countKeyWordsInNotes(notes);
+
+		int age = calculateAge(patient.getBirthDate());
+		
+		return determinateRiskLevel(age, countKeyWords, patient);
+
+	}
+
+	/**
+	 * @param patientNotes
+	 * @return
+	 */
+	private List<String> getAllNotesForPatient(List<NoteBean> patientNotes){
+		
+		List<String> notes = new ArrayList<>();
+		
 		for(NoteBean patientNote : patientNotes) {
 
 			String note = patientNote.getNote();
@@ -45,16 +68,26 @@ public class RiskService {
 			notes.add(note);
 
 		}
-
-		int countKeyWords = 0;
-
+		
+		return notes;
+		
+	}
+	
+	/**
+	 * @param notes
+	 * @return
+	 */
+	private int countKeyWordsInNotes(List<String> notes) {
+		
+		int count = 0;
+		
 		for(String note : notes) {
 
 			for(KeyWords keyWord : keyWords) {
 
 				if(note.toLowerCase().contains(keyWord.getMot().toLowerCase())) {
 
-					countKeyWords++;
+					count++;
 
 				}
 
@@ -62,96 +95,131 @@ public class RiskService {
 
 		}
 		
-		System.out.println("Nombre de mots détecté : " + countKeyWords);
-
-		int age = calculateAge(patient.getBirthDate());
+		return count;
 		
-		System.out.println("Nombre de age détecté : " + age);
-		
-		System.out.println("Nombre de age détecté : " + patient.getGender());
+	}
+	
+	/**
+	 * @param age
+	 * @param countKeyWords
+	 * @param patient
+	 * @return
+	 */
+	private RiskLevel determinateRiskLevel(int age, int countKeyWords, PatientBean patient) {
 
 		if(countKeyWords < 2) {
-
+			
 			return RiskLevel.NONE;
-
+			
 		} else {
 			
-			if(patient.getGender().equals("M")) {
-
-				//Over 30 years
-				if(countKeyWords >= 2 && countKeyWords <= 5 && age >= checkAge) {
-					
-					return RiskLevel.BORDERLINE;
-					
-				}
+			if(checkAgeUnderThirty(age)) {
 				
-				if(countKeyWords >= 6 && countKeyWords <= 7 && age >= checkAge) {
-					
-					return RiskLevel.IN_DANGER;
-					
-				}
+				if(patient.getGender().equals("M")) {
 				
-				if(countKeyWords >= 8 && age >= checkAge) {
+					return levelRiskForMaleUnderThirty(countKeyWords);
 					
-					return RiskLevel.EARLY_ONSET;
+				} else if(patient.getGender().equals("F")) {
 					
-				}
+					return levelRiskForFemaleUnderThirty(countKeyWords);
+					
+				}	
 				
-				//Under 30 years
-				if(countKeyWords >= 3 && countKeyWords < 5 && age <= checkAge) {
-					
-					return RiskLevel.IN_DANGER;
-					
-				}
+			} else {
 				
-				if(countKeyWords >= 5 && age <= checkAge) {
-					
-					return RiskLevel.EARLY_ONSET;
-					
-				}
-
-			} else if(patient.getGender().equals("F")) {
-
-				//Over 30 years
-				if(countKeyWords >= 2 && countKeyWords <= 5 && age >= checkAge) {
-					
-					return RiskLevel.BORDERLINE;
-					
-				}
+				return levelRiskOverThirty(countKeyWords);
 				
-				if(countKeyWords >= 6 && countKeyWords <= 7 && age >= checkAge) {
-					
-					return RiskLevel.IN_DANGER;
-					
-				}
-				
-				if(countKeyWords >= 8 && age >= checkAge) {
-					
-					return RiskLevel.EARLY_ONSET;
-					
-				}
-				
-				//Under 30 years
-				if(countKeyWords >= 3 && countKeyWords < 7 && age <= checkAge) {
-					
-					return RiskLevel.IN_DANGER;
-					
-				}
-				
-				if(countKeyWords >= 7 && age <= checkAge) {
-					
-					return RiskLevel.EARLY_ONSET;
-					
-				}
-
 			}
 			
 		}
 		
 		return null;
-
+		
+	}
+	
+	/**
+	 * @param age
+	 * @return
+	 */
+	private boolean checkAgeUnderThirty(int age) {
+		
+		if(age <= checkAge) {
+			
+			return true;
+			
+		}
+		
+		return false;
 	}
 
+	/**
+	 * @param countKeyWords
+	 * @return
+	 */
+	private RiskLevel levelRiskForFemaleUnderThirty(int countKeyWords) {
+
+		if(countKeyWords >= 3 && countKeyWords < 7) {
+			
+			return RiskLevel.IN_DANGER;
+			
+		} else if(countKeyWords >= 7) {
+			
+			return RiskLevel.EARLY_ONSET;
+			
+		}
+		
+		return null;
+		
+	}
+
+	/**
+	 * @param countKeyWords
+	 * @return
+	 */
+	private RiskLevel levelRiskForMaleUnderThirty(int countKeyWords) {
+
+		if(countKeyWords >= 3 && countKeyWords < 5) {
+			
+			return RiskLevel.IN_DANGER;
+			
+		} else if(countKeyWords >= 5) {
+			
+			return RiskLevel.EARLY_ONSET;
+			
+		}
+		
+		return null;
+		
+	}
+	
+	/**
+	 * @param countKeyWords
+	 * @return
+	 */
+	private RiskLevel levelRiskOverThirty(int countKeyWords) {
+		
+		if(countKeyWords >= 2 && countKeyWords <= 5) {
+			
+			return RiskLevel.BORDERLINE;
+			
+		} else if(countKeyWords >= 6 && countKeyWords <= 7) {
+			
+			return RiskLevel.IN_DANGER;
+			
+		} else if(countKeyWords >= 8) {
+			
+			return RiskLevel.EARLY_ONSET;
+		
+		}
+		
+		return null;	
+		
+	}
+
+	/**
+	 * @param birthdate
+	 * @return
+	 */
 	private int calculateAge(String birthdate) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
