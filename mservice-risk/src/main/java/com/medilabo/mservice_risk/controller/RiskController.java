@@ -40,8 +40,35 @@ public class RiskController {
 
 		}
 
-		return ResponseEntity.status(HttpStatus.OK).body(riskLevel);
+		return ResponseEntity.status(HttpStatus.OK).body(messageForRiskLevel(riskLevel));
 
+	}
+	
+	/**
+	 * @param riskLevel
+	 * @return
+	 */
+	private String messageForRiskLevel(RiskLevel riskLevel) {
+		
+		switch(riskLevel) {
+		
+			case NONE:
+				return "Aucun risque (" + riskLevel + ")";
+				
+			case BORDERLINE:
+				return "Risque modéré (" + riskLevel + ")";
+			
+			case IN_DANGER:
+				return "Risque élevé (" + riskLevel + ")";
+				
+			case EARLY_ONSET:
+				return "Apparition précoce (" + riskLevel + ")";
+			
+			default:
+				return "Niveau de risque inconnu";
+				
+		}
+		
 	}
 
 }
