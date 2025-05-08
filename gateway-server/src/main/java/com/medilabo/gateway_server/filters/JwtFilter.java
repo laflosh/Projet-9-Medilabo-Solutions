@@ -56,23 +56,12 @@ public class JwtFilter implements WebFilter {
 	        return chain.filter(exchange);
 	        
 	    }
-	    
-		log.info("Authorization header: {}", authHeaders);
-		log.info("Cookie avec jwt : {}", exchange.getRequest().getCookies());
 
 	    if(authHeaders != null) {
-	    	log.info("Headers");
-	    	
 	    	extractTokenAndUsernameFromHeaders(authHeaders, exchange);
-	    	
 	    } else {
-	    	log.info("Cookie");
 	    	extractTokenAndUsernameFromCookie(exchange);
-	    	
 	    }
-		
-	    log.info("jwt : {}", jwt);
-	    log.info("username : {}", username);
 	    
 		if(username != null) {
 			
@@ -97,6 +86,8 @@ public class JwtFilter implements WebFilter {
                             
                         } else if(jwtUtils.isTokenExpired(JWT)) {
                         	
+                        	System.out.println("Token expiré redirection en cours");
+                        	
                     	    exchange.getResponse()
                             .addCookie(ResponseCookie.from("jwt", "")
                                 .path("/")
@@ -104,7 +95,7 @@ public class JwtFilter implements WebFilter {
                                 .maxAge(Duration.ZERO)
                                 .build());
                     		
-                    		exchange.getResponse().setStatusCode(HttpStatus.SEE_OTHER);
+                    		exchange.getResponse().setStatusCode(HttpStatus.FOUND);
                     		exchange.getResponse().getHeaders().setLocation(URI.create("/ui/login"));
                     		
                     		return exchange.getResponse().setComplete();
@@ -118,7 +109,16 @@ public class JwtFilter implements WebFilter {
                     	
                     	log.info("pas autorisé veant du filtre jwt");
                     	
-                        exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+                	    exchange.getResponse()
+                        .addCookie(ResponseCookie.from("jwt", "")
+                            .path("/")
+                            .httpOnly(true)
+                            .maxAge(Duration.ZERO)
+                            .build());
+                		
+                		exchange.getResponse().setStatusCode(HttpStatus.FOUND);
+                		exchange.getResponse().getHeaders().setLocation(URI.create("/ui/login"));
+                    	
                         return exchange.getResponse().setComplete();
                         
                     });

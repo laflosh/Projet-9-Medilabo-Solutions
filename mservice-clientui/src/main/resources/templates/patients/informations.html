@@ -49,7 +49,7 @@
 				
 				<a th:href="@{/ui/notes/add/{patId}(patId=${patient.id})}">Ajouter une nouvelle note</a>
 				
-				<div class="note" th:each="note : ${notes}">
+				<div th:if="${notes != null}" class="note" th:each="note : ${notes}">
 				
 					<p th:text="${note.note}"></p>
 					

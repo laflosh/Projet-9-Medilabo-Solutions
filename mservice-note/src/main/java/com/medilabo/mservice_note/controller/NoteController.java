@@ -176,12 +176,6 @@ public class NoteController {
 		
 		List<Note> patientNotes = noteService.getAllNotesDependingOfPatientName(patientName);
 		
-		if(patientNotes.isEmpty()) {
-			
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Notes of the patient not found");
-			
-		}
-		
 		return ResponseEntity.status(HttpStatus.OK).body(patientNotes);
 		
 	}
