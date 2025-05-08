@@ -1,14 +1,17 @@
 package com.medilabo.gateway_server.filters;
 
+import java.net.URI;
+import java.time.Duration;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
@@ -48,17 +51,30 @@ public class JwtFilter implements WebFilter {
 		String path = exchange.getRequest().getPath().value();
 		String authHeaders = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
 		
-		log.info("Authorization header: {}", authHeaders);
-		
 	    if (checkPublicRoute(path)) {
 	    	
 	        return chain.filter(exchange);
 	        
 	    }
+	    
+		log.info("Authorization header: {}", authHeaders);
+		log.info("Cookie avec jwt : {}", exchange.getRequest().getCookies());
 
-		extractTokenAndUsernameFromRequest(authHeaders, exchange);
+	    if(authHeaders != null) {
+	    	log.info("Headers");
+	    	
+	    	extractTokenAndUsernameFromHeaders(authHeaders, exchange);
+	    	
+	    } else {
+	    	log.info("Cookie");
+	    	extractTokenAndUsernameFromCookie(exchange);
+	    	
+	    }
 		
-		if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+	    log.info("jwt : {}", jwt);
+	    log.info("username : {}", username);
+	    
+		if(username != null) {
 			
 			final String JWT = jwt;
 			
@@ -79,7 +95,22 @@ public class JwtFilter implements WebFilter {
                             return chain.filter(mutatedExchange)
                                     .contextWrite(ReactiveSecurityContextHolder.withAuthentication(auth));
                             
+                        } else if(jwtUtils.isTokenExpired(JWT)) {
+                        	
+                    	    exchange.getResponse()
+                            .addCookie(ResponseCookie.from("jwt", "")
+                                .path("/")
+                                .httpOnly(true)
+                                .maxAge(Duration.ZERO)
+                                .build());
+                    		
+                    		exchange.getResponse().setStatusCode(HttpStatus.SEE_OTHER);
+                    		exchange.getResponse().getHeaders().setLocation(URI.create("/ui/login"));
+                    		
+                    		return exchange.getResponse().setComplete();
+                        	
                         }
+                        
 						return chain.filter(exchange);
                         
                     })
@@ -100,8 +131,8 @@ public class JwtFilter implements WebFilter {
 	
 	private boolean checkPublicRoute(String path) {
 		
-		if(path.startsWith("/auth/login") || 
-	        path.startsWith("/ui") || 
+		if(path.startsWith("/auth/") || 
+	        path.equals("/ui") || 
 	        path.startsWith("/ui/login/") || 
 	        path.startsWith("/css/") || 
 	        path.startsWith("/js/") || 
@@ -118,23 +149,40 @@ public class JwtFilter implements WebFilter {
 		
 	}
 	
-	private void extractTokenAndUsernameFromRequest(String authHeaders, ServerWebExchange exchange) {
+	/**
+	 * @param authHeaders
+	 * @param exchange
+	 */
+	private void extractTokenAndUsernameFromHeaders(String authHeaders, ServerWebExchange exchange) {
 		
 		if(authHeaders != null && authHeaders.startsWith("Bearer ")) {
 
 			jwt = authHeaders.substring(7);
 			username = jwtUtils.extractUsername(jwt);
 			
-		} else {
+		} 
+		
+	}
+	
+	/**
+	 * @param exchange
+	 */
+	private void extractTokenAndUsernameFromCookie(ServerWebExchange exchange) {
+		
+		HttpCookie jwtCookie = exchange.getRequest().getCookies().getFirst("jwt");
+		
+		if(jwtCookie != null) {
 			
-			HttpCookie jwtCookie = exchange.getRequest().getCookies().getFirst("jwt");
+			String raw = jwtCookie.getValue();
 			
-			if(jwtCookie != null) {
-				
-				jwt = jwtCookie.getValue();
-				username = jwtUtils.extractUsername(jwt);
-				
+			if(raw.startsWith("jwt=")) {
+				raw = raw.substring(4);
 			}
+			
+			log.info("jwt in method : {}", raw);
+			
+			jwt = raw;
+			username = jwtUtils.extractUsername(jwt);
 			
 		}
 		

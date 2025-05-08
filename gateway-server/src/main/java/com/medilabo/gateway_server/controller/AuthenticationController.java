@@ -42,7 +42,7 @@ public class AuthenticationController {
 	 * @param request object
 	 * @return response object
 	 */
-	@PostMapping("/login")
+	@PostMapping("/api/login")
 	public Mono<ResponseEntity<AuthenticationResponse>> login(@RequestBody AuthenticationRequest request){
 		
 		log.info("Trying to login the user with the username {}", request.getUsername());
@@ -72,6 +72,10 @@ public class AuthenticationController {
 		
 	}
 	
+	/**
+	 * @param response
+	 * @return
+	 */
 	@GetMapping("/logout")
 	public Mono<Void> logout(ServerHttpResponse response){
 		
