@@ -1,5 +1,8 @@
 package com.medilabo.mservice_clientui.model;
 
+/**
+ * Model to handling the information for the login request
+ */
 public class LoginRequest {
 
 	private String username;

@@ -10,18 +10,19 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class HomeControllerTest {
+class LoginControllerTest {
 
 	@Autowired
 	MockMvc mockMvc;
 	
 	@Test
-	public void getAccesToTheHomePage() throws Exception {
-		
-		//Testing request
-		mockMvc.perform(MockMvcRequestBuilders.get("/ui"))
+	void shwoTheLoginPageAndReturnOk() throws Exception {
+
+		//testing request
+		mockMvc.perform(MockMvcRequestBuilders.get("/ui/login"))
 			.andExpect(MockMvcResultMatchers.status().isOk())
-			.andExpect(MockMvcResultMatchers.view().name("home"));
+			.andExpect(MockMvcResultMatchers.model().attributeExists("request"))
+			.andExpect(MockMvcResultMatchers.view().name("login"));
 		
 	}
 
