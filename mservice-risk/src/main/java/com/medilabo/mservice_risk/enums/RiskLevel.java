@@ -1,7 +1,7 @@
 package com.medilabo.mservice_risk.enums;
 
 /**
- *
+ * Enumeration class for define the constant different risk level
  */
 public enum RiskLevel {
 

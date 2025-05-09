@@ -8,7 +8,7 @@ import com.medilabo.mservice_risk.bean.PatientBean;
 import com.medilabo.mservice_risk.configuration.FeignConfig;
 
 /**
- *
+ * Proxy class to send request to the mservice-patient to get informations about one patient depending of the id
  */
 @FeignClient(name = "mservice-patient", url = "localhost:8080", configuration = FeignConfig.class)
 public interface MServicePatientProxy {

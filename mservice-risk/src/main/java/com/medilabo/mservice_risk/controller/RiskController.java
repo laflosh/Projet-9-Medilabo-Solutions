@@ -14,7 +14,7 @@ import com.medilabo.mservice_risk.enums.RiskLevel;
 import com.medilabo.mservice_risk.service.RiskService;
 
 /**
- *
+ * Controller for managing http request to calculate the risk level of one patient
  */
 @RestController
 @RequestMapping("/api")
@@ -26,12 +26,16 @@ public class RiskController {
 	RiskService riskService;
 
 	/**
-	 * @param id
-	 * @return
+	 * Calculate the risk level of one patient and return a message with the riskLevel
+	 * 
+	 * @param id of the patient
+	 * @return message with riskLevel
 	 */
 	@GetMapping("/risk/{id}")
 	public ResponseEntity<?> getRiskLevelOfOnePatient(@PathVariable("id") int id){
 
+		log.info("Trying to calculate the risk level of one patient with the id : {} ", id);
+		
 		RiskLevel riskLevel = riskService.calculateRiskLevel(id);
 
 		if(riskLevel == null) {
@@ -45,8 +49,10 @@ public class RiskController {
 	}
 	
 	/**
+	 * Make a special message with the riskLevel for every riskLevel in the enumeration class
+	 * 
 	 * @param riskLevel
-	 * @return
+	 * @return message with riskLevel
 	 */
 	private String messageForRiskLevel(RiskLevel riskLevel) {
 		

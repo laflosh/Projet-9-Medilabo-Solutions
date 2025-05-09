@@ -1,7 +1,7 @@
 package com.medilabo.mservice_risk.bean;
 
 /**
- *
+ * Bean model for the entity patient from the mservice-patient
  */
 public class PatientBean {
 

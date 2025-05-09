@@ -9,7 +9,7 @@ import feign.RequestInterceptor;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
- *
+ * Config feign to intercept the request and put the token in it to pass the security in the gateway
  */
 @Configuration
 public class FeignConfig {

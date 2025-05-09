@@ -1,7 +1,7 @@
 package com.medilabo.mservice_risk.enums;
 
 /**
- *
+ * Enumeration class for keyword constants used in the risk level algorithm
  */
 public enum KeyWords {
 

@@ -1,7 +1,7 @@
 package com.medilabo.mservice_risk.bean;
 
 /**
- *
+ * Bean model for the entity note from the mservice-note
  */
 public class NoteBean {
 

@@ -19,7 +19,7 @@ import com.medilabo.mservice_risk.proxy.MServiceNoteProxy;
 import com.medilabo.mservice_risk.proxy.MServicePatientProxy;
 
 /**
- * 
+ * Service class for all the logic to calculate the risk level of one patient
  */
 @Service
 public class RiskService {
@@ -35,11 +35,16 @@ public class RiskService {
 	MServiceNoteProxy noteProxy;
 
 	/**
-	 * @param id
-	 * @return
+	 * Calculate the risk level of one patient depending of the age of the patient 
+	 * and how many key words are presents in their notes
+	 * 
+	 * @param id of the patient
+	 * @return riskLevel
 	 */
 	public RiskLevel calculateRiskLevel(int id) {
 
+		log.info("Calculate the risk level for the patient with id : {}", id);
+		
 		PatientBean patient = patientProxy.getOnePatientById(id);
 		List<NoteBean> patientNotes = noteProxy.getAllNotesDependingOfPatientName(patient.getName());
 
@@ -54,8 +59,11 @@ public class RiskService {
 	}
 
 	/**
-	 * @param patientNotes
-	 * @return
+	 * Extract all the notes in the List of NoteBean
+	 * 
+	 * 
+	 * @param patientNotes (List of NoteBean)
+	 * @return List of notes
 	 */
 	private List<String> getAllNotesForPatient(List<NoteBean> patientNotes){
 		
@@ -74,8 +82,10 @@ public class RiskService {
 	}
 	
 	/**
+	 * Count how many keywords are present in all notes 
+	 * 
 	 * @param notes
-	 * @return
+	 * @return count of keywords
 	 */
 	private int countKeyWordsInNotes(List<String> notes) {
 		
@@ -100,10 +110,12 @@ public class RiskService {
 	}
 	
 	/**
+	 * Determinate the risk level of one patient
+	 * 
 	 * @param age
 	 * @param countKeyWords
 	 * @param patient
-	 * @return
+	 * @return riskLevel
 	 */
 	private RiskLevel determinateRiskLevel(int age, int countKeyWords, PatientBean patient) {
 
@@ -138,8 +150,10 @@ public class RiskService {
 	}
 	
 	/**
-	 * @param age
-	 * @return
+	 * Check the age of the patient to determinate if it's under or over 30
+	 * 
+	 * @param age of the patient
+	 * @return boolean
 	 */
 	private boolean checkAgeUnderThirty(int age) {
 		
@@ -153,8 +167,10 @@ public class RiskService {
 	}
 
 	/**
+	 * Determinate the risk level for a female under 30 years
+	 * 
 	 * @param countKeyWords
-	 * @return
+	 * @return riskLevel
 	 */
 	private RiskLevel levelRiskForFemaleUnderThirty(int countKeyWords) {
 
@@ -173,8 +189,10 @@ public class RiskService {
 	}
 
 	/**
+	 * Determinate the risk level for a male under 30 years
+	 * 
 	 * @param countKeyWords
-	 * @return
+	 * @return riskLevel
 	 */
 	private RiskLevel levelRiskForMaleUnderThirty(int countKeyWords) {
 
@@ -193,6 +211,8 @@ public class RiskService {
 	}
 	
 	/**
+	 * Determinate the risk level for a patient over 30 years
+	 * 
 	 * @param countKeyWords
 	 * @return
 	 */
@@ -217,8 +237,10 @@ public class RiskService {
 	}
 
 	/**
-	 * @param birthdate
-	 * @return
+	 * Calculate the age of one patient based on the birthdate
+	 * 
+	 * @param birthdate of the patient
+	 * @return age of the patient
 	 */
 	private int calculateAge(String birthdate) {
 
