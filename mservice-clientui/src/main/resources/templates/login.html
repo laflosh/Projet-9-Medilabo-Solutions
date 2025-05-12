@@ -3,7 +3,7 @@
 
 	<head>
 	    <title>Login page</title>
-	    <link rel="stylesheet" type="text/css" media="all" href="/css/home.css" th:href="@{/css/home.css}" /> 
+	    <link rel="stylesheet" type="text/css" media="all" href="/css/login.css" th:href="@{/css/login.css}" /> 
 	</head>
 	
 	<body>
@@ -14,12 +14,12 @@
 		    
 			<form th:action="@{/auth/login}" th:object="${request}" method="post">
 				
-				<div>
+				<div class="formLogin-input">
 					<label for="username">Username</label>
 					<input type="text" id="username" th:field="*{username}" placeholder="Nom d'utilisateur" required />
 				</div>
 			    
-			    <div>
+			    <div class="formLogin-input">
 			    	<label for="password">Mot de passe</label>
 			    	<input type="password" id="password" th:field="*{password}" placeholder="Mot de passe" required />
 			    </div>
