@@ -3,7 +3,7 @@ package com.medilabo.gateway_server.dtos;
 import java.util.Date;
 
 /**
- * 
+ * DTO for user model from mservice-user for manipulate the object and the data
  */
 public class UserDTO {
 

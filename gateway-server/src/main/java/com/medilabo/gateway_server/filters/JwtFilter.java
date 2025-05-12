@@ -24,7 +24,7 @@ import jakarta.ws.rs.core.HttpHeaders;
 import reactor.core.publisher.Mono;
 
 /**
- * 
+ * Personnal filter to validate the jwt token in the request throught the gateway
  */
 @Component
 public class JwtFilter implements WebFilter {
@@ -41,7 +41,10 @@ public class JwtFilter implements WebFilter {
 	JwtUtils jwtUtils;
 	
 	/**
-	 *
+	 * Filter method for jwt token before the filter chain :
+	 * Check if the route from the request is public
+	 * Extract the jwt token from the headers or the cookie in the request
+	 * With the class JwtUtils validate the token with the claims in it
 	 */
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
@@ -107,7 +110,7 @@ public class JwtFilter implements WebFilter {
                     })
                     .onErrorResume(e -> {
                     	
-                    	log.info("pas autorisé veant du filtre jwt");
+                    	log.info("pas autorisé venant du filtre jwt");
                     	
                 	    exchange.getResponse()
                         .addCookie(ResponseCookie.from("jwt", "")
@@ -129,6 +132,12 @@ public class JwtFilter implements WebFilter {
 		
 	}
 	
+	/**
+	 * Boolean method to check if the path of the request is public or not
+	 * 
+	 * @param path
+	 * @return true if public route
+	 */
 	private boolean checkPublicRoute(String path) {
 		
 		if(path.startsWith("/auth/") || 
@@ -150,6 +159,9 @@ public class JwtFilter implements WebFilter {
 	}
 	
 	/**
+	 * Extract the jwt token form headers informations
+	 * and set the token in the global var. jwt
+	 * 
 	 * @param authHeaders
 	 * @param exchange
 	 */
@@ -165,6 +177,9 @@ public class JwtFilter implements WebFilter {
 	}
 	
 	/**
+	 * Extract the jwt token from the cookie informations
+	 * and set the token in the global var. jwt
+	 * 
 	 * @param exchange
 	 */
 	private void extractTokenAndUsernameFromCookie(ServerWebExchange exchange) {

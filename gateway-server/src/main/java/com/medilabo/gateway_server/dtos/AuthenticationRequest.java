@@ -1,7 +1,7 @@
 package com.medilabo.gateway_server.dtos;
 
 /**
- * 
+ * Entity for authentication request with all properties for authentication
  */
 public class AuthenticationRequest {
 

@@ -79,6 +79,9 @@ public class JwtUtils {
 	}
 	
 	/**
+	 * Validate the token if the token are not expirate 
+	 * and the username are the same in database from mservice-user
+	 * 
 	 * @param token
 	 * @param userDetails
 	 * @return
@@ -98,8 +101,10 @@ public class JwtUtils {
 	}
 	
 	/**
+	 * Extract username from the claims from the token
+	 * 
 	 * @param token
-	 * @return
+	 * @return username
 	 */
 	public String extractUsername(String token) {
 		
@@ -108,8 +113,10 @@ public class JwtUtils {
 	}
 	
 	/**
+	 * Extract the expiration date in the claims from the token
+	 * 
 	 * @param token
-	 * @return
+	 * @return expiration date
 	 */
 	public Date extractExpirationDate(String token) {
 		
@@ -118,8 +125,10 @@ public class JwtUtils {
 	}
 	
 	/**
+	 * Extract the role in the claims from the token 
+	 * 
 	 * @param token
-	 * @return
+	 * @return role
 	 */
 	public String extractRole(String token) {
 		
@@ -128,6 +137,9 @@ public class JwtUtils {
 	}
 	
 	/**
+	 * Generic method to extract claims from a token
+	 * The claims extract i=are depending of the function in param of the method
+	 * 
 	 * @param <T>
 	 * @param token
 	 * @param claimsResolver
@@ -142,6 +154,8 @@ public class JwtUtils {
 	}
 	
 	/**
+	 * Extract all the claims in the token 
+	 * 
 	 * @param token
 	 * @return
 	 */
@@ -159,6 +173,8 @@ public class JwtUtils {
 	}
 
 	/**
+	 * Check if the token are expiration depending of the expiration date in the claims from the token 
+	 * 
 	 * @param token
 	 * @return
 	 */

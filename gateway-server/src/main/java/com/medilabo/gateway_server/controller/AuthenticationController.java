@@ -73,6 +73,9 @@ public class AuthenticationController {
 	}
 	
 	/**
+	 * Delete the cookie who contains the jwt token and redirect 
+	 * the user to the home page
+	 * 
 	 * @param response
 	 * @return
 	 */

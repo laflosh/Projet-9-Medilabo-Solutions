@@ -1,7 +1,7 @@
 package com.medilabo.gateway_server.dtos;
 
 /**
- * 
+ * Entity to set all properties for the response from the server after the authentication of the user
  */
 public class AuthenticationResponse {
 

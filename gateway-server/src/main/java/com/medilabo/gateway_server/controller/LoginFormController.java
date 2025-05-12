@@ -17,7 +17,7 @@ import com.medilabo.gateway_server.service.AuthenticationService;
 import reactor.core.publisher.Mono;
 
 /**
- * 
+ * Controller class for handling the request from the form login page to authenticate an user in the application
  */
 @Controller
 public class LoginFormController {
@@ -26,6 +26,10 @@ public class LoginFormController {
 	AuthenticationService authService;
 	
 	/**
+	 * Authenicate an user from the form in the login page
+	 * Set a cookie with the jwt token
+	 * Redirect the user in /ui/patients page in the application
+	 * 
 	 * @param exchange
 	 * @return
 	 */
