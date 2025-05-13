@@ -10,6 +10,17 @@ public class AuthenticationResponse {
 	private String username;
 	
 	private String authorities;
+	
+	public AuthenticationResponse() {
+		
+	}
+
+	public AuthenticationResponse(String token, String username, String authorities) {
+		super();
+		this.token = token;
+		this.username = username;
+		this.authorities = authorities;
+	}
 
 	public String getToken() {
 		return token;
