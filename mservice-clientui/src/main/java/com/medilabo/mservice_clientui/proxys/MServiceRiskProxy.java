@@ -9,7 +9,7 @@ import com.medilabo.mservice_clientui.configuration.FeignConfig;
 /**
  * 
  */
-@FeignClient(name = "mservice-risk", url = "localhost:8080", configuration = FeignConfig.class)
+@FeignClient(name = "mservice-risk", url = "${gateway.url}", configuration = FeignConfig.class)
 public interface MServiceRiskProxy {
 
 	@GetMapping("/api/risk/{id}")

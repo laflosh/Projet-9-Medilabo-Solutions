@@ -10,7 +10,7 @@ import com.medilabo.mservice_risk.configuration.FeignConfig;
 /**
  * Proxy class to send request to the mservice-patient to get informations about one patient depending of the id
  */
-@FeignClient(name = "mservice-patient", url = "localhost:8080", configuration = FeignConfig.class)
+@FeignClient(name = "mservice-patient", url = "${gateway.url}", configuration = FeignConfig.class)
 public interface MServicePatientProxy {
 
 	@GetMapping("/api/patients/{id}")

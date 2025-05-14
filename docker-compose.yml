@@ -8,7 +8,7 @@ services:
     ports:
       - "9101:9101"
     healthcheck:
-      test: curl --fail --silent http://localhost:9101/eureka || exit 1
+      test: ["CMD", "curl", "-f", "http://localhost:9101/actuator/health"]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -35,8 +35,8 @@ services:
     ports:
       - "9001:9001"
     depends_on:
-      gateway:
-        condition: service_started
+      eureka:
+        condition: service_healthy
 
   mservice-patient:
     build:
@@ -44,15 +44,13 @@ services:
     image: laflosh/mservice-patient
     container_name: mservice-patient
     environment:
-      - DB_URL=jdbc:mysql://mysql:3306/mservice-patient?serverTimezone=UTC
+      - DB_URL=jdbc:mysql://host.docker.internal:3306/mservice-patient?serverTimezone=UTC
       - DB_USERNAME=root
       - DB_PASSWORD=
-      - DB_DIALECT=org.hibernate.dialect.MySQL8Dialect
+      - DB_DIALECT=org.hibernate.dialect.MySQLDialect
     ports:
       - "9002:9002"
     depends_on:
-      mysql:
-        condition: service_started
       eureka:
         condition: service_healthy
 
@@ -62,14 +60,12 @@ services:
     image: laflosh/mservice-note
     container_name: mservice-note
     environment:
-      - DB_HOST=mongo
+      - DB_HOST=host.docker.internal
       - DB_PORT=27017
       - DB_NAME=mservice-note
     ports:
       - "9003:9003"
     depends_on:
-      mongo:
-        condition: service_started
       eureka:
         condition: service_healthy
 
@@ -81,8 +77,6 @@ services:
     ports:
       - "9005:9005"
     depends_on:
-      gateway:
-        condition: service_started
       eureka:
         condition: service_healthy
 
@@ -92,36 +86,12 @@ services:
     image: laflosh/mservice-user
     container_name: mservice-user
     environment:
-      - DB_URL=jdbc:mysql://mysql:3306/mservice-user?serverTimezone=UTC
+      - DB_URL=jdbc:mysql://host.docker.internal:3306/mservice-user?serverTimezone=UTC
       - DB_USERNAME=root
       - DB_PASSWORD=
-      - DB_DIALECT=org.hibernate.dialect.MySQL8Dialect
+      - DB_DIALECT=org.hibernate.dialect.MySQLDialect
     ports:
       - "9004:9004"
     depends_on:
-      mysql:
-        condition: service_started
       eureka:
         condition: service_healthy
-
-  mysql:
-    image: mysql:8
-    container_name: mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql-data:/var/lib/mysql
-
-  mongo:
-    image: mongo:6
-    container_name: mongo
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
-
-volumes:
-  mysql-data:
-  mongo-data:

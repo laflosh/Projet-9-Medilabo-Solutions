@@ -16,7 +16,7 @@ import com.medilabo.mservice_clientui.configuration.FeignConfig;
 /**
  * Interface for http request to mservice-note
  */
-@FeignClient(name = "mservice-note", url = "localhost:8080", configuration = FeignConfig.class)
+@FeignClient(name = "mservice-note", url = "${gateway.url}", configuration = FeignConfig.class)
 public interface MServiceNoteProxy {
 
 	@GetMapping("/api/notes")

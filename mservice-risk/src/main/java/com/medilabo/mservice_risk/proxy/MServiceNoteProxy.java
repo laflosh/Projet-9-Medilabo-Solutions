@@ -12,7 +12,7 @@ import com.medilabo.mservice_risk.configuration.FeignConfig;
 /**
  *Proxy class to send request to the mservice-note to get all note depending of the patient name
  */
-@FeignClient(name = "mservice-note", url = "localhost:8080", configuration = FeignConfig.class)
+@FeignClient(name = "mservice-note", url = "${gateway.url}", configuration = FeignConfig.class)
 public interface MServiceNoteProxy {
 
 	@GetMapping("/api/notes/patient/{patientName}")

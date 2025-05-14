@@ -16,7 +16,7 @@ import com.medilabo.mservice_clientui.configuration.FeignConfig;
 /**
  * Proxy's class for making the http requests to the mservice-patient
  */
-@FeignClient(name = "mservice-patient", url = "localhost:8080", configuration = FeignConfig.class)
+@FeignClient(name = "mservice-patient", url = "${gateway.url}", configuration = FeignConfig.class)
 public interface MServicePatientProxy {
 
 	@GetMapping("/api/patients")
