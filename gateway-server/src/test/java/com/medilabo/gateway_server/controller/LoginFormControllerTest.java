@@ -1,5 +1,6 @@
 package com.medilabo.gateway_server.controller;
 
+import org.assertj.core.api.Assertions;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,10 +53,13 @@ class LoginFormControllerTest {
 			.bodyValue("username=" + VALID_USERNAME + "&password=" + VALID_PASSWORD)
 			.exchange()
 			.expectStatus().isEqualTo(HttpStatus.FOUND)
-			.expectHeader().valueEquals("Location", "/ui/patients")
-		    .expectHeader().values("Set-Cookie", Matchers.not(Matchers.empty()))
-		    .expectHeader().valueEquals("Set-Cookie", "HttpOnly")
-		    .expectHeader().valueEquals("Set-Cookie", "Path=/");
+	        .expectHeader().value("Location", value -> 
+	        	Assertions.assertThat(value).isEqualTo("/ui/patients"))
+	        .expectHeader().value("Set-Cookie", value -> {
+	        	Assertions.assertThat(value).contains("jwt=" + JWT_TOKEN);
+	        	Assertions.assertThat(value).contains("HttpOnly");
+	        	Assertions.assertThat(value).contains("Path=/");
+        });
 		
 	}
 
