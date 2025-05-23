@@ -20,7 +20,7 @@ services:
     image: laflosh/gateway-server
     container_name: gateway-server
     environment:
-      - SECRET_KEY=D3B714FD8A478B9BD63E869F6EF839D7DE4989431FAFECCD32CBE486C7
+      - SECRET_KEY=${SECRET_KEY}
     ports:
       - "8080:8080"
     depends_on:
@@ -32,8 +32,6 @@ services:
       context: ./mservice-clientui
     image: laflosh/mservice-clientui
     container_name: mservice-clientui
-    ports:
-      - "9001:9001"
     depends_on:
       eureka:
         condition: service_healthy
@@ -44,12 +42,10 @@ services:
     image: laflosh/mservice-patient
     container_name: mservice-patient
     environment:
-      - DB_URL=jdbc:mysql://host.docker.internal:3306/mservice-patient?serverTimezone=UTC
-      - DB_USERNAME=root
-      - DB_PASSWORD=
-      - DB_DIALECT=org.hibernate.dialect.MySQLDialect
-    ports:
-      - "9002:9002"
+      - DB_URL=${DB_PATIENT_URL}
+      - DB_USERNAME=${DB_PATIENT_USERNAME}
+      - DB_PASSWORD=${DB_PATIENT_PASSWORD}
+      - DB_DIALECT=${DB_PATIENT_DIALECT}
     depends_on:
       eureka:
         condition: service_healthy
@@ -60,11 +56,9 @@ services:
     image: laflosh/mservice-note
     container_name: mservice-note
     environment:
-      - DB_HOST=host.docker.internal
-      - DB_PORT=27017
-      - DB_NAME=mservice-note
-    ports:
-      - "9003:9003"
+      - DB_HOST=${DB_NOTE_HOST}
+      - DB_PORT=${DB_NOTE_PORT}
+      - DB_NAME=${DB_NOTE_NAME}
     depends_on:
       eureka:
         condition: service_healthy
@@ -74,8 +68,6 @@ services:
       context: ./mservice-risk
     image: laflosh/mservice-risk
     container_name: mservice-risk
-    ports:
-      - "9005:9005"
     depends_on:
       eureka:
         condition: service_healthy
@@ -86,12 +78,10 @@ services:
     image: laflosh/mservice-user
     container_name: mservice-user
     environment:
-      - DB_URL=jdbc:mysql://host.docker.internal:3306/mservice-user?serverTimezone=UTC
-      - DB_USERNAME=root
-      - DB_PASSWORD=
-      - DB_DIALECT=org.hibernate.dialect.MySQLDialect
-    ports:
-      - "9004:9004"
+      - DB_URL=${DB_USER_URL}
+      - DB_USERNAME=${DB_USER_USERNAME}
+      - DB_PASSWORD=${DB_USER_PASSWORD}
+      - DB_DIALECT=${DB_USER_DIALECT}
     depends_on:
       eureka:
         condition: service_healthy
